@@ -1,0 +1,292 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background: rgb(var(--background-color));
+}
+
+main {
+    margin-top: 5vh;
+    min-height: 79vh;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 7vh 5%;
+}
+
+h1 {
+    font-size: clamp(12px, 2vw, 64px);
+    font-weight: bold;
+    margin-bottom: 1vh;
+}
+
+.car-title {
+    font-size: 1.35rem;
+    margin-bottom: 0.4rem;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: clamp(8px, 1.5vw, 38px);
+    font-weight: bold;
+    margin-bottom: 1.5vh;
+}
+
+main p {
+    margin-bottom: 2vh;
+}
+
+.compare-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 420px));
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.compare-card {
+    position: relative;
+    border: var(--border-width) solid #e5e7eb;
+    border-radius: 0.8rem;
+    background: #fff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s ease;
+}
+
+.compare-card:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.car-photo {
+    height: 180px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.car-image img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+
+.car-info {
+    padding: 1rem;
+}
+
+.price {
+    color: #2563eb;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.badge {
+    display: inline-block;
+    background: #a78bfa;
+    color: white;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.5rem;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.2rem 0.4rem;
+}
+
+.remove-btn:hover {
+    background: #f87171;
+    color: white;
+}
+
+.add-card {
+    border: 2px dashed #cbd5e1;
+    background: #f9fafb;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 10vh;
+}
+
+.add-card:hover {
+    background: #f3f4f6;
+}
+
+.add-content {
+    color: rgb(var(--gray-color));
+    font-size: 1rem;
+}
+
+.compare-table {
+    margin: 2rem auto;
+    max-width: 100%;
+    overflow-x: auto;
+    border-radius: 0.8rem;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+}
+
+.compare-table table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+}
+
+
+.compare-table th,
+.compare-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: center;
+    vertical-align: middle;
+}
+
+th img {
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.5rem;
+    object-fit: contain;
+    object-position: center;
+}
+
+.compare-table th:first-child,
+.compare-table td:first-child {
+    text-align: left;
+    font-weight: bold;
+    width: 25%;
+    white-space: nowrap;
+}
+
+.compare-table thead th {
+    font-size: clamp(0.9rem, 1.6vw, 1.2rem);
+    font-weight: bold;
+    background: #f9fafb;
+}
+
+.compare-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.compare-actions button {
+    padding: 0.6rem 1.2rem;
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.add-btn {
+    background: transparent;
+    color: rgb(var(--gray-color));
+}
+
+.add-btn:hover {
+    background: #f3f4f6;
+}
+
+.clear-btn {
+    background: transparent;
+    color: rgb(var(--gray-color));
+}
+
+.clear-btn:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Тёмная тема: сравнение */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] main p {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .compare-card {
+    background: rgb(45, 45, 45);
+    border-color: rgba(var(--gray-color), 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .car-photo {
+    background: rgb(35, 35, 35);
+}
+
+html[data-theme="dark"] .car-info,
+html[data-theme="dark"] .car-title {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .price {
+    color: rgb(var(--accent-color));
+}
+
+html[data-theme="dark"] .remove-btn {
+    background: rgba(0, 0, 0, 0.6);
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .remove-btn:hover {
+    background: #dc2626;
+    color: white;
+}
+
+html[data-theme="dark"] .add-card {
+    background: rgb(35, 35, 35);
+    border-color: rgba(var(--gray-color), 0.4);
+}
+
+html[data-theme="dark"] .add-card:hover {
+    background: rgb(50, 50, 50);
+}
+
+html[data-theme="dark"] .compare-table {
+    background: rgb(45, 45, 45);
+    border-color: rgba(var(--gray-color), 0.3);
+}
+
+html[data-theme="dark"] .compare-table th,
+html[data-theme="dark"] .compare-table td {
+    border-bottom-color: rgba(var(--gray-color), 0.2);
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .compare-table thead th {
+    background: rgb(35, 35, 35);
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .compare-table th:first-child,
+html[data-theme="dark"] .compare-table td:first-child {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .add-btn,
+html[data-theme="dark"] .clear-btn {
+    color: rgb(var(--gray-color));
+    border-color: rgba(var(--gray-color), 0.4);
+}
+
+html[data-theme="dark"] .add-btn:hover {
+    background: rgb(55, 55, 55);
+}
+
+html[data-theme="dark"] .clear-btn:hover {
+    background: rgba(220, 38, 38, 0.3);
+    color: #f87171;
+}

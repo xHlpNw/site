@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "USEuO36Qv0YUQPdqfGZdb0fGDYHW6npNb7QocAaFkgQ=",
+  "Source": "AutoSeller.Api",
+  "BasePath": "_content/AutoSeller.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

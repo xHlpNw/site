@@ -1,0 +1,357 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background: rgb(var(--background-color));
+}
+
+main {
+    margin-top: 6vh;
+    min-height: 76vh;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 2vh 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero {
+    text-align: center;
+    padding: 5rem 1rem 4rem;
+    max-width: 1000px;
+}
+
+.badge {
+    display: inline-block;
+    background: #eef2ff;
+    color: var(--accent-purple);
+    font-weight: 500;
+    border-radius: 9999px;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.9rem;
+}
+
+h1 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 800;
+    margin: 1rem 0;
+}
+
+.subtitle {
+    color: var(--text-gray);
+    font-size: 1.05rem;
+    margin-top: 0.5rem;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0 1rem 3rem;
+    max-width: 1100px;
+}
+
+.card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 1.5rem 1.8rem;
+    flex: 1 1 360px;
+    max-width: 500px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    font-weight: bold;
+}
+
+.card-title.blue {
+    color: var(--accent-blue);
+}
+
+.card-title.purple {
+    color: var(--accent-purple);
+}
+
+.highlight.green {
+    color: #10b981;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+.tags {
+    margin-top: 1rem;
+}
+
+.tag {
+    display: inline-block;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    margin-right: 0.4rem;
+}
+
+.features {
+    text-align: center;
+    padding: 5rem 1rem 4rem;
+}
+
+.features h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+}
+
+.features-subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+    padding: 2rem 1.5rem;
+    transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+}
+
+.icon {
+    font-size: 2rem;
+    background: #eef2ff;
+    color: #3b82f6;
+    width: 64px;
+    height: 64px;
+    line-height: 64px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feature-card .subtitle {
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: #000;
+}
+
+.feature-card p {
+    color: #4b5563;
+    font-size: 0.95rem;
+}
+
+.workflow {
+    text-align: center;
+    padding: 5rem 1rem 6rem;
+}
+
+.workflow h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+}
+
+.workflow-subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+    margin-bottom: 3rem;
+}
+
+.workflow-steps {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.step {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    padding: 2rem 1.5rem;
+    width: 260px;
+    position: relative;
+}
+
+.step-number {
+    background: rgb(var(--accent-color));
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+.step .subtitle {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #000;
+}
+
+.step p {
+    color: #4b5563;
+    font-size: 0.95rem;
+}
+
+.demo {
+    text-align: center;
+    padding: 6rem 1rem;
+}
+
+.demo h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.demo-subtitle {
+    color: #6b7280;
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.demo-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.9rem 1.8rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.btn.primary {
+    background: rgb(var(--accent-color));
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.btn.outline {
+    border: 2px solid rgb(var(--accent-color));
+    color: rgb(var(--accent-color));
+    background: transparent;
+}
+
+.btn.outline:hover {
+    background: #eff6ff;
+}
+
+/* Тёмная тема: О проекте */
+html[data-theme="dark"] .hero h1,
+html[data-theme="dark"] .features h2,
+html[data-theme="dark"] .workflow h2,
+html[data-theme="dark"] .demo h2 {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .subtitle,
+html[data-theme="dark"] .features-subtitle,
+html[data-theme="dark"] .workflow-subtitle,
+html[data-theme="dark"] .demo-subtitle {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .badge {
+    background: rgba(var(--accent-color), 0.25);
+    color: rgb(150, 200, 255);
+}
+
+html[data-theme="dark"] .card {
+    background: rgb(45, 45, 45);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .card-title,
+html[data-theme="dark"] .card p {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .card-title.blue {
+    color: rgb(100, 180, 255);
+}
+
+html[data-theme="dark"] .card-title.purple {
+    color: #a78bfa;
+}
+
+html[data-theme="dark"] .tag {
+    background: rgb(55, 55, 55);
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .feature-card {
+    background: rgb(45, 45, 45);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .feature-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] .feature-card .subtitle {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .feature-card p {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .icon {
+    background: rgba(var(--accent-color), 0.25);
+    color: rgb(100, 180, 255);
+}
+
+html[data-theme="dark"] .step {
+    background: rgb(45, 45, 45);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .step .subtitle {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .step p {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .btn.outline:hover {
+    background: rgba(var(--accent-color), 0.2);
+}

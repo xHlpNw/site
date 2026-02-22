@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoSeller - Регистрация пользователя</title>
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/registration.css">
+</head>
+<body>
+<header class="login-header">
+    <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Логотип AutoSeller">
+    </a>
+    <div class="header-right">
+        <div class="theme-toggle" aria-label="Переключить тему">
+            <button type="button" class="theme-toggle-btn" title="Светлая / Тёмная тема" aria-pressed="false">
+                <span class="icon-light" aria-hidden="true">☀</span>
+                <span class="icon-dark" aria-hidden="true">🌙</span>
+            </button>
+        </div>
+        <a href="index.html">
+            <div class="return">← На главную</div>
+        </a>
+    </div>
+</header>
+<main>
+    <div class="registration-card">
+        <h1>Регистрация аккаунта</h1>
+        <p class="subtitle">Создайте аккаунт для размещения объявлений</p>
+
+        <form action="/register" method="post" novalidate>
+            <div class="input-group">
+                <label for="name">Имя</label>
+                <input type="text" id="name" name="name" placeholder="Введите ваше имя" maxlength="50">
+                <div class="error-message"></div>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" maxlength="100">
+                <div class="error-message"></div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" placeholder="Введите пароль" minlength="8">
+                <div class="password-strength" aria-live="polite" aria-atomic="true">
+                    <div class="password-strength-bar" role="presentation">
+                        <span class="strength-segment"></span>
+                        <span class="strength-segment"></span>
+                        <span class="strength-segment"></span>
+                    </div>
+                    <span class="password-strength-text"></span>
+                </div>
+                <div class="error-message"></div>
+            </div>
+
+            <div class="input-group">
+                <label for="confirm-password">Подтвердите пароль</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Повторите пароль" minlength="8">
+                <div class="error-message"></div>
+            </div>
+
+            <div class="checkbox">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">Я согласен с <a href="privacy.html">правилами сервиса</a></label>
+            </div>
+
+            <button type="submit" class="btn">Зарегистрироваться</button>
+        </form>
+
+        <p class="signin">
+            Уже есть аккаунт? <a href="login.html">Войти</a>
+        </p>
+    </div>
+</main>
+<footer class="login-footer">
+    <div class="footer-top">
+        <div class="footer-left">
+            <img src="images/logo.png" alt="Autoseller логотип" class="footer-logo">
+            <p>Autoseller – каталог подержанных автомобилей.</p>
+        </div>
+        <div class="footer-right">
+            <p><a href="tel:+78001234567">+7 (800) 123-45-67</a></p>
+            <p><a href="mailto:info@autoseller.ru">info@autoseller.ru</a></p>
+            <p>Москва, ул. Примерная, д. 123</p>
+        </div>
+    </div>
+    <hr>
+    <div class="footer-bottom">
+        <p>© 2025 Автосэллер. Все права защищены.</p>
+        <div class="footer-nav">
+            <a href="privacy.html">Политика конфиденциальности</a>
+            <a href="terms.html">Пользовательское соглашение</a>
+        </div>
+    </div>
+</footer>
+<script src="js/api.js?v=2" defer></script>
+<script src="js/theme.js" defer></script>
+<script src="js/registration.js" defer></script>
+</body>
+</html>

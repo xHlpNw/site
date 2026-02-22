@@ -1,0 +1,455 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background: rgb(var(--background-color));
+}
+
+main {
+    margin-top: 6vh;
+    min-height: 76vh;
+    width: 100%;
+    padding: 8vh 5%;
+    box-sizing: border-box;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    box-sizing: border-box;
+}
+
+.gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.gallery figure {
+    max-width: 100%;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(var(--background-color));
+    overflow: hidden;
+    position: relative;
+}
+
+.gallery figure img {
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 20px;
+    display: block;
+}
+
+.thumbnails {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    cursor: pointer;
+}
+
+.thumbnails img {
+    width: 30%;
+    max-width: 100px;
+    height: auto;
+    border-radius: var(--radius);
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 6px;
+}
+
+.thumbnails img:hover {
+    transform: scale(1.05);
+}
+
+.thumbnails img.active-thumb {
+    box-shadow: 0 0 0 2px rgb(var(--accent-color));
+    transform: scale(1.05);
+}
+
+.offer,
+.seller {
+    width: 100%;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+
+.offer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    align-self: start;
+}
+
+.offer .price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: rgb(var(--accent-color));
+}
+
+.car-title {
+    font-size: 1.75rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+.offer .location {
+    color: #555;
+}
+
+.offer .favourite-button {
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    border: var(--border-width) solid #ddd;
+    background: rgb(var(--accent-color));
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s;
+}
+
+.offer .favourite-button:hover {
+    background: rgb(40, 168, 255);
+}
+
+.btn-compare {
+    width: 100%;
+    padding: 0.8rem;
+    background: rgb(var(--background-color));
+    border: var(--border-width) solid #ddd;
+    border-radius: var(--radius);
+    color: black;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-compare:hover {
+    background: rgb(220, 220, 220);
+}
+
+.seller {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+
+.seller-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.seller-header img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.seller-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.seller-info .rating {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.seller hr {
+    margin: 1rem 0;
+    border: 0;
+    border-top: var(--border-width) solid #ddd;
+}
+
+.contacts {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.contacts li {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+.characteristics {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+
+.char-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+
+.char-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f1f1f1;
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    box-shadow: 0 0.1rem 0.3rem rgba(0,0,0,0.08);
+}
+
+.char-item img {
+    width: 1.2rem;
+    height: auto;
+}
+
+.char-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.char-text .label {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.char-text .value {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.description {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.description p {
+    margin: 0 0 1rem;
+    line-height: 1.5;
+    color: rgb(var(--gray-color));
+}
+
+.description .published {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.main-column > section {
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: clamp(18px, 3vw, 86px);
+    font-weight: bold;
+    margin-bottom: 2vh;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: clamp(8px, 1.5vw, 38px);
+    font-weight: bold;
+    margin-bottom: 1.5vh;
+}
+
+.image-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.image-modal.active {
+    display: flex;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.6);
+    border: none;
+    color: #000;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    user-select: none;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.nav-btn.prev {
+    left: -60px;
+}
+
+.nav-btn.next {
+    right: -60px;
+}
+
+.image-modal-content {
+    position: relative;
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.25s ease;
+}
+
+.image-modal-content img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    border-radius: 10px;
+    object-fit: contain;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.image-modal-close {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: white;
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.image-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Тёмная тема: страница автомобиля */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2 {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .offer,
+html[data-theme="dark"] .seller,
+html[data-theme="dark"] .characteristics,
+html[data-theme="dark"] .description {
+    background: rgb(45, 45, 45);
+    box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .offer .location,
+html[data-theme="dark"] .seller-info .rating,
+html[data-theme="dark"] .contacts li {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .seller-info h3 {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .seller hr {
+    border-top-color: rgba(var(--gray-color), 0.3);
+}
+
+html[data-theme="dark"] .offer .favourite-button {
+    border-color: rgba(var(--gray-color), 0.4);
+}
+
+html[data-theme="dark"] .btn-compare {
+    background: rgb(35, 35, 35);
+    border-color: rgba(var(--gray-color), 0.4);
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .btn-compare:hover {
+    background: rgb(55, 55, 55);
+}
+
+html[data-theme="dark"] .char-item {
+    background: rgb(35, 35, 35);
+    box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] .char-text .label {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .char-text .value {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .description p,
+html[data-theme="dark"] .description .published {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .image-modal {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+html[data-theme="dark"] .nav-btn {
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+}
+
+html[data-theme="dark"] .nav-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+html[data-theme="dark"] .image-modal-close {
+    background: rgb(45, 45, 45);
+    color: rgb(var(--gray-color));
+}

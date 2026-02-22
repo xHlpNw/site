@@ -1,0 +1,24 @@
+:root {
+    --background-color: 240, 240, 240;
+    --gray-color: 130,130,130;
+    --accent-color: 0, 128, 255;
+    --shadow-color: 0,0,0;
+    --header-color: 255, 255, 255;
+    --opacity: 0.6;
+    --basic-font: 'Helvetica', sans-serif;
+    --btn-padding: 7px 15px;
+    --radius: 0.5em;
+    --border-width: 0.1vw;
+    --footer-size: 13vh;
+    --shadow: 0 0.2rem 0.6rem rgba(0,0,0,0.08);
+}
+
+/* Тёмная тема */
+html[data-theme="dark"] {
+    --background-color: 28, 28, 28;
+    --gray-color: 180, 180, 180;
+    --accent-color: 100, 180, 255;
+    --shadow-color: 0, 0, 0;
+    --header-color: 38, 38, 38;
+    --opacity: 0.95;
+}

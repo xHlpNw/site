@@ -1,0 +1,534 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    background: rgb(var(--background-color));
+}
+
+main {
+    margin-top: 5vh;
+    min-height: 79vh;
+    box-sizing: border-box;
+    text-align: start;
+    padding: 7vh 5%;
+}
+
+h1 {
+    font-size: clamp(18px, 3vw, 86px);
+    font-weight: bold;
+    margin-bottom: 1vh;
+}
+
+h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+}
+
+h3 {
+    font-size: clamp(8px, 1.5vw, 38px);
+    font-weight: bold;
+    margin-bottom: 1.5vh;
+}
+
+.car-title {
+    font-size: clamp(8px, 1.5vw, 38px);
+    margin-bottom: 1.2vh;
+    font-weight: bold;
+    color: #000;
+}
+
+
+.welcome {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+.welcome-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #e5e7eb;
+}
+
+.logout {
+    background: none;
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.welcome-text-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+    font-weight: bold;
+}
+
+.profile-data {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.8rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.profile-data h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.profile-data-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.profile-data-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.profile-data-label {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.profile-data-value {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.profile-data-phone {
+    grid-column: 1 / -1;
+}
+
+.profile-phone-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.profile-phone-input {
+    flex: 1;
+    min-width: 180px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+.profile-phone-save {
+    padding: 0.5rem 1rem;
+    background: rgb(var(--accent-color));
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.profile-phone-save:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.profile-phone-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.profile-phone-message {
+    display: block;
+    font-size: 0.85rem;
+    margin-top: 0.35rem;
+}
+
+.profile-phone-message-ok {
+    color: #059669;
+}
+
+.profile-phone-message-err {
+    color: #b91c1c;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 0.5rem;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.stat-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.stat-text .data {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+}
+
+.stat-text p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.8rem;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.action-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 0.5rem;
+    background: #e0f2fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.action-card:hover {
+    background: #f3f4f6;
+}
+
+.action-card .bold-text {
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.action-card .gray-text {
+    font-size: 1rem;
+    color: rgb(var(--gray-color));
+}
+
+.ads-label {
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: inline;
+    align-items: center;
+}
+
+.ads-label img {
+    height: 2rem;
+    width: 2rem;
+    margin-right: 0.5rem;
+    object-fit: contain;
+    object-position: center;
+}
+
+.ad-card {
+    display: flex;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 0.8rem;
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.profile-loading,
+.profile-error {
+    padding: 1rem 0;
+    color: rgb(var(--gray-color));
+}
+
+.profile-error {
+    color: #b91c1c;
+}
+
+.profile-empty-ads {
+    padding: 1rem 0;
+    color: rgb(var(--gray-color));
+}
+
+.profile-empty-ads a {
+    color: #2563eb;
+}
+
+.ads {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 0.8rem;
+    border: 1px solid #e5e7eb;
+    padding: 1.5rem;
+    gap: 1rem;
+}
+
+.ad-photo-link {
+    display: block;
+    flex-shrink: 0;
+}
+
+.ad-photo {
+    width: 120px;
+    height: 90px;
+    background: #e5e7eb;
+    border-radius: 0.5rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+.ad-info {
+    flex: 1;
+}
+
+.ad-info img {
+    height: 0.75rem;
+    width: 0.75rem;
+    margin-right: 0.3rem;
+    object-fit: contain;
+    object-position: center;
+}
+
+.price {
+    color: #2563eb;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+    list-style-type: none;
+}
+
+.ad-actions {
+    display: flex;
+    flex-direction: inline;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.btn-details-inline {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background: #2563eb;
+    color: #fff;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.btn-details-inline:hover {
+    background: #1d4ed8;
+}
+
+.badge.active {
+    background: #dbeafe;
+    color: #2563eb;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.edit, .delete {
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.4rem;
+}
+
+.edit {
+    background: #f3f4f6;
+    color: rgb(var(--gray-color));
+}
+
+.edit img {
+    height: 0.75rem;
+    width: 0.75rem;
+    margin-right: 0.3rem;
+    object-fit: contain;
+    object-position: center;
+}
+
+.delete img {
+    height: 1rem;
+    width: 1rem;
+    object-fit: contain;
+    object-position: center;
+}
+
+.delete {
+    background: #ffa2a2;
+    color: #b91c1c;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Тёмная тема: профиль */
+html[data-theme="dark"] h1 {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .welcome-text,
+html[data-theme="dark"] .welcome-text-block p {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .logout {
+    border-color: rgba(var(--gray-color), 0.5);
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .logout:hover {
+    background: rgb(55, 55, 55);
+}
+
+html[data-theme="dark"] .stat-card {
+    background: rgb(45, 45, 45);
+    border-color: rgba(var(--gray-color), 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .stat-text .data {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .stat-text p {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .profile-data {
+    background: rgb(45, 45, 45);
+    border-color: rgba(var(--gray-color), 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .profile-data h2 {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .profile-data-label {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .profile-data-value {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .profile-phone-input {
+    background: rgb(35, 35, 35);
+    border-color: rgba(var(--gray-color), 0.4);
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .profile-phone-message-ok {
+    color: #34d399;
+}
+
+html[data-theme="dark"] .profile-phone-message-err {
+    color: #f87171;
+}
+
+html[data-theme="dark"] .stat-icon {
+    background: rgba(var(--accent-color), 0.2);
+}
+
+html[data-theme="dark"] .action-card {
+    background: rgb(45, 45, 45);
+    border-color: rgba(var(--gray-color), 0.3);
+}
+
+html[data-theme="dark"] .action-card:hover {
+    background: rgb(55, 55, 55);
+}
+
+html[data-theme="dark"] .action-card .bold-text {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .ads-label {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .ads,
+html[data-theme="dark"] .ad-card {
+    background: rgb(45, 45, 45);
+    border-color: rgba(var(--gray-color), 0.3);
+}
+
+html[data-theme="dark"] .ad-photo {
+    background: rgb(35, 35, 35);
+}
+
+html[data-theme="dark"] .ad-info .car-title,
+html[data-theme="dark"] .price {
+    color: rgb(var(--accent-color));
+}
+
+html[data-theme="dark"] .meta {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .edit {
+    background: rgb(55, 55, 55);
+    color: rgb(var(--gray-color));
+}
