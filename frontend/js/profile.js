@@ -6,11 +6,13 @@
     }
 
     function buildAdCard(car) {
+        var carId = car.id !== undefined && car.id !== null ? car.id : (car.Id !== undefined && car.Id !== null ? car.Id : null);
+        if (carId == null) carId = "";
         var base = api.getBaseUrl();
-        var imgSrc = car.hasPhoto ? base + "/api/cars/" + car.id + "/photos/0" : PLACEHOLDER_IMG;
+        var imgSrc = car.hasPhoto && carId !== "" ? base + "/api/cars/" + carId + "/photos/0" : PLACEHOLDER_IMG;
         var title = car.brandName + " " + car.modelName;
         var price = formatPrice(car.price);
-        var link = "carpage.html?id=" + car.id;
+        var link = carId !== "" ? ("carpage.html#" + encodeURIComponent(String(carId))) : "catalog.html";
 
         var card = document.createElement("div");
         card.className = "ad-card";

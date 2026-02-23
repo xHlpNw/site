@@ -14,10 +14,20 @@ main {
 }
 
 .content {
+    box-sizing: border-box;
+}
+
+#carpage-root {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
-    box-sizing: border-box;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    #carpage-root {
+        grid-template-columns: 1fr;
+    }
 }
 
 .gallery {
