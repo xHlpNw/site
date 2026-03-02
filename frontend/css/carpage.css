@@ -109,33 +109,6 @@ main {
     pointer-events: none;
 }
 
-.thumbnails {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    cursor: pointer;
-}
-
-.thumbnails img {
-    width: 30%;
-    max-width: 100px;
-    height: auto;
-    border-radius: var(--radius);
-    object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-radius: 6px;
-}
-
-.thumbnails img:hover {
-    transform: scale(1.05);
-}
-
-.thumbnails img.active-thumb {
-    box-shadow: 0 0 0 2px rgb(var(--accent-color));
-    transform: scale(1.05);
-}
-
 .offer,
 .seller {
     width: 100%;

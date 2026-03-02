@@ -1,6 +1,6 @@
 (function () {
     var PLACEHOLDER_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect fill='%23ddd' width='300' height='200'/%3E%3Ctext fill='%23999' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='14'%3ENет фото%3C/text%3E%3C/svg%3E";
-    var PAGE_SIZE = 12;
+    var PAGE_SIZE = 6;
 
     function gearboxLabel(v) {
         var t = window.i18n && window.i18n.t;
@@ -13,11 +13,16 @@
         var t = window.i18n && window.i18n.t;
         var map = {
             sedan: t ? t("catalog.bodySedan") : "Седан",
+            hatchback: t ? t("catalog.bodyHatchback") : "Хэтчбек",
+            wagon: t ? t("catalog.bodyWagon") : "Универсал",
             suv: t ? t("catalog.bodySuv") : "Кроссовер",
+            offroad: t ? t("catalog.bodyOffroad") : "Внедорожник",
             coupe: t ? t("catalog.bodyCoupe") : "Купе",
             pickup: t ? t("catalog.bodyPickup") : "Пикап",
             cabrio: t ? t("catalog.bodyCabrio") : "Кабриолет",
-            sport: t ? t("catalog.bodySport") : "Спорткар"
+            sport: t ? t("catalog.bodySport") : "Спорткар",
+            minivan: t ? t("catalog.bodyMinivan") : "Минивэн",
+            van: t ? t("catalog.bodyVan") : "Фургон"
         };
         return map[v] || v || "—";
     }
@@ -169,7 +174,7 @@
         container.appendChild(nav);
     }
 
-    function getQueryParams(page) {
+    function getQueryParams(page, overrides) {
         var form = document.getElementById("catalog-filters");
         var fd = form ? new FormData(form) : null;
         var urlParams = new URLSearchParams(window.location.search);
@@ -182,7 +187,7 @@
         var minMileage = fd ? fd.get("min-km") : null;
         var maxMileage = fd ? fd.get("max-km") : null;
         var gearbox = fd ? fd.get("gearbox") : null;
-        var bodyType = urlParams.get("bodyType") || (fd ? fd.get("bodyType") : null);
+        var bodyType = (overrides && overrides.bodyType != null) ? overrides.bodyType : (urlParams.get("bodyType") || (fd ? fd.get("bodyType") : null));
         var sort = fd ? fd.get("sort") : null;
         var params = [];
         if (brandId) params.push("brandId=" + encodeURIComponent(brandId));
@@ -203,7 +208,7 @@
         return "?" + params.join("&");
     }
 
-    function loadCars(page) {
+    function loadCars(page, overrides) {
         var grid = document.getElementById("cars-grid");
         var loading = document.getElementById("catalog-loading");
         if (!grid) return;
@@ -211,7 +216,7 @@
         grid.innerHTML = "<p class=\"catalog-loading\" id=\"catalog-loading\" data-i18n=\"catalog.loading\">Загрузка...</p>";
         var loadingEl = document.getElementById("catalog-loading");
         if (loadingEl) loadingEl.textContent = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.loading") : "Загрузка...";
-        api.get("/api/cars" + getQueryParams(pageNum))
+        api.get("/api/cars" + getQueryParams(pageNum, overrides))
             .then(function (data) {
                 var list = (data && data.items) ? data.items : (Array.isArray(data) ? data : []);
                 var total = (data && data.total != null) ? data.total : list.length;
@@ -344,8 +349,9 @@
             var btnApply = form.querySelector(".btn-apply");
             if (btnApply) btnApply.addEventListener("click", function (e) { e.preventDefault(); loadCars(1); });
         }
-        var pageFromUrl = parseInt(urlParams.get("page"), 10) || 1;
-        loadCars(pageFromUrl);
+        var pageFromUrl = Math.max(1, parseInt(urlParams.get("page"), 10) || 1);
+        var initialOverrides = bodyTypeFromUrl ? { bodyType: bodyTypeFromUrl } : undefined;
+        loadCars(pageFromUrl, initialOverrides);
     }
 
     if (document.readyState === "loading") {

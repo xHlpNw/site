@@ -18,7 +18,12 @@
             coupe: t("catalog.bodyCoupe") || "Купе",
             pickup: t("catalog.bodyPickup") || "Пикап",
             cabrio: t("catalog.bodyCabrio") || "Кабриолет",
-            sport: t("catalog.bodySport") || "Спорткар"
+            sport: t("catalog.bodySport") || "Спорткар",
+            hatchback: t("catalog.bodyHatchback") || "Хэтчбек",
+            wagon: t("catalog.bodyWagon") || "Универсал",
+            offroad: t("catalog.bodyOffroad") || "Внедорожник",
+            minivan: t("catalog.bodyMinivan") || "Минивэн",
+            van: t("catalog.bodyVan") || "Фургон"
         };
         return map[v] || v || "—";
     };

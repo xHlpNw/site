@@ -121,7 +121,7 @@
             if (loading) loading.textContent = "Ошибка: API не загружен.";
             return;
         }
-        api.get("/api/cars?limit=8")
+        api.get("/api/cars?limit=4")
             .then(function (data) {
                 var list = (data && data.items) ? data.items : (Array.isArray(data) ? data : []);
                 renderListings(list);

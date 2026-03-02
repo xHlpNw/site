@@ -171,6 +171,56 @@ main {
         url("../images/cabrio.jpg");
 }
 
+.category-card.offroad::before {
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(34, 139, 34, 0.45),
+            rgba(34, 139, 34, 0.45)
+        ),
+        url("../images/crossover.jpg");
+}
+
+.category-card.hatchback::before {
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(70, 130, 180, 0.4),
+            rgba(70, 130, 180, 0.4)
+        ),
+        url("../images/car-bg.jpg");
+}
+
+.category-card.wagon::before {
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(128, 128, 128, 0.4),
+            rgba(128, 128, 128, 0.4)
+        ),
+        url("../images/car-bg.jpg");
+}
+
+.category-card.minivan::before {
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(255, 165, 0, 0.4),
+            rgba(255, 165, 0, 0.4)
+        ),
+        url("../images/gle.jpg");
+}
+
+.category-card.van::before {
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(105, 105, 105, 0.45),
+            rgba(105, 105, 105, 0.45)
+        ),
+        url("../images/pickup.jpg");
+}
+
 .listings-loading,
 .listings-empty,
 .listings-error {
