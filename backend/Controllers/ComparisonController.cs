@@ -50,6 +50,7 @@ public class ComparisonController : ControllerBase
                 BodyType = c.Car.BodyType,
                 Price = c.Car.Price,
                 HasPhoto = c.Car.Photos.Any(),
+                PhotoCount = c.Car.Photos.Count,
                 CreatedAt = c.Car.CreatedAt
             })
             .ToListAsync(cancellationToken);

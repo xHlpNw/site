@@ -18,25 +18,30 @@
         var carId = car.id !== undefined && car.id !== null ? car.id : (car.Id !== undefined && car.Id !== null ? car.Id : null);
         if (carId == null) carId = "";
         var base = api.getBaseUrl();
-        var imgSrc = car.hasPhoto && carId !== "" ? base + "/api/cars/" + carId + "/photos/0" : PLACEHOLDER_IMG;
+        var photoCount = car.photoCount != null ? car.photoCount : (car.hasPhoto ? 1 : 0);
+        var images = [];
+        if (car.hasPhoto && carId !== "" && photoCount > 0) {
+            for (var i = 0; i < photoCount; i++) images.push(base + "/api/cars/" + carId + "/photos/" + i);
+        }
+        var imgSrc = images.length > 0 ? images[0] : PLACEHOLDER_IMG;
         var title = car.brandName + " " + car.modelName;
         var price = formatPrice(car.price);
         var badge = bodyLabel(car.bodyType);
         var gearbox = gearboxLabel(car.gearbox);
         var link = carId !== "" ? ("carpage.html#" + encodeURIComponent(String(carId))) : "catalog.html";
-        var imagesJson = car.hasPhoto && carId !== "" ? JSON.stringify([base + "/api/cars/" + carId + "/photos/0"]) : "[]";
+        var countText = images.length > 1 ? "1/" + images.length : "1/1";
 
         var card = document.createElement("div");
         card.className = "card";
         card.dataset.id = String(carId);
-        card.dataset.images = imagesJson;
+        card.dataset.images = JSON.stringify(images);
         card.innerHTML =
             "<div class=\"card-image\">" +
             "<span class=\"badge\">" + badge + "</span>" +
             "<img src=\"" + imgSrc + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\" onerror=\"this.src='" + PLACEHOLDER_IMG.replace(/'/g, "\\'") + "'\">" +
-            "<button class=\"prev\" type=\"button\">&lt;</button>" +
-            "<button class=\"next\" type=\"button\">&gt;</button>" +
-            "<span class=\"count\">1/1</span>" +
+            "<button class=\"prev\" type=\"button\" aria-label=\"Предыдущее фото\">&lt;</button>" +
+            "<button class=\"next\" type=\"button\" aria-label=\"Следующее фото\">&gt;</button>" +
+            "<span class=\"count\">" + countText + "</span>" +
             "</div>" +
             "<div class=\"card-content\">" +
             "<p class=\"car-title\">" + title.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</p>" +

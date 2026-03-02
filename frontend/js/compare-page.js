@@ -48,6 +48,40 @@
         return Promise.resolve();
     }
 
+    function initCompareCardCarousels(root) {
+        if (!root) return;
+        root.querySelectorAll(".compare-card:not(.add-card)").forEach(function (card) {
+            var imagesJson = card.dataset.images;
+            var images = [];
+            try {
+                if (imagesJson) images = JSON.parse(decodeURIComponent(imagesJson));
+            } catch (e) {}
+            if (images.length <= 1) return;
+            var img = card.querySelector(".car-image img");
+            var prevBtn = card.querySelector(".compare-carousel-prev");
+            var nextBtn = card.querySelector(".compare-carousel-next");
+            var countEl = card.querySelector(".compare-carousel-count");
+            if (!img || !prevBtn || !nextBtn) return;
+            var cur = 0;
+            function update() {
+                img.src = images[cur];
+                if (countEl) countEl.textContent = (cur + 1) + "/" + images.length;
+            }
+            prevBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                cur = (cur - 1 + images.length) % images.length;
+                update();
+            });
+            nextBtn.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                cur = (cur + 1) % images.length;
+                update();
+            });
+        });
+    }
+
     function render(list) {
         var root = getRoot();
         if (!root) return;
@@ -59,13 +93,26 @@
         var b = base();
         var gridHtml = "";
         list.forEach(function (car) {
-            var imgSrc = car.hasPhoto ? b + "/api/cars/" + car.id + "/photos/0" : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'/%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3C/svg%3E";
+            var photoCount = car.photoCount != null ? car.photoCount : (car.hasPhoto ? 1 : 0);
+            var images = [];
+            if (car.hasPhoto && b && photoCount > 0) {
+                for (var i = 0; i < photoCount; i++) images.push(b + "/api/cars/" + car.id + "/photos/" + i);
+            }
+            var imgSrc = images.length > 0 ? images[0] : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'/%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3C/svg%3E";
             var title = car.brandName + " " + car.modelName;
-            gridHtml += "<div class=\"compare-card\" data-id=\"" + car.id + "\">" +
+            var countText = images.length > 1 ? "1/" + images.length : "";
+            gridHtml += "<div class=\"compare-card\" data-id=\"" + car.id + "\" data-images=\"" + (encodeURIComponent(JSON.stringify(images)) || "") + "\">" +
                 "<button type=\"button\" class=\"remove-btn\" aria-label=\"Убрать из сравнения\">✕</button>" +
-                "<div class=\"car-image\"><a href=\"carpage.html?id=" + car.id + "\"><img src=\"" + imgSrc + "\" alt=\"" + title + "\"></a></div>" +
+                "<div class=\"car-image compare-carousel\">" +
+                "<a href=\"carpage.html?id=" + car.id + "\"><img src=\"" + imgSrc + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\"></a>" +
+                (images.length > 1
+                    ? "<button type=\"button\" class=\"compare-carousel-prev\" aria-label=\"Предыдущее фото\">&lt;</button>" +
+                      "<button type=\"button\" class=\"compare-carousel-next\" aria-label=\"Следующее фото\">&gt;</button>" +
+                      "<span class=\"compare-carousel-count\">1/" + images.length + "</span>"
+                    : "") +
+                "</div>" +
                 "<div class=\"car-info\">" +
-                "<p class=\"car-title\">" + title + "</p>" +
+                "<p class=\"car-title\">" + title.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</p>" +
                 "<p class=\"price\">" + formatPrice(car.price) + "</p>" +
                 "<p class=\"badge\">" + bodyLabel(car.bodyType) + "</p>" +
                 "</div></div>";
@@ -101,6 +148,8 @@
                 removeCar(id).then(function () { loadAndRender(); });
             });
         });
+
+        initCompareCardCarousels(root);
 
         var clearBtn = document.querySelector("#compare-actions .clear-btn");
         if (clearBtn) {

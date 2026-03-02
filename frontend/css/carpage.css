@@ -55,6 +55,46 @@ main {
     position: relative;
 }
 
+.gallery-figure {
+    position: relative;
+    width: 100%;
+}
+
+.gallery-prev,
+.gallery-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    padding: 12px 16px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 0.4em;
+    z-index: 3;
+    transition: background 0.2s;
+}
+
+.gallery-prev:hover,
+.gallery-next:hover {
+    background: rgba(255, 255, 255, 1);
+}
+
+.gallery-prev { left: 12px; }
+.gallery-next { right: 12px; }
+
+.gallery-count {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 0.3em 0.6em;
+    border-radius: 0.4em;
+    font-size: 0.9rem;
+    z-index: 3;
+}
+
 .gallery figure img {
     width: 100%;
     max-height: 100%;
@@ -514,4 +554,15 @@ html[data-theme="dark"] .nav-btn:hover {
 html[data-theme="dark"] .image-modal-close {
     background: rgb(45, 45, 45);
     color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .gallery-prev,
+html[data-theme="dark"] .gallery-next {
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+}
+
+html[data-theme="dark"] .gallery-prev:hover,
+html[data-theme="dark"] .gallery-next:hover {
+    background: rgba(0, 0, 0, 0.85);
 }

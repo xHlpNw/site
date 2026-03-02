@@ -49,6 +49,7 @@ public class FavouritesController : ControllerBase
                 BodyType = f.Car.BodyType,
                 Price = f.Car.Price,
                 HasPhoto = f.Car.Photos.Any(),
+                PhotoCount = f.Car.Photos.Count,
                 CreatedAt = f.Car.CreatedAt
             })
             .ToListAsync(cancellationToken);

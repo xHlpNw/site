@@ -71,6 +71,39 @@ main p {
     object-fit: cover;
 }
 
+.car-image.compare-carousel {
+    position: relative;
+}
+
+.compare-carousel-prev,
+.compare-carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    padding: 0.4em 0.6em;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 0.4em;
+    z-index: 2;
+}
+
+.compare-carousel-prev { left: 4px; }
+.compare-carousel-next { right: 4px; }
+
+.compare-carousel-count {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 0.2em 0.5em;
+    border-radius: 0.4em;
+    z-index: 2;
+}
+
 
 .car-info {
     padding: 1rem;

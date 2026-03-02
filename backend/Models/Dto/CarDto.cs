@@ -12,6 +12,7 @@ public class CarListItemDto
     public string BodyType { get; set; } = string.Empty;
     public decimal Price { get; set; }
     public bool HasPhoto { get; set; }
+    public int PhotoCount { get; set; }
     public DateTime CreatedAt { get; set; }
     /// <summary>Заполняется только для GET /api/cars/my (Active, Moderation и т.д.).</summary>
     public string? Status { get; set; }

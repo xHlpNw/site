@@ -42,12 +42,20 @@
             thumbHtml += "<img src=\"" + src + "\" alt=\"Фото " + (i + 1) + "\" class=\"" + (i === 0 ? "active-thumb" : "") + "\">";
         }
         if (thumbHtml === "") thumbHtml = "<img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'/%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3C/svg%3E\" alt=\"Нет фото\" class=\"active-thumb\">";
+        var galleryArrowsHtml = photoCount > 1
+            ? "<button type=\"button\" class=\"gallery-prev\" aria-label=\"Предыдущее фото\">&lt;</button>" +
+              "<button type=\"button\" class=\"gallery-next\" aria-label=\"Следующее фото\">&gt;</button>" +
+              "<span class=\"gallery-count\">1/" + photoCount + "</span>"
+            : "";
 
         var mainColumn =
             "<div class=\"main-column\">" +
             "<h1>" + title + "</h1>" +
             "<section class=\"gallery\">" +
-            "<figure><img src=\"" + (mainImg || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'/%3E%3Crect fill='%23eee' width='600' height='400'/%3E%3C/svg%3E") + "\" alt=\"" + title + "\"></figure>" +
+            "<figure class=\"gallery-figure\">" +
+            "<img src=\"" + (mainImg || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'/%3E%3Crect fill='%23eee' width='600' height='400'/%3E%3C/svg%3E") + "\" alt=\"" + title + "\">" +
+            galleryArrowsHtml +
+            "</figure>" +
             "<div class=\"thumbnails\">" + thumbHtml + "</div>" +
             "</section>" +
             "<section class=\"characteristics\">" +
@@ -104,16 +112,40 @@
     }
 
     function initGallery(root) {
+        var figure = root.querySelector(".gallery figure");
         var mainImg = root.querySelector(".gallery figure img");
         var thumbs = root.querySelectorAll(".thumbnails img");
+        var prevBtn = root.querySelector(".gallery-prev");
+        var nextBtn = root.querySelector(".gallery-next");
+        var countEl = root.querySelector(".gallery-count");
         if (!mainImg || thumbs.length === 0) return;
+
+        var total = thumbs.length;
+        var cur = 0;
+
+        function updateMain(index) {
+            cur = (index + total) % total;
+            mainImg.src = thumbs[cur].src;
+            thumbs.forEach(function (t, i) { t.classList.toggle("active-thumb", i === cur); });
+            if (countEl) countEl.textContent = (cur + 1) + "/" + total;
+        }
+
         thumbs.forEach(function (thumb, i) {
             thumb.addEventListener("click", function () {
-                mainImg.src = thumb.src;
-                thumbs.forEach(function (t) { t.classList.remove("active-thumb"); });
-                thumb.classList.add("active-thumb");
+                updateMain(i);
             });
         });
+
+        if (prevBtn) {
+            prevBtn.addEventListener("click", function () {
+                updateMain(cur - 1);
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener("click", function () {
+                updateMain(cur + 1);
+            });
+        }
     }
 
     function initFavouriteButton(root, carId, seller) {

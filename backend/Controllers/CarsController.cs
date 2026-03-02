@@ -88,6 +88,7 @@ public class CarsController : ControllerBase
                 BodyType = c.BodyType,
                 Price = c.Price,
                 HasPhoto = c.Photos.Any(),
+                PhotoCount = c.Photos.Count,
                 CreatedAt = c.CreatedAt
             })
             .ToListAsync(cancellationToken);
@@ -173,6 +174,7 @@ public class CarsController : ControllerBase
                 BodyType = c.BodyType,
                 Price = c.Price,
                 HasPhoto = c.Photos.Any(),
+                PhotoCount = c.Photos.Count,
                 CreatedAt = c.CreatedAt
             })
             .FirstAsync(cancellationToken);
@@ -209,6 +211,7 @@ public class CarsController : ControllerBase
                 BodyType = c.BodyType,
                 Price = c.Price,
                 HasPhoto = c.Photos.Any(),
+                PhotoCount = c.Photos.Count,
                 CreatedAt = c.CreatedAt,
                 Status = c.Status
             })
