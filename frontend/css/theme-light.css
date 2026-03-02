@@ -1,0 +1,10 @@
+/* Светлая тема (по умолчанию) */
+:root {
+    --background-color: 240, 240, 240;
+    --gray-color: 130,130,130;
+    --accent-color: 0, 128, 255;
+    --shadow-color: 0,0,0;
+    --header-color: 255, 255, 255;
+    --opacity: 0.6;
+}
+

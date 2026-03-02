@@ -1,0 +1,10 @@
+/* Тёмная тема */
+html[data-theme="dark"] {
+    --background-color: 28, 28, 28;
+    --gray-color: 180, 180, 180;
+    --accent-color: 100, 180, 255;
+    --shadow-color: 0, 0, 0;
+    --header-color: 38, 38, 38;
+    --opacity: 0.95;
+}
+
