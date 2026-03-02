@@ -72,6 +72,14 @@
         if (seller.email) contacts += "<li><a href=\"mailto:" + seller.email + "\">" + seller.email + "</a></li>";
         if (!contacts) contacts = "<li>Контакты не указаны</li>";
 
+        var token = window.api ? api.getToken() : null;
+        var user = window.api ? api.getUser() : null;
+        var sellerId = seller.id !== undefined && seller.id !== null ? seller.id : (seller.Id !== undefined && seller.Id !== null ? seller.Id : null);
+        var userId = user != null && (user.id !== undefined && user.id !== null ? user.id : user.Id);
+        var isOwner = !!(token && user && sellerId != null && userId != null && String(sellerId) === String(userId));
+
+        var deleteBtnHtml = isOwner ? "<button type=\"button\" class=\"btn-delete-ad\" data-id=\"" + car.id + "\">Удалить объявление</button>" : "";
+
         var sidebar =
             "<aside class=\"sidebar\">" +
             "<section class=\"offer\">" +
@@ -79,6 +87,7 @@
             "<p class=\"car-title\">" + title + "</p>" +
             "<button type=\"button\" class=\"btn-favourite\" data-id=\"" + car.id + "\">В избранное</button>" +
             "<button type=\"button\" class=\"btn-compare\" data-id=\"" + car.id + "\">Добавить в сравнение</button>" +
+            deleteBtnHtml +
             "</section>" +
             "<section class=\"seller\">" +
             "<h2>Продавец</h2>" +
@@ -91,6 +100,7 @@
         initGallery(root);
         initFavouriteButton(root, car.id, car.seller);
         initCompareButton(root, car.id);
+        if (isOwner) initDeleteButton(root, car.id);
     }
 
     function initGallery(root) {
@@ -176,6 +186,23 @@
                 setState(true);
                 api.updateCompareCount();
             }
+        });
+    }
+
+    function initDeleteButton(root, carId) {
+        var btn = root.querySelector(".btn-delete-ad");
+        if (!btn || !window.api) return;
+        btn.addEventListener("click", function () {
+            if (!confirm("Удалить объявление? Это действие нельзя отменить.")) return;
+            btn.disabled = true;
+            api.delete("/api/cars/" + carId)
+                .then(function () {
+                    window.location.href = "catalog.html";
+                })
+                .catch(function (err) {
+                    btn.disabled = false;
+                    alert((err && err.message) || "Не удалось удалить объявление");
+                });
         });
     }
 

@@ -393,6 +393,27 @@ h3 {
     background: #1d4ed8;
 }
 
+.btn-delete-my-ad {
+    padding: 0.4rem 0.8rem;
+    background: transparent;
+    color: #b91c1c;
+    border: 1px solid #b91c1c;
+    border-radius: 0.4rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.btn-delete-my-ad:hover {
+    background: #b91c1c;
+    color: #fff;
+}
+
+.btn-delete-my-ad:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .badge.active {
     background: #dbeafe;
     color: #2563eb;

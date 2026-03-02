@@ -180,6 +180,28 @@ main {
     background: rgb(220, 220, 220);
 }
 
+.btn-delete-ad {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    border: var(--border-width) solid #c00;
+    background: transparent;
+    color: #c00;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-delete-ad:hover {
+    background: #c00;
+    color: #fff;
+}
+
+.btn-delete-ad:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .seller {
     background: #fff;
     border-radius: var(--radius);

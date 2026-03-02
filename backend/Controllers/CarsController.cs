@@ -300,4 +300,30 @@ public class CarsController : ControllerBase
 
         return File(photo.Content, photo.MimeType);
     }
+
+    /// <summary>
+    /// Удалить объявление. Доступно только владельцу объявления.
+    /// </summary>
+    [HttpDelete("{id:int}")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
+
+        var car = await _db.Cars.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+        if (car == null)
+            return NotFound(new { message = "Объявление не найдено" });
+        if (car.SellerId != userId)
+            return StatusCode(StatusCodes.Status403Forbidden, new { message = "Нельзя удалить чужое объявление" });
+
+        _db.Cars.Remove(car);
+        await _db.SaveChangesAsync(cancellationToken);
+        return NoContent();
+    }
 }

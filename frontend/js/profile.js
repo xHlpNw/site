@@ -30,6 +30,7 @@
             "</div>" +
             "<div class=\"ad-actions\">" +
             "<a href=\"" + link + "\" class=\"btn-details-inline\">Подробнее</a>" +
+            "<button type=\"button\" class=\"btn-delete-my-ad\" data-id=\"" + carId + "\">Удалить</button>" +
             "</div>";
         return card;
     }
@@ -102,7 +103,41 @@
                 listEl.innerHTML = "<p class=\"profile-empty-ads\">У вас пока нет объявлений. <a href=\"newpost.html\">Создать объявление</a></p>";
             } else {
                 myCars.forEach(function (car) {
-                    listEl.appendChild(buildAdCard(car));
+                    var card = buildAdCard(car);
+                    listEl.appendChild(card);
+                    var deleteBtn = card.querySelector(".btn-delete-my-ad");
+                    if (deleteBtn) {
+                        var carId = car.id !== undefined && car.id !== null ? car.id : (car.Id !== undefined && car.Id !== null ? car.Id : null);
+                        if (carId != null) {
+                            deleteBtn.addEventListener("click", function (e) {
+                                e.preventDefault();
+                                if (!confirm("Удалить объявление? Это действие нельзя отменить.")) return;
+                                deleteBtn.disabled = true;
+                                api.delete("/api/cars/" + carId)
+                                    .then(function () {
+                                        card.remove();
+                                        var totalEl = root.querySelector(".stats .stat-card .data");
+                                        if (totalEl) {
+                                            var n = parseInt(totalEl.textContent, 10);
+                                            if (!isNaN(n) && n > 0) totalEl.textContent = n - 1;
+                                        }
+                                        var activeCards = root.querySelectorAll(".stats .stat-card");
+                                        if (activeCards.length > 1 && activeCards[1].querySelector(".data")) {
+                                            var activeEl = activeCards[1].querySelector(".data");
+                                            var an = parseInt(activeEl.textContent, 10);
+                                            if (!isNaN(an) && an > 0) activeEl.textContent = an - 1;
+                                        }
+                                        if (listEl.children.length === 0) {
+                                            listEl.innerHTML = "<p class=\"profile-empty-ads\">У вас пока нет объявлений. <a href=\"newpost.html\">Создать объявление</a></p>";
+                                        }
+                                    })
+                                    .catch(function (err) {
+                                        deleteBtn.disabled = false;
+                                        alert((err && err.message) || "Не удалось удалить объявление");
+                                    });
+                            });
+                        }
+                    }
                 });
             }
         }
