@@ -34,6 +34,133 @@ main p {
     margin-bottom: 2vh;
 }
 
+.favourites-loading,
+.favourites-empty,
+.favourites-error {
+    text-align: center;
+    padding: 2rem;
+    color: rgb(var(--gray-color));
+}
+
+.favourites-empty a,
+.favourites-error a {
+    color: rgb(var(--accent-color));
+}
+
+.favourites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+    text-align: left;
+}
+
+.favourite-card {
+    position: relative;
+    background: #fff;
+    border: var(--border-width) solid #e0e0e0;
+    border-radius: 1em;
+    overflow: hidden;
+    box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.favourite-card:hover {
+    transform: translateY(-0.2rem);
+    box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.favourite-remove-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.favourite-remove-btn:hover {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.favourite-remove-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.favourite-card-image {
+    display: block;
+    aspect-ratio: 16/9;
+    background: #f5f5f5;
+    overflow: hidden;
+}
+
+.favourite-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.favourite-card-content {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.favourite-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.5em;
+    color: inherit;
+    text-decoration: none;
+}
+
+.favourite-card-title:hover {
+    color: rgb(var(--accent-color));
+}
+
+.favourite-card-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: rgb(var(--accent-color));
+    margin: 0 0 0.25em;
+}
+
+.favourite-card-meta {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0 0 0.75em;
+}
+
+.favourite-card-details {
+    display: inline-block;
+    margin-top: auto;
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    background: rgb(var(--accent-color));
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.favourite-card-details:hover {
+    opacity: 0.9;
+}
+
 .sort-panel {
     display: flex;
     align-items: center;
@@ -252,4 +379,37 @@ html[data-theme="dark"] .car-title {
 html[data-theme="dark"] .car-info,
 html[data-theme="dark"] .car-location {
     color: rgba(var(--gray-color), 0.95);
+}
+
+html[data-theme="dark"] .favourite-card {
+    background: rgb(45, 45, 45);
+    border-color: rgba(var(--gray-color), 0.3);
+}
+
+html[data-theme="dark"] .favourite-card:hover {
+    box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+html[data-theme="dark"] .favourite-card-image {
+    background: rgb(35, 35, 35);
+}
+
+html[data-theme="dark"] .favourite-card-title {
+    color: #e8e8e8;
+}
+
+html[data-theme="dark"] .favourite-card-title:hover {
+    color: rgb(var(--accent-color));
+}
+
+html[data-theme="dark"] .favourite-card-meta {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .favourite-remove-btn {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+html[data-theme="dark"] .favourite-remove-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
 }

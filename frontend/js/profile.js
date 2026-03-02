@@ -34,7 +34,7 @@
         return card;
     }
 
-    function renderProfile(user, myCars) {
+    function renderProfile(user, myCars, favouritesCount) {
         var root = document.getElementById("profile-root");
         if (!root) return;
 
@@ -52,6 +52,7 @@
         if (myCars && myCars.length > 0 && myCars[0].status !== undefined) {
             activeAds = myCars.filter(function (c) { return (c.status || "").toLowerCase() === "active"; }).length;
         }
+        var favCount = favouritesCount !== undefined ? favouritesCount : 0;
 
         root.innerHTML =
             "<section class=\"welcome\">" +
@@ -81,10 +82,11 @@
             "<section class=\"stats\">" +
             "<div class=\"stat-card\"><img src=\"images/listings-icon.png\" class=\"stat-icon\" alt=\"Объявления\"><div class=\"stat-text\"><p class=\"data\">" + totalAds + "</p><p>Всего объявлений</p></div></div>" +
             "<div class=\"stat-card\"><img src=\"images/active-listings-icon.png\" class=\"stat-icon\" alt=\"Активные\"><div class=\"stat-text\"><p class=\"data\">" + activeAds + "</p><p>Активных</p></div></div>" +
-            "<div class=\"stat-card\"><img src=\"images/favourite-listings-icon.png\" class=\"stat-icon\" alt=\"Избранные\"><div class=\"stat-text\"><p class=\"data\">—</p><p>В избранном</p></div></div>" +
+            "<a href=\"favourites.html\" class=\"stat-card stat-card-link\"><img src=\"images/favourite-listings-icon.png\" class=\"stat-icon\" alt=\"Избранные\"><div class=\"stat-text\"><p class=\"data\">" + favCount + "</p><p>В избранном</p></div></a>" +
             "</section>" +
 
             "<section class=\"quick-actions\">" +
+            "<a href=\"favourites.html\" class=\"action-card\"><img src=\"images/favourite-listings-icon.png\" alt=\"Избранное\"><p class=\"bold-text\">Избранное</p><p class=\"gray-text\">Ваши избранные авто</p></a>" +
             "<a href=\"comparison.html\" class=\"action-card\"><img src=\"images/favourite-listings-icon.png\" alt=\"Сравнение\"><p class=\"bold-text\">Сравнение</p><p class=\"gray-text\">Сравнить авто</p></a>" +
             "<a href=\"newpost.html\" class=\"action-card\"><img src=\"images/profile-settings-icon.png\" alt=\"Добавить\"><p class=\"bold-text\">Создать объявление</p><p class=\"gray-text\">Добавить авто</p></a>" +
             "</section>" +
@@ -164,11 +166,13 @@
 
         Promise.all([
             api.get("/api/auth/me"),
-            api.get("/api/cars/my")
+            api.get("/api/cars/my"),
+            api.get("/api/favourites")
         ]).then(function (results) {
             var user = results[0];
             var myCars = results[1];
-            renderProfile(user, myCars);
+            var favouritesList = results[2] || [];
+            renderProfile(user, myCars, favouritesList.length);
         }).catch(function (err) {
             if (err && (err.status === 401 || err.message === "Unauthorized")) {
                 api.setToken(null);

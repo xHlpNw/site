@@ -16,6 +16,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Car> Cars => Set<Car>();
     public DbSet<CarPhoto> CarPhotos => Set<CarPhoto>();
     public DbSet<Comparison> Comparisons => Set<Comparison>();
+    public DbSet<Favourite> Favourites => Set<Favourite>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -34,6 +35,21 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(c => c.Car)
             .WithMany()
             .HasForeignKey(c => c.CarId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Favourite>()
+            .HasKey(f => new { f.UserId, f.CarId });
+
+        builder.Entity<Favourite>()
+            .HasOne(f => f.User)
+            .WithMany(u => u.Favourites)
+            .HasForeignKey(f => f.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Favourite>()
+            .HasOne(f => f.Car)
+            .WithMany()
+            .HasForeignKey(f => f.CarId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Car>()

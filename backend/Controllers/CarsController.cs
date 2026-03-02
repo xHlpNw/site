@@ -270,6 +270,7 @@ public class CarsController : ControllerBase
             PhotoCount = car.PhotoCount,
             Seller = new SellerDto
             {
+                Id = car.Seller.Id,
                 FullName = car.Seller.FullName,
                 PhoneNumber = car.Seller.PhoneNumber,
                 Email = car.Seller.Email

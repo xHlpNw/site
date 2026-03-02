@@ -8,4 +8,5 @@ public class ApplicationUser : IdentityUser
 
     public ICollection<Car> Cars { get; set; } = new List<Car>();
     public ICollection<Comparison> Comparisons { get; set; } = new List<Comparison>();
+    public ICollection<Favourite> Favourites { get; set; } = new List<Favourite>();
 }

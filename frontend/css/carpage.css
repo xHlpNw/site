@@ -124,6 +124,32 @@ main {
     color: #555;
 }
 
+.btn-favourite {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    border: var(--border-width) solid transparent;
+    background: rgb(var(--accent-color));
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s, opacity 0.3s;
+}
+
+.btn-favourite:hover {
+    opacity: 0.9;
+    filter: brightness(1.1);
+}
+
+.btn-favourite.in-favourites {
+    background: rgb(var(--gray-color));
+    cursor: pointer;
+}
+
+.btn-favourite.in-favourites:hover {
+    filter: brightness(1.1);
+}
+
 .offer .favourite-button {
     padding: 0.8rem;
     border-radius: var(--radius);
@@ -412,6 +438,10 @@ html[data-theme="dark"] .seller-info h3 {
 
 html[data-theme="dark"] .seller hr {
     border-top-color: rgba(var(--gray-color), 0.3);
+}
+
+html[data-theme="dark"] .btn-favourite.in-favourites {
+    background: rgb(70, 70, 70);
 }
 
 html[data-theme="dark"] .offer .favourite-button {

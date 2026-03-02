@@ -109,3 +109,11 @@ API будет доступен по адресу из `launchSettings.json` (н
 | GET | `/api/comparison` | Список автомобилей в сравнении. Заголовок: `Authorization: Bearer <token>`. Ответ: `[{ "id", "brandName", "modelName", "year", "mileage", "gearbox", "driveType", "bodyType", "price", "hasPhoto", "createdAt" }, ...]`. |
 | POST | `/api/comparison` | Добавить в сравнение. Body: `{ "carId": number }`. Лимит 5. 201 или 400/404. |
 | DELETE | `/api/comparison/{carId}` | Удалить из сравнения. 204 или 404. |
+
+### Избранное (требуется авторизация)
+
+| Метод | URL | Описание |
+|-------|-----|----------|
+| GET | `/api/favourites` | Список автомобилей в избранном. Заголовок: `Authorization: Bearer <token>`. Ответ: `[{ "id", "brandName", "modelName", "year", "mileage", "gearbox", "driveType", "bodyType", "price", "hasPhoto", "createdAt" }, ...]`. |
+| POST | `/api/favourites` | Добавить в избранное. Body: `{ "carId": number }`. 201 или 400/404. |
+| DELETE | `/api/favourites/{carId}` | Удалить из избранного. 204 или 404. |

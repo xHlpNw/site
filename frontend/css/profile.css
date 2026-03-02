@@ -185,6 +185,17 @@ h3 {
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
+.stat-card-link {
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.stat-card-link:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: rgb(var(--accent-color));
+}
+
 .stat-icon {
     width: 60px;
     height: 60px;

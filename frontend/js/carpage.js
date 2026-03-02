@@ -77,6 +77,7 @@
             "<section class=\"offer\">" +
             "<p class=\"price\">" + priceStr + "</p>" +
             "<p class=\"car-title\">" + title + "</p>" +
+            "<button type=\"button\" class=\"btn-favourite\" data-id=\"" + car.id + "\">В избранное</button>" +
             "<button type=\"button\" class=\"btn-compare\" data-id=\"" + car.id + "\">Добавить в сравнение</button>" +
             "</section>" +
             "<section class=\"seller\">" +
@@ -88,6 +89,7 @@
         document.title = title + " — AutoSeller";
 
         initGallery(root);
+        initFavouriteButton(root, car.id, car.seller);
         initCompareButton(root, car.id);
     }
 
@@ -101,6 +103,44 @@
                 thumbs.forEach(function (t) { t.classList.remove("active-thumb"); });
                 thumb.classList.add("active-thumb");
             });
+        });
+    }
+
+    function initFavouriteButton(root, carId, seller) {
+        var btn = root.querySelector(".btn-favourite");
+        if (!btn || !window.api) return;
+        var token = api.getToken();
+        if (!token) {
+            btn.style.display = "none";
+            return;
+        }
+        var user = api.getUser();
+        var sellerId = seller != null && (seller.id !== undefined && seller.id !== null ? seller.id : seller.Id);
+        var userId = user != null && (user.id !== undefined && user.id !== null ? user.id : user.Id);
+        if (sellerId != null && userId != null && String(sellerId) === String(userId)) {
+            btn.style.display = "none";
+            return;
+        }
+        function setState(inFavourites) {
+            btn.textContent = inFavourites ? "В избранном" : "В избранное";
+            btn.classList.toggle("in-favourites", inFavourites);
+        }
+        api.get("/api/favourites").then(function (list) {
+            var ids = (list || []).map(function (c) { return c.id; });
+            setState(ids.indexOf(carId) !== -1);
+        }).catch(function () { setState(false); });
+
+        btn.addEventListener("click", function () {
+            var inFavourites = btn.classList.contains("in-favourites");
+            if (inFavourites) {
+                api.delete("/api/favourites/" + carId).then(function () {
+                    setState(false);
+                }).catch(function (err) { alert((err && err.message) || "Ошибка"); });
+            } else {
+                api.post("/api/favourites", { carId: carId }).then(function () {
+                    setState(true);
+                }).catch(function (err) { alert((err && err.message) || "Ошибка"); });
+            }
         });
     }
 
