@@ -1,5 +1,6 @@
 (function () {
     var PLACEHOLDER_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect fill='%23ddd' width='300' height='200'/%3E%3Ctext fill='%23999' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='14'%3ENет фото%3C/text%3E%3C/svg%3E";
+    var PAGE_SIZE = 12;
 
     function gearboxLabel(v) {
         return v === "at" ? "Автомат" : v === "mt" ? "Механика" : v || "—";
@@ -61,7 +62,7 @@
         return card;
     }
 
-    function renderCars(list) {
+    function renderCars(list, total, currentPage) {
         var grid = document.getElementById("cars-grid");
         var loading = document.getElementById("catalog-loading");
         if (!grid) return;
@@ -69,22 +70,82 @@
         grid.innerHTML = "";
         if (!list || list.length === 0) {
             grid.innerHTML = "<p class=\"catalog-empty\">Объявлений не найдено</p>";
+            renderPagination(0, 1);
             return;
         }
         list.forEach(function (car) {
             grid.appendChild(buildCard(car));
         });
-        var sentinel = document.createElement("div");
-        sentinel.className = "catalog-sentinel";
-        sentinel.setAttribute("aria-hidden", "true");
-        grid.appendChild(sentinel);
         if (window.initComparisonCardButtons) window.initComparisonCardButtons();
         initCardSliders(grid);
         initViewToggle();
-        initLazyLoad(grid);
+        renderPagination(total, currentPage);
     }
 
-    function getQueryParams() {
+    function renderPagination(total, currentPage) {
+        var container = document.getElementById("catalog-pagination");
+        if (!container) return;
+        var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+        currentPage = Math.max(1, Math.min(currentPage, totalPages));
+        container.innerHTML = "";
+        if (totalPages <= 1 && total <= PAGE_SIZE) {
+            var info = document.createElement("p");
+            info.className = "catalog-pagination-info";
+            info.textContent = "Найдено: " + total + " " + (total === 1 ? "объявление" : total < 5 ? "объявления" : "объявлений");
+            container.appendChild(info);
+            return;
+        }
+        var info = document.createElement("p");
+        info.className = "catalog-pagination-info";
+        info.textContent = "Найдено: " + total + " " + (total === 1 ? "объявление" : total < 5 ? "объявления" : "объявлений");
+        container.appendChild(info);
+        var nav = document.createElement("nav");
+        nav.className = "pagination-nav";
+        nav.setAttribute("aria-label", "Страницы каталога");
+        var ul = document.createElement("ul");
+        ul.className = "pagination-list";
+        function addPageItem(content, pageNum, isCurrent, isDisabled) {
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+            a.href = "#";
+            if (isDisabled) {
+                a.classList.add("pagination-disabled");
+                a.setAttribute("aria-disabled", "true");
+            } else {
+                a.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    loadCars(pageNum);
+                    var url = "catalog.html" + getQueryParams(pageNum);
+                    if (window.history && window.history.replaceState) {
+                        window.history.replaceState({}, "", url);
+                    }
+                    var grid = document.getElementById("cars-grid");
+                    if (grid) grid.scrollIntoView({ behavior: "smooth", block: "start" });
+                });
+            }
+            if (isCurrent) a.classList.add("pagination-current");
+            a.textContent = content;
+            li.appendChild(a);
+            ul.appendChild(li);
+        }
+        addPageItem("« Предыдущая", currentPage - 1, false, currentPage <= 1);
+        var start = Math.max(1, currentPage - 2);
+        var end = Math.min(totalPages, currentPage + 2);
+        if (start > 1) {
+            addPageItem("1", 1, false, false);
+            if (start > 2) addPageItem("…", 0, false, true);
+        }
+        for (var p = start; p <= end; p++) addPageItem(String(p), p, p === currentPage, false);
+        if (end < totalPages) {
+            if (end < totalPages - 1) addPageItem("…", 0, false, true);
+            addPageItem(String(totalPages), totalPages, false, false);
+        }
+        addPageItem("Следующая »", currentPage + 1, false, currentPage >= totalPages);
+        nav.appendChild(ul);
+        container.appendChild(nav);
+    }
+
+    function getQueryParams(page) {
         var form = document.getElementById("catalog-filters");
         var fd = form ? new FormData(form) : null;
         var urlParams = new URLSearchParams(window.location.search);
@@ -111,19 +172,30 @@
         if (gearbox) params.push("gearbox=" + encodeURIComponent(gearbox));
         if (bodyType) params.push("bodyType=" + encodeURIComponent(bodyType));
         if (sort) params.push("sort=" + encodeURIComponent(sort));
-        return params.length ? "?" + params.join("&") : "";
+        var pageNum = page != null && page > 0 ? page : (parseInt(urlParams.get("page"), 10) || 1);
+        params.push("limit=" + PAGE_SIZE);
+        params.push("offset=" + ((pageNum - 1) * PAGE_SIZE));
+        if (pageNum > 1) params.push("page=" + pageNum);
+        return "?" + params.join("&");
     }
 
-    function loadCars() {
+    function loadCars(page) {
         var grid = document.getElementById("cars-grid");
         var loading = document.getElementById("catalog-loading");
-        if (loading) loading.textContent = "Загрузка...";
-        api.get("/api/cars" + getQueryParams())
-            .then(function (list) {
-                renderCars(list);
+        if (!grid) return;
+        var pageNum = page != null && page > 0 ? page : 1;
+        grid.innerHTML = "<p class=\"catalog-loading\" id=\"catalog-loading\">Загрузка...</p>";
+        var loadingEl = document.getElementById("catalog-loading");
+        if (loadingEl) loadingEl.textContent = "Загрузка...";
+        api.get("/api/cars" + getQueryParams(pageNum))
+            .then(function (data) {
+                var list = (data && data.items) ? data.items : (Array.isArray(data) ? data : []);
+                var total = (data && data.total != null) ? data.total : list.length;
+                renderCars(list, total, pageNum);
             })
             .catch(function (err) {
                 if (grid) grid.innerHTML = "<p class=\"catalog-error\">Ошибка загрузки. Проверьте подключение к API.</p>";
+                document.getElementById("catalog-pagination").innerHTML = "";
             });
     }
 
@@ -205,37 +277,6 @@
         });
     }
 
-    function initLazyLoad(grid) {
-        var CARDS_PER_PAGE = 8;
-        var cards = grid ? Array.from(grid.querySelectorAll(".card")) : [];
-        var sentinel = grid ? grid.querySelector(".catalog-sentinel") : null;
-        var loadStatus = document.querySelector(".catalog-load-status");
-        var btnLoadMore = document.querySelector(".btn-load-more");
-        cards.forEach(function (card, i) {
-            if (i >= CARDS_PER_PAGE) card.classList.add("catalog-card-lazy");
-        });
-        function updateUI() {
-            var hidden = cards.filter(function (c) { return c.classList.contains("catalog-card-lazy"); });
-            if (loadStatus) loadStatus.textContent = hidden.length === 0 && cards.length ? "Все объявления загружены" : "";
-            if (btnLoadMore) btnLoadMore.style.display = hidden.length ? "inline-block" : "none";
-        }
-        function loadMore() {
-            var hidden = cards.filter(function (c) { return c.classList.contains("catalog-card-lazy"); });
-            hidden.slice(0, CARDS_PER_PAGE).forEach(function (c) { c.classList.remove("catalog-card-lazy"); });
-            updateUI();
-        }
-        if (sentinel) {
-            var obs = new IntersectionObserver(function (entries) {
-                if (!entries[0].isIntersecting) return;
-                var hidden = cards.filter(function (c) { return c.classList.contains("catalog-card-lazy"); });
-                if (hidden.length) loadMore();
-            }, { rootMargin: "100px", threshold: 0 });
-            obs.observe(sentinel);
-        }
-        if (btnLoadMore) btnLoadMore.addEventListener("click", loadMore);
-        updateUI();
-    }
-
     function init() {
         var urlParams = new URLSearchParams(window.location.search);
         var bodyTypeFromUrl = urlParams.get("bodyType");
@@ -248,11 +289,12 @@
         if (brandSel) brandSel.addEventListener("change", filterModelsByBrand);
         var form = document.getElementById("catalog-filters");
         if (form) {
-            form.addEventListener("submit", function (e) { e.preventDefault(); loadCars(); });
+            form.addEventListener("submit", function (e) { e.preventDefault(); loadCars(1); });
             var btnApply = form.querySelector(".btn-apply");
-            if (btnApply) btnApply.addEventListener("click", function (e) { e.preventDefault(); loadCars(); });
+            if (btnApply) btnApply.addEventListener("click", function (e) { e.preventDefault(); loadCars(1); });
         }
-        loadCars();
+        var pageFromUrl = parseInt(urlParams.get("page"), 10) || 1;
+        loadCars(pageFromUrl);
     }
 
     if (document.readyState === "loading") {

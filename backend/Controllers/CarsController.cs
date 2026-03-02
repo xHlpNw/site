@@ -70,10 +70,14 @@ public class CarsController : ControllerBase
             _ => query.OrderByDescending(c => c.CreatedAt)
         };
 
-        if (offset.HasValue && offset.Value > 0)
-            query = query.Skip(offset.Value);
-        if (limit.HasValue && limit.Value > 0)
-            query = query.Take(limit.Value);
+        var total = await query.CountAsync(cancellationToken);
+
+        var offsetVal = offset ?? 0;
+        var limitVal = limit ?? 50;
+        if (limitVal <= 0) limitVal = 50;
+        if (offsetVal > 0)
+            query = query.Skip(offsetVal);
+        query = query.Take(limitVal);
 
         var list = await query
             .Select(c => new CarListItemDto
@@ -93,7 +97,7 @@ public class CarsController : ControllerBase
             })
             .ToListAsync(cancellationToken);
 
-        return Ok(list);
+        return Ok(new { items = list, total });
     }
 
     /// <summary>

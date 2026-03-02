@@ -99,7 +99,8 @@
             return;
         }
         api.get("/api/cars?limit=8")
-            .then(function (list) {
+            .then(function (data) {
+                var list = (data && data.items) ? data.items : (Array.isArray(data) ? data : []);
                 renderListings(list);
             })
             .catch(function () {

@@ -287,6 +287,69 @@ main {
     pointer-events: none;
 }
 
+.catalog-pagination {
+    margin-top: 1.5rem;
+    padding: 1rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.catalog-pagination-info {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.pagination-nav {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination-list li a {
+    display: inline-block;
+    min-width: 2.25rem;
+    padding: 0.4rem 0.6rem;
+    text-align: center;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-size: 0.9rem;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.pagination-list li a:hover:not(.pagination-disabled):not(.pagination-current) {
+    background: #f5f5f5;
+    border-color: #ccc;
+}
+
+.pagination-list li a.pagination-current {
+    background: rgb(var(--accent-color));
+    border-color: rgb(var(--accent-color));
+    color: #fff;
+    font-weight: 600;
+}
+
+.pagination-list li a.pagination-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .catalog-load-more {
     text-align: center;
     margin-top: 1.5rem;
@@ -561,4 +624,25 @@ html[data-theme="dark"] .btn-compare-card.in-compare {
     background: rgba(var(--accent-color), 0.2);
     border-color: rgb(var(--accent-color));
     color: rgb(var(--accent-color));
+}
+
+html[data-theme="dark"] .catalog-pagination-info {
+    color: rgb(var(--gray-color));
+}
+
+html[data-theme="dark"] .pagination-list li a {
+    color: rgb(var(--gray-color));
+    border-color: rgba(var(--gray-color), 0.4);
+    background: rgb(45, 45, 45);
+}
+
+html[data-theme="dark"] .pagination-list li a:hover:not(.pagination-disabled):not(.pagination-current) {
+    background: rgb(55, 55, 55);
+    border-color: rgba(var(--gray-color), 0.5);
+}
+
+html[data-theme="dark"] .pagination-list li a.pagination-current {
+    background: rgb(var(--accent-color));
+    border-color: rgb(var(--accent-color));
+    color: #fff;
 }
