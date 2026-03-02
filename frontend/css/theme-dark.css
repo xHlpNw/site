@@ -8,3 +8,27 @@ html[data-theme="dark"] {
     --opacity: 0.95;
 }
 
+/* Кнопки локализации в тёмной теме */
+html[data-theme="dark"] .lang-switcher {
+    border-color: rgba(var(--gray-color), 0.5);
+    background: rgba(var(--header-color), 0.9);
+}
+
+html[data-theme="dark"] .lang-btn {
+    color: rgba(var(--gray-color), 0.9);
+}
+
+html[data-theme="dark"] .lang-btn:hover {
+    color: #e0e0e0;
+    background: rgba(var(--gray-color), 0.2);
+}
+
+html[data-theme="dark"] .lang-btn[aria-pressed="true"] {
+    color: #1a1a1a;
+    background: rgb(var(--accent-color));
+}
+
+html[data-theme="dark"] .lang-btn:focus-visible {
+    outline-color: rgb(var(--accent-color));
+}
+

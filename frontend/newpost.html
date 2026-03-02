@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoSeller - Опубликовать объявление</title>
+    <title data-i18n="pageTitle.newpost">AutoSeller - Опубликовать объявление</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/variables.css">
@@ -13,140 +13,149 @@
 <script type="application/json" id="publish-rules-fallback">{"title":"Правила публикации объявления","sections":[{"heading":"1. Общие требования","text":"Размещать объявления о продаже автомобилей могут только зарегистрированные пользователи. Объявление должно содержать достоверную информацию об автомобиле и контактные данные продавца."},{"heading":"2. Обязательные данные","text":"В объявлении необходимо указать: марку и модель, год выпуска, пробег, тип коробки передач, тип привода, тип кузова, цену, описание состояния автомобиля. Загрузка минимум одной фотографии обязательна."},{"heading":"3. Фотографии","text":"Фотографии должны быть чёткими и соответствовать продаваемому автомобилю. Допускаются форматы PNG и JPG. Размер одного файла — не более 10 МБ. Запрещается размещать чужие изображения без разрешения правообладателя."},{"heading":"4. Запрещённый контент","text":"Запрещается размещать объявления с оскорбительным или вводящим в заблуждение текстом, дублировать одно и то же объявление многократно, указывать заведомо ложную информацию о состоянии или характеристиках автомобиля."},{"heading":"5. Модерация","text":"Администрация оставляет за собой право снять объявление с публикации без предварительного уведомления в случае нарушения правил. При повторных нарушениях аккаунт пользователя может быть заблокирован."}]}</script>
 <header>
     <a href="index.html" class="logo">
-        <img src="images/logo.png" alt="Логотип AutoSeller">
+        <img src="images/logo.png" alt="Логотип AutoSeller" data-i18n-alt="header.logoAlt">
     </a>
     <nav>
         <ul class="menu">
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="catalog.html">Каталог</a></li>
-            <li><a href="newpost.html">Создать объявление</a></li>
-            <li><a href="aboutUs.html">О проекте</a></li>
-            <li><a href="comparison.html" class="menu-compare">Сравнение <span class="compare-count">(0)</span></a></li>
+            <li><a href="index.html" data-i18n="header.home">Главная</a></li>
+            <li><a href="catalog.html" data-i18n="header.catalog">Каталог</a></li>
+            <li><a href="newpost.html" data-i18n="header.newPost">Создать объявление</a></li>
+            <li><a href="aboutUs.html" data-i18n="header.about">О проекте</a></li>
+            <li>
+                <a href="comparison.html" class="menu-compare">
+                    <span data-i18n="header.comparison">Сравнение</span>
+                    <span class="compare-count">(0)</span>
+                </a>
+            </li>
         </ul>
     </nav>
     <div class="header-right">
         <div class="theme-toggle" aria-label="Переключить тему">
-            <button type="button" class="theme-toggle-btn" title="Светлая / Тёмная тема" aria-pressed="false">
+            <button type="button" class="theme-toggle-btn" data-i18n-title="header.themeTitle" title="Светлая / Тёмная тема" aria-pressed="false">
                 <span class="icon-light" aria-hidden="true">☀</span>
                 <span class="icon-dark" aria-hidden="true">🌙</span>
             </button>
         </div>
+        <div class="lang-switcher" aria-label="Language">
+            <button type="button" class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        </div>
         <div class="auth-buttons">
-            <a href="login.html">Войти</a>
-            <a class="btn-register" href="registration.html">Регистрация</a>
+            <a href="login.html" data-i18n="header.login">Войти</a>
+            <a class="btn-register" href="registration.html" data-i18n="header.register">Регистрация</a>
         </div>
     </div>
 </header>
 <main>
-    <h1>Добавить объявление о продаже автомобиля</h1>
-    <p class="subtitle">Заполните форму для публикации объявления о продаже автомобиля</p>
+    <h1 data-i18n="newpost.title">Добавить объявление о продаже автомобиля</h1>
+    <p class="subtitle" data-i18n="newpost.subtitle">Заполните форму для публикации объявления о продаже автомобиля</p>
     <p class="publish-rules-trigger-wrap">
-        <button type="button" class="btn-publish-rules" id="btn-publish-rules">Правила публикации объявления</button>
+        <button type="button" class="btn-publish-rules" id="btn-publish-rules" data-i18n="newpost.rulesBtn">Правила публикации объявления</button>
     </p>
 
     <form class="form" id="add-car-form" action="#" method="post">
         <fieldset class="form-section">
-            <h2>Основная информация об автомобиле</h2>
+            <h2 data-i18n="newpost.sectionMain">Основная информация об автомобиле</h2>
             <div class="grid">
                 <div class="form-group">
-                    <label for="brand">Марка</label>
+                    <label for="brand" data-i18n="newpost.brand">Марка</label>
                     <select id="brand" name="brand">
-                        <option value="" selected disabled>Выберите марку</option>
+                        <option value="" selected disabled data-i18n="newpost.selectBrand">Выберите марку</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="model">Модель</label>
+                    <label for="model" data-i18n="newpost.model">Модель</label>
                     <select id="model" name="model">
-                        <option value="" selected disabled>Сначала выберите марку</option>
+                        <option value="" selected disabled data-i18n="newpost.selectModelFirst">Сначала выберите марку</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="year">Год выпуска</label>
-                    <input type="number" id="year" name="year" placeholder="2025">
+                    <label for="year" data-i18n="newpost.year">Год выпуска</label>
+                    <input type="number" id="year" name="year" data-i18n-placeholder="newpost.yearPlaceholder" placeholder="2025">
                 </div>
 
                 <div class="form-group">
-                    <label for="mileage">Пробег (км)</label>
-                    <input type="number" id="mileage" name="mileage" placeholder="0">
+                    <label for="mileage" data-i18n="newpost.mileage">Пробег (км)</label>
+                    <input type="number" id="mileage" name="mileage" data-i18n-placeholder="newpost.mileagePlaceholder" placeholder="0">
                 </div>
             </div>
         </fieldset>
 
         <fieldset class="form-section">
-            <h2>Характеристики автомобиля</h2>
+            <h2 data-i18n="newpost.sectionSpecs">Характеристики автомобиля</h2>
 
             <div class="grid">
                 <div class="form-group">
-                    <label for="gearbox">Коробка передач</label>
+                    <label for="gearbox" data-i18n="newpost.gearbox">Коробка передач</label>
                     <select id="gearbox" name="gearbox">
-                        <option value="" selected disabled>Выберите тип</option>
-                        <option value="at">Автомат</option>
-                        <option value="mt">Механика</option>
+                        <option value="" selected disabled data-i18n="newpost.selectGearbox">Выберите тип</option>
+                        <option value="at" data-i18n="catalog.gearboxAuto">Автомат</option>
+                        <option value="mt" data-i18n="catalog.gearboxManual">Механика</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="engine">Двигатель</label>
-                    <input type="text" id="engine" name="engine" placeholder="Например: 2.0 Turbo">
+                    <label for="engine" data-i18n="newpost.engine">Двигатель</label>
+                    <input type="text" id="engine" name="engine" data-i18n-placeholder="newpost.enginePlaceholder" placeholder="Например: 2.0 Turbo">
                 </div>
 
                 <div class="form-group">
-                    <label for="drive">Привод</label>
+                    <label for="drive" data-i18n="newpost.drive">Привод</label>
                     <select id="drive" name="drive">
-                        <option value="" selected disabled>Выберите привод</option>
-                        <option value="fwd">Передний</option>
-                        <option value="rwd">Задний</option>
-                        <option value="awd">Полный</option>
+                        <option value="" selected disabled data-i18n="newpost.selectDrive">Выберите привод</option>
+                        <option value="fwd" data-i18n="newpost.driveFwd">Передний</option>
+                        <option value="rwd" data-i18n="newpost.driveRwd">Задний</option>
+                        <option value="awd" data-i18n="newpost.driveAwd">Полный</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="body">Тип кузова</label>
+                    <label for="body" data-i18n="newpost.body">Тип кузова</label>
                     <select id="body" name="body">
-                        <option value="" selected disabled>Выберите тип кузова</option>
-                        <option value="sedan">Седан</option>
-                        <option value="suv">Кроссовер</option>
-                        <option value="sport">Спорткар</option>
-                        <option value="coupe">Купе</option>
-                        <option value="pickup">Пикап</option>
-                        <option value="cabrio">Кабриолет</option>
+                        <option value="" selected disabled data-i18n="newpost.selectBody">Выберите тип кузова</option>
+                        <option value="sedan" data-i18n="catalog.bodySedan">Седан</option>
+                        <option value="suv" data-i18n="catalog.bodySuv">Кроссовер</option>
+                        <option value="sport" data-i18n="catalog.bodySport">Спорткар</option>
+                        <option value="coupe" data-i18n="catalog.bodyCoupe">Купе</option>
+                        <option value="pickup" data-i18n="catalog.bodyPickup">Пикап</option>
+                        <option value="cabrio" data-i18n="catalog.bodyCabrio">Кабриолет</option>
                     </select>
                 </div>
             </div>
         </fieldset>
 
         <fieldset class="form-section">
-            <h2 class="section-title section-red">Цена автомобиля</h2>
+            <h2 class="section-title section-red" data-i18n="newpost.sectionPrice">Цена автомобиля</h2>
 
             <div class="form-group">
-                <label for="price">Цена (₽)</label>
-                <input type="number" id="price" name="price" placeholder="0">
+                <label for="price" data-i18n="newpost.price">Цена (₽)</label>
+                <input type="number" id="price" name="price" data-i18n-placeholder="newpost.pricePlaceholder" placeholder="0">
             </div>
         </fieldset>
 
         <fieldset class="form-section">
-            <h2 class="section-title">Дополнительная информация об автомобиле</h2>
+            <h2 class="section-title" data-i18n="newpost.sectionExtra">Дополнительная информация об автомобиле</h2>
 
             <div class="form-group">
-                <label for="description">Описание</label>
-                <textarea id="description" name="description" rows="4" placeholder="Опишите состояние автомобиля, особенности, дополнительное оборудование..."></textarea>
+                <label for="description" data-i18n="newpost.description">Описание</label>
+                <textarea id="description" name="description" rows="4" data-i18n-placeholder="newpost.descriptionPlaceholder" placeholder="Опишите состояние автомобиля, особенности, дополнительное оборудование..."></textarea>
             </div>
         </fieldset>
 
         <fieldset class="form-section">
-            <h2 class="section-title section-purple">Фотографии автомобиля</h2>
+            <h2 class="section-title section-purple" data-i18n="newpost.sectionPhotos">Фотографии автомобиля</h2>
 
             <div class="upload-box">
                 <input type="file" id="photos" name="photos[]" accept="image/png, image/jpeg" multiple hidden>
-                <p class="upload-hint">PNG, JPG до 10MB</p>
+                <p class="upload-hint" data-i18n="newpost.uploadHint">PNG, JPG до 10MB</p>
             </div>
         </fieldset>
 
-        <p class="form-hint">Объявление привязывается к вашему аккаунту. Контакты для связи (имя, телефон, email) отображаются из <a href="profile.html">вашего профиля</a>.</p>
+        <p class="form-hint"><span data-i18n="newpost.formHint">Объявление привязывается к вашему аккаунту. Контакты для связи (имя, телефон, email) отображаются из </span><a href="profile.html" data-i18n="newpost.formHintProfile">вашего профиля</a>.</p>
         <div class="form-actions">
-            <button type="submit" class="btn-submit">＋ Опубликовать объявление</button>
+            <button type="submit" class="btn-submit" data-i18n="newpost.submitBtn">＋ Опубликовать объявление</button>
         </div>
     </form>
 
@@ -154,11 +163,11 @@
         <div class="publish-rules-overlay"></div>
         <div class="publish-rules-box">
             <div class="publish-rules-header">
-                <h2 class="publish-rules-title" id="publish-rules-title">Правила публикации</h2>
-                <button type="button" class="publish-rules-close" aria-label="Закрыть">&times;</button>
+                <h2 class="publish-rules-title" id="publish-rules-title" data-i18n="newpost.rulesModalTitle">Правила публикации</h2>
+                <button type="button" class="publish-rules-close" data-i18n-aria-label="newpost.modalClose" aria-label="Закрыть">&times;</button>
             </div>
             <div class="publish-rules-body">
-                <p class="publish-rules-loading">Загрузка…</p>
+                <p class="publish-rules-loading" data-i18n="newpost.rulesLoading">Загрузка…</p>
             </div>
         </div>
     </div>
@@ -166,27 +175,28 @@
 <footer>
     <div class="footer-top">
         <div class="footer-left">
-            <img src="images/logo.png" alt="Autoseller логотип" class="footer-logo">
-            <p>Autoseller – каталог подержанных автомобилей.</p>
+            <img src="images/logo.png" alt="Autoseller логотип" class="footer-logo" data-i18n-alt="header.logoAlt">
+            <p data-i18n="footer.tagline">Autoseller – каталог подержанных автомобилей.</p>
         </div>
         <div class="footer-right">
             <p><a href="tel:+78001234567">+7 (800) 123-45-67</a></p>
             <p><a href="mailto:info@autoseller.ru">info@autoseller.ru</a></p>
-            <p>Москва, ул. Примерная, д. 123</p>
+            <p data-i18n="footer.address">Москва, ул. Примерная, д. 123</p>
         </div>
     </div>
     <hr>
     <div class="footer-bottom">
-        <p>© 2025 Автосэллер. Все права защищены.</p>
+        <p data-i18n="footer.copyright">© 2025 Автосэллер. Все права защищены.</p>
         <div class="footer-nav">
-            <a href="privacy.html">Политика конфиденциальности</a>
-            <a href="terms.html">Пользовательское соглашение</a>
+            <a href="privacy.html" data-i18n="footer.privacy">Политика конфиденциальности</a>
+            <a href="terms.html" data-i18n="footer.terms">Пользовательское соглашение</a>
         </div>
     </div>
 </footer>
 <script src="js/api.js" defer></script>
 <script src="js/auth-header.js" defer></script>
 <script src="js/theme.js" defer></script>
+<script src="js/i18n.js" defer></script>
 <script src="js/comparison.js" defer></script>
 <script src="js/add-car.js" defer></script>
 </body>

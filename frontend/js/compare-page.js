@@ -1,9 +1,27 @@
 (function () {
     var base = function () { return window.api ? api.getBaseUrl() : ""; };
+    var t = function (key) { return window.i18n && window.i18n.t ? window.i18n.t(key) : null; };
     var formatPrice = function (n) { return new Intl.NumberFormat("ru-RU").format(n) + " ₽"; };
-    var gearboxLabel = function (v) { return v === "at" ? "Автомат" : v === "mt" ? "Механика" : v || "—"; };
-    var driveLabel = function (v) { var map = { fwd: "Передний", rwd: "Задний", awd: "Полный" }; return map[v] || v || "—"; };
-    var bodyLabel = function (v) { var map = { sedan: "Седан", suv: "Кроссовер", coupe: "Купе" }; return map[v] || v || "—"; };
+    var gearboxLabel = function (v) {
+        if (v === "at") return t("catalog.gearboxAuto") || "Автомат";
+        if (v === "mt") return t("catalog.gearboxManual") || "Механика";
+        return v || "—";
+    };
+    var driveLabel = function (v) {
+        var map = { fwd: t("newpost.driveFwd") || "Передний", rwd: t("newpost.driveRwd") || "Задний", awd: t("newpost.driveAwd") || "Полный" };
+        return map[v] || v || "—";
+    };
+    var bodyLabel = function (v) {
+        var map = {
+            sedan: t("catalog.bodySedan") || "Седан",
+            suv: t("catalog.bodySuv") || "Кроссовер",
+            coupe: t("catalog.bodyCoupe") || "Купе",
+            pickup: t("catalog.bodyPickup") || "Пикап",
+            cabrio: t("catalog.bodyCabrio") || "Кабриолет",
+            sport: t("catalog.bodySport") || "Спорткар"
+        };
+        return map[v] || v || "—";
+    };
 
     function getRoot() { return document.getElementById("compare-root"); }
 
@@ -86,8 +104,9 @@
         var root = getRoot();
         if (!root) return;
         if (!list || list.length === 0) {
-            root.innerHTML = "<p class=\"compare-empty\">В сравнении пока нет автомобилей. <a href=\"catalog.html\">Перейти в каталог</a></p>";
+            root.innerHTML = "<p class=\"compare-empty\"><span data-i18n=\"comparison.empty\">В сравнении пока нет автомобилей. </span><a href=\"catalog.html\" data-i18n=\"comparison.toCatalog\">Перейти в каталог</a></p>";
             document.getElementById("compare-actions").style.display = "none";
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
             return;
         }
         var b = base();
@@ -101,13 +120,16 @@
             var imgSrc = images.length > 0 ? images[0] : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'/%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3C/svg%3E";
             var title = car.brandName + " " + car.modelName;
             var countText = images.length > 1 ? "1/" + images.length : "";
+            var removeLabel = (t("comparison.removeFromCompare") || "Убрать из сравнения").replace(/"/g, "&quot;");
+            var prevPhotoLabel = (t("catalog.prevPhoto") || "Предыдущее фото").replace(/"/g, "&quot;");
+            var nextPhotoLabel = (t("catalog.nextPhoto") || "Следующее фото").replace(/"/g, "&quot;");
             gridHtml += "<div class=\"compare-card\" data-id=\"" + car.id + "\" data-images=\"" + (encodeURIComponent(JSON.stringify(images)) || "") + "\">" +
-                "<button type=\"button\" class=\"remove-btn\" aria-label=\"Убрать из сравнения\">✕</button>" +
+                "<button type=\"button\" class=\"remove-btn\" aria-label=\"" + removeLabel + "\">✕</button>" +
                 "<div class=\"car-image compare-carousel\">" +
                 "<a href=\"carpage.html?id=" + car.id + "\"><img src=\"" + imgSrc + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\"></a>" +
                 (images.length > 1
-                    ? "<button type=\"button\" class=\"compare-carousel-prev\" aria-label=\"Предыдущее фото\">&lt;</button>" +
-                      "<button type=\"button\" class=\"compare-carousel-next\" aria-label=\"Следующее фото\">&gt;</button>" +
+                    ? "<button type=\"button\" class=\"compare-carousel-prev\" aria-label=\"" + prevPhotoLabel + "\">&lt;</button>" +
+                      "<button type=\"button\" class=\"compare-carousel-next\" aria-label=\"" + nextPhotoLabel + "\">&gt;</button>" +
                       "<span class=\"compare-carousel-count\">1/" + images.length + "</span>"
                     : "") +
                 "</div>" +
@@ -117,28 +139,32 @@
                 "<p class=\"badge\">" + bodyLabel(car.bodyType) + "</p>" +
                 "</div></div>";
         });
-        gridHtml += "<div class=\"compare-card add-card\"><a href=\"catalog.html\" class=\"add-content\">＋ Добавить ещё авто</a></div>";
+        gridHtml += "<div class=\"compare-card add-card\"><a href=\"catalog.html\" class=\"add-content\">" + (t("comparison.addMore") || "＋ Добавить ещё авто").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</a></div>";
 
+        var charLabel = t("comparison.characteristics") || "Характеристики";
         var headers = list.map(function (c) { return c.brandName + " " + c.modelName; });
-        var thCells = headers.map(function (h) { return "<th>" + h + "</th>"; }).join("");
+        var thCells = headers.map(function (h) { return "<th>" + h.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</th>"; }).join("");
         var rows = [
-            { label: "Цена", icon: "price-icon.png", key: "price", fmt: formatPrice },
-            { label: "Год выпуска", icon: "calendar-icon.png", key: "year", fmt: function (v) { return v; } },
-            { label: "Пробег", icon: "speedometer-icon.png", key: "mileage", fmt: function (v) { return new Intl.NumberFormat("ru-RU").format(v) + " км"; } },
-            { label: "Коробка передач", icon: "settings.png", key: "gearbox", fmt: gearboxLabel },
-            { label: "Привод", icon: "settings.png", key: "driveType", fmt: driveLabel },
-            { label: "Тип кузова", icon: "settings.png", key: "bodyType", fmt: bodyLabel }
+            { labelKey: "comparison.price", icon: "price-icon.png", key: "price", fmt: formatPrice },
+            { labelKey: "comparison.year", icon: "calendar-icon.png", key: "year", fmt: function (v) { return v; } },
+            { labelKey: "comparison.mileage", icon: "speedometer-icon.png", key: "mileage", fmt: function (v) { return new Intl.NumberFormat("ru-RU").format(v) + " км"; } },
+            { labelKey: "comparison.gearbox", icon: "settings.png", key: "gearbox", fmt: gearboxLabel },
+            { labelKey: "comparison.drive", icon: "settings.png", key: "driveType", fmt: driveLabel },
+            { labelKey: "comparison.bodyType", icon: "settings.png", key: "bodyType", fmt: bodyLabel }
         ];
         var tbody = rows.map(function (r) {
+            var label = t(r.labelKey) || r.labelKey;
             var cells = list.map(function (c) { return "<td>" + (r.fmt(c[r.key]) || "—") + "</td>"; }).join("");
-            return "<tr><th scope=\"row\"><img class=\"icon\" src=\"images/" + r.icon + "\" alt=\"\">" + r.label + "</th>" + cells + "</tr>";
+            return "<tr><th scope=\"row\"><img class=\"icon\" src=\"images/" + r.icon + "\" alt=\"\">" + label.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</th>" + cells + "</tr>";
         }).join("");
 
         root.innerHTML =
             "<div class=\"compare-grid\">" + gridHtml + "</div>" +
             "<section class=\"compare-table\">" +
-            "<table><thead><tr><th>Характеристики</th>" + thCells + "</tr></thead><tbody>" + tbody + "</tbody></table>" +
+            "<table><thead><tr><th>" + (charLabel.replace(/</g, "&lt;").replace(/>/g, "&gt;")) + "</th>" + thCells + "</tr></thead><tbody>" + tbody + "</tbody></table>" +
             "</section>";
+
+        if (window.i18n && window.i18n.apply) window.i18n.apply();
 
         root.querySelectorAll(".remove-btn").forEach(function (btn) {
             var card = btn.closest(".compare-card");
@@ -162,9 +188,15 @@
 
     function loadAndRender() {
         var root = getRoot();
-        if (root) root.innerHTML = "<p class=\"compare-loading\">Загрузка...</p>";
+        if (root) {
+            root.innerHTML = "<p class=\"compare-loading\" data-i18n=\"comparison.loading\">Загрузка...</p>";
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
+        }
         loadComparisonList().then(render).catch(function () {
-            if (root) root.innerHTML = "<p class=\"compare-error\">Ошибка загрузки. <a href=\"catalog.html\">В каталог</a></p>";
+            if (root) {
+                root.innerHTML = "<p class=\"compare-error\"><span data-i18n=\"comparison.loadError\">Ошибка загрузки. </span><a href=\"catalog.html\" data-i18n=\"comparison.toCatalog\">В каталог</a></p>";
+                if (window.i18n && window.i18n.apply) window.i18n.apply();
+            }
         });
     }
 

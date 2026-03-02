@@ -156,3 +156,41 @@ html[data-theme="dark"] .auth-buttons a:hover {
     color: white;
     border: var(--border-width) solid rgb(var(--accent-color));
 }
+
+/* Переключатель языка */
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: var(--border-width) solid rgba(var(--gray-color), 0.6);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: rgba(var(--header-color), 0.8);
+}
+
+.lang-btn {
+    padding: 0.4rem 0.7rem;
+    min-width: 2.2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    color: #828282;
+    cursor: pointer;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.lang-btn:hover {
+    color: #494949;
+    background: rgba(var(--gray-color), 0.15);
+}
+
+.lang-btn[aria-pressed="true"] {
+    color: white;
+    background: rgb(var(--accent-color));
+}
+
+.lang-btn:focus-visible {
+    outline: 2px solid rgb(var(--accent-color));
+    outline-offset: 1px;
+}

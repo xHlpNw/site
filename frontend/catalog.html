@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoSeller - Каталог автомобилей</title>
+    <title data-i18n="pageTitle.catalog">AutoSeller - Каталог автомобилей</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/variables.css">
@@ -12,136 +12,146 @@
 <body>
 <header>
     <a href="index.html" class="logo">
-        <img src="images/logo.png" alt="logo">
+        <img src="images/logo.png" alt="Логотип AutoSeller" data-i18n-alt="header.logoAlt">
     </a>
     <nav>
         <ul class="menu">
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="catalog.html">Каталог</a></li>
-            <li><a href="newpost.html">Создать объявление</a></li>
-            <li><a href="aboutUs.html">О проекте</a></li>
-            <li><a href="comparison.html" class="menu-compare">Сравнение <span class="compare-count">(0)</span></a></li>
+            <li><a href="index.html" data-i18n="header.home">Главная</a></li>
+            <li><a href="catalog.html" data-i18n="header.catalog">Каталог</a></li>
+            <li><a href="newpost.html" data-i18n="header.newPost">Создать объявление</a></li>
+            <li><a href="aboutUs.html" data-i18n="header.about">О проекте</a></li>
+            <li>
+                <a href="comparison.html" class="menu-compare">
+                    <span data-i18n="header.comparison">Сравнение</span>
+                    <span class="compare-count">(0)</span>
+                </a>
+            </li>
         </ul>
     </nav>
     <div class="header-right">
         <div class="theme-toggle" aria-label="Переключить тему">
-            <button type="button" class="theme-toggle-btn" title="Светлая / Тёмная тема" aria-pressed="false">
+            <button type="button" class="theme-toggle-btn" data-i18n-title="header.themeTitle" title="Светлая / Тёмная тема" aria-pressed="false">
                 <span class="icon-light" aria-hidden="true">☀</span>
                 <span class="icon-dark" aria-hidden="true">🌙</span>
             </button>
         </div>
+        <div class="lang-switcher" aria-label="Language">
+            <button type="button" class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        </div>
         <div class="auth-buttons">
-            <a href="login.html">Войти</a>
-            <a class="btn-register" href="registration.html">Регистрация</a>
+            <a href="login.html" data-i18n="header.login">Войти</a>
+            <a class="btn-register" href="registration.html" data-i18n="header.register">Регистрация</a>
         </div>
     </div>
 </header>
 <main>
-    <h1>Каталог автомобилей</h1>
+    <h1 data-i18n="catalog.title">Каталог автомобилей</h1>
     <div class="content">
         <aside class="filters">
-            <p class="filters-label">Фильтры</p>
+            <p class="filters-label" data-i18n="catalog.filters">Фильтры</p>
             <form id="catalog-filters" action="#" method="get">
-                <label for="brand">Марка</label>
+                <label for="brand" data-i18n="catalog.brand">Марка</label>
                 <select id="brand" name="brand">
-                    <option value="">Выберите марку</option>
+                    <option value="" data-i18n="catalog.selectBrand">Выберите марку</option>
                 </select>
-                <label for="model">Модель</label>
+                <label for="model" data-i18n="catalog.model">Модель</label>
                 <select id="model" name="model">
-                    <option value="">Выберите модель</option>
+                    <option value="" data-i18n="catalog.selectModel">Выберите модель</option>
                 </select>
 
-                <label>Цена (₽)</label>
+                <label data-i18n="catalog.price">Цена (₽)</label>
                 <div class="range-fields">
-                    <input type="number" placeholder="от" name="min-price">
+                    <input type="number" data-i18n-placeholder="catalog.from" placeholder="от" name="min-price">
                     <span>—</span>
-                    <input type="number" placeholder="до" name="max-price">
+                    <input type="number" data-i18n-placeholder="catalog.to" placeholder="до" name="max-price">
                 </div>
 
-                <label>Год</label>
+                <label data-i18n="catalog.year">Год</label>
                 <div class="range-fields">
-                    <input type="number" placeholder="от" name="min-year">
+                    <input type="number" data-i18n-placeholder="catalog.from" placeholder="от" name="min-year">
                     <span>—</span>
-                    <input type="number" placeholder="до" name="max-year">
+                    <input type="number" data-i18n-placeholder="catalog.to" placeholder="до" name="max-year">
                 </div>
 
-                <label>Пробег (км)</label>
+                <label data-i18n="catalog.mileage">Пробег (км)</label>
                 <div class="range-fields">
-                    <input type="number" placeholder="от" name="min-km">
+                    <input type="number" data-i18n-placeholder="catalog.from" placeholder="от" name="min-km">
                     <span>—</span>
-                    <input type="number" placeholder="до" name="max-km">
+                    <input type="number" data-i18n-placeholder="catalog.to" placeholder="до" name="max-km">
                 </div>
 
-                <label for="kpp">КПП</label>
+                <label for="kpp" data-i18n="catalog.gearbox">КПП</label>
                 <select id="kpp" name="gearbox">
-                    <option value="">Любая</option>
-                    <option value="mt">Механика</option>
-                    <option value="at">Автомат</option>
+                    <option value="" data-i18n="catalog.anyGearbox">Любая</option>
+                    <option value="mt" data-i18n="catalog.gearboxManual">Механика</option>
+                    <option value="at" data-i18n="catalog.gearboxAuto">Автомат</option>
                 </select>
 
-                <label for="body-type">Тип кузова</label>
+                <label for="body-type" data-i18n="catalog.bodyType">Тип кузова</label>
                 <select id="body-type" name="bodyType">
-                    <option value="">Любой</option>
-                    <option value="sedan">Седан</option>
-                    <option value="suv">Кроссовер</option>
-                    <option value="sport">Спорткар</option>
-                    <option value="coupe">Купе</option>
-                    <option value="pickup">Пикап</option>
-                    <option value="cabrio">Кабриолет</option>
+                    <option value="" data-i18n="catalog.anyBody">Любой</option>
+                    <option value="sedan" data-i18n="catalog.bodySedan">Седан</option>
+                    <option value="suv" data-i18n="catalog.bodySuv">Кроссовер</option>
+                    <option value="sport" data-i18n="catalog.bodySport">Спорткар</option>
+                    <option value="coupe" data-i18n="catalog.bodyCoupe">Купе</option>
+                    <option value="pickup" data-i18n="catalog.bodyPickup">Пикап</option>
+                    <option value="cabrio" data-i18n="catalog.bodyCabrio">Кабриолет</option>
                 </select>
 
-                <label for="sort">Сортировка</label>
+                <label for="sort" data-i18n="catalog.sort">Сортировка</label>
                 <select id="sort" name="sort">
-                    <option value="priceAsc">Цена: по возрастанию</option>
-                    <option value="priceDesc">Цена: по убыванию</option>
-                    <option value="yearDesc">Год: новые сначала</option>
-                    <option value="yearAsc">Год: старые сначала</option>
-                    <option value="mileageAsc">Пробег: меньше сначала</option>
-                    <option value="mileageDesc">Пробег: больше сначала</option>
+                    <option value="priceAsc" data-i18n="catalog.sortPriceAsc">Цена: по возрастанию</option>
+                    <option value="priceDesc" data-i18n="catalog.sortPriceDesc">Цена: по убыванию</option>
+                    <option value="yearDesc" data-i18n="catalog.sortYearDesc">Год: новые сначала</option>
+                    <option value="yearAsc" data-i18n="catalog.sortYearAsc">Год: старые сначала</option>
+                    <option value="mileageAsc" data-i18n="catalog.sortMileageAsc">Пробег: меньше сначала</option>
+                    <option value="mileageDesc" data-i18n="catalog.sortMileageDesc">Пробег: больше сначала</option>
                 </select>
 
-                <button class="btn-apply">Применить</button>
+                <button class="btn-apply" type="button" data-i18n="catalog.apply">Применить</button>
             </form>
         </aside>
 
         <section class="cars">
-            <h2>Предложения автомобилей</h2>
+            <h2 data-i18n="catalog.offers">Предложения автомобилей</h2>
             <div class="view-toggle">
-                <span class="view-option active" data-view="grid">Плитка</span>
+                <span class="view-option active" data-view="grid" data-i18n="catalog.viewGrid">Плитка</span>
                 <span class="divider">|</span>
-                <span class="view-option" data-view="list">Список</span>
+                <span class="view-option" data-view="list" data-i18n="catalog.viewList">Список</span>
             </div>
             <div class="cars-grid" id="cars-grid">
-                <p class="catalog-loading" id="catalog-loading">Загрузка...</p>
+                <p class="catalog-loading" id="catalog-loading" data-i18n="catalog.loading">Загрузка...</p>
             </div>
-            <div id="catalog-pagination" class="catalog-pagination" aria-label="Навигация по страницам"></div>
+            <div id="catalog-pagination" class="catalog-pagination" data-i18n-aria-label="catalog.paginationAria" aria-label="Навигация по страницам"></div>
         </section>
     </div>
 </main>
 <footer>
     <div class="footer-top">
         <div class="footer-left">
-            <img src="images/logo.png" alt="Autoseller логотип" class="footer-logo">
-            <p>Autoseller – каталог подержанных автомобилей.</p>
+            <img src="images/logo.png" alt="Autoseller логотип" class="footer-logo" data-i18n-alt="header.logoAlt">
+            <p data-i18n="footer.tagline">Autoseller – каталог подержанных автомобилей.</p>
         </div>
         <div class="footer-right">
             <p><a href="tel:+78001234567">+7 (800) 123-45-67</a></p>
             <p><a href="mailto:info@autoseller.ru">info@autoseller.ru</a></p>
-            <p>Москва, ул. Примерная, д. 123</p>
+            <p data-i18n="footer.address">Москва, ул. Примерная, д. 123</p>
         </div>
     </div>
     <hr>
-    <div class="footer-bottom">
-        <p>© 2025 Автосэллер. Все права защищены.</p>
-        <div class="footer-nav">
-            <a href="privacy.html">Политика конфиденциальности</a>
-            <a href="terms.html">Пользовательское соглашение</a>
+        <div class="footer-bottom">
+            <p data-i18n="footer.copyright">© 2025 Автосэллер. Все права защищены.</p>
+            <div class="footer-nav">
+                <a href="privacy.html" data-i18n="footer.privacy">Политика конфиденциальности</a>
+                <a href="terms.html" data-i18n="footer.terms">Пользовательское соглашение</a>
+            </div>
         </div>
-    </div>
 </footer>
 <script src="js/api.js" defer></script>
 <script src="js/auth-header.js" defer></script>
 <script src="js/theme.js" defer></script>
+<script src="js/i18n.js" defer></script>
 <script src="js/comparison.js" defer></script>
 <script src="js/catalog.js" defer></script>
 </body>

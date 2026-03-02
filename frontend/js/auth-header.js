@@ -5,7 +5,7 @@
         var token = window.api && api.getToken();
         var user = window.api && api.getUser();
         if (token && user) {
-            container.innerHTML = "<a href=\"profile.html\" class=\"btn-profile\">Профиль</a>";
+            container.innerHTML = "<a href=\"profile.html\" class=\"btn-profile\"><span data-i18n=\"header.profile\">Профиль</span></a>";
         }
         if (window.api) api.updateCompareCount();
     }

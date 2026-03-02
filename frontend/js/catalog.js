@@ -3,11 +3,22 @@
     var PAGE_SIZE = 12;
 
     function gearboxLabel(v) {
-        return v === "at" ? "Автомат" : v === "mt" ? "Механика" : v || "—";
+        var t = window.i18n && window.i18n.t;
+        if (v === "at") return t ? t("catalog.gearboxAuto") : "Автомат";
+        if (v === "mt") return t ? t("catalog.gearboxManual") : "Механика";
+        return t ? t("catalog.anyGearbox") : (v || "—");
     }
 
     function bodyLabel(v) {
-        var map = { sedan: "Седан", suv: "Кроссовер", coupe: "Купе", pickup: "Пикап", cabrio: "Кабриолет", sport: "Спорткар" };
+        var t = window.i18n && window.i18n.t;
+        var map = {
+            sedan: t ? t("catalog.bodySedan") : "Седан",
+            suv: t ? t("catalog.bodySuv") : "Кроссовер",
+            coupe: t ? t("catalog.bodyCoupe") : "Купе",
+            pickup: t ? t("catalog.bodyPickup") : "Пикап",
+            cabrio: t ? t("catalog.bodyCabrio") : "Кабриолет",
+            sport: t ? t("catalog.bodySport") : "Спорткар"
+        };
         return map[v] || v || "—";
     }
 
@@ -36,12 +47,15 @@
         card.className = "card";
         card.dataset.id = String(carId);
         card.dataset.images = JSON.stringify(images);
+        var addToCompareLabel = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.addToCompare") : "Добавить в сравнение";
+        var prevPhotoLabel = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.prevPhoto") : "Предыдущее фото";
+        var nextPhotoLabel = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.nextPhoto") : "Следующее фото";
         card.innerHTML =
             "<div class=\"card-image\">" +
             "<span class=\"badge\">" + badge + "</span>" +
             "<img src=\"" + imgSrc + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\" onerror=\"this.src='" + PLACEHOLDER_IMG.replace(/'/g, "\\'") + "'\">" +
-            "<button class=\"prev\" type=\"button\" aria-label=\"Предыдущее фото\">&lt;</button>" +
-            "<button class=\"next\" type=\"button\" aria-label=\"Следующее фото\">&gt;</button>" +
+            "<button class=\"prev\" type=\"button\" aria-label=\"" + prevPhotoLabel.replace(/"/g, "&quot;") + "\">&lt;</button>" +
+            "<button class=\"next\" type=\"button\" aria-label=\"" + nextPhotoLabel.replace(/"/g, "&quot;") + "\">&gt;</button>" +
             "<span class=\"count\">" + countText + "</span>" +
             "</div>" +
             "<div class=\"card-content\">" +
@@ -54,8 +68,8 @@
             "</div>" +
             "<div class=\"card-footer\">" +
             "<div class=\"card-actions\">" +
-            "<button type=\"button\" class=\"btn-compare-card\" data-id=\"" + String(carId).replace(/"/g, "&quot;") + "\" title=\"В сравнение\" aria-label=\"Добавить в сравнение\"><span class=\"compare-icon\" aria-hidden=\"true\">⇄</span></button>" +
-            "<a class=\"btn-details\" href=\"" + link.replace(/"/g, "&quot;") + "\">Подробнее</a>" +
+            "<button type=\"button\" class=\"btn-compare-card\" data-id=\"" + String(carId).replace(/"/g, "&quot;") + "\" title=\"" + addToCompareLabel.replace(/"/g, "&quot;") + "\" aria-label=\"" + addToCompareLabel.replace(/"/g, "&quot;") + "\"><span class=\"compare-icon\" aria-hidden=\"true\">⇄</span></button>" +
+            "<a class=\"btn-details\" href=\"" + link.replace(/"/g, "&quot;") + "\" data-i18n=\"profile.details\">" + ((window.i18n && window.i18n.t) ? window.i18n.t("profile.details") : "Подробнее") + "</a>" +
             "</div>" +
             "</div>" +
             "</div>";
@@ -69,8 +83,9 @@
         if (loading) loading.remove();
         grid.innerHTML = "";
         if (!list || list.length === 0) {
-            grid.innerHTML = "<p class=\"catalog-empty\">Объявлений не найдено</p>";
+            grid.innerHTML = "<p class=\"catalog-empty\" data-i18n=\"catalog.empty\">Объявлений не найдено</p>";
             renderPagination(0, 1);
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
             return;
         }
         list.forEach(function (car) {
@@ -80,30 +95,41 @@
         initCardSliders(grid);
         initViewToggle();
         renderPagination(total, currentPage);
+        if (window.i18n && window.i18n.apply) window.i18n.apply();
     }
 
     function renderPagination(total, currentPage) {
         var container = document.getElementById("catalog-pagination");
         if (!container) return;
+        var t = window.i18n && window.i18n.t;
         var totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
         currentPage = Math.max(1, Math.min(currentPage, totalPages));
         container.innerHTML = "";
+        function listingWord(n) {
+            if (!t) return n === 1 ? "объявление" : n < 5 ? "объявления" : "объявлений";
+            if (n === 1) return t("catalog.listingOne");
+            if (n < 5) return t("catalog.listingFew");
+            return t("catalog.listingMany");
+        }
+        var foundText = (t ? t("catalog.found") : "Найдено: ") + total + " " + listingWord(total);
         if (totalPages <= 1 && total <= PAGE_SIZE) {
             var info = document.createElement("p");
             info.className = "catalog-pagination-info";
-            info.textContent = "Найдено: " + total + " " + (total === 1 ? "объявление" : total < 5 ? "объявления" : "объявлений");
+            info.textContent = foundText;
             container.appendChild(info);
             return;
         }
         var info = document.createElement("p");
         info.className = "catalog-pagination-info";
-        info.textContent = "Найдено: " + total + " " + (total === 1 ? "объявление" : total < 5 ? "объявления" : "объявлений");
+        info.textContent = foundText;
         container.appendChild(info);
         var nav = document.createElement("nav");
         nav.className = "pagination-nav";
-        nav.setAttribute("aria-label", "Страницы каталога");
+        nav.setAttribute("aria-label", t ? t("catalog.paginationNavAria") : "Страницы каталога");
         var ul = document.createElement("ul");
         ul.className = "pagination-list";
+        var prevLabel = t ? t("catalog.paginationPrev") : "« Предыдущая";
+        var nextLabel = t ? t("catalog.paginationNext") : "Следующая »";
         function addPageItem(content, pageNum, isCurrent, isDisabled) {
             var li = document.createElement("li");
             var a = document.createElement("a");
@@ -128,7 +154,7 @@
             li.appendChild(a);
             ul.appendChild(li);
         }
-        addPageItem("« Предыдущая", currentPage - 1, false, currentPage <= 1);
+        addPageItem(prevLabel, currentPage - 1, false, currentPage <= 1);
         var start = Math.max(1, currentPage - 2);
         var end = Math.min(totalPages, currentPage + 2);
         if (start > 1) {
@@ -140,7 +166,7 @@
             if (end < totalPages - 1) addPageItem("…", 0, false, true);
             addPageItem(String(totalPages), totalPages, false, false);
         }
-        addPageItem("Следующая »", currentPage + 1, false, currentPage >= totalPages);
+        addPageItem(nextLabel, currentPage + 1, false, currentPage >= totalPages);
         nav.appendChild(ul);
         container.appendChild(nav);
     }
@@ -184,9 +210,9 @@
         var loading = document.getElementById("catalog-loading");
         if (!grid) return;
         var pageNum = page != null && page > 0 ? page : 1;
-        grid.innerHTML = "<p class=\"catalog-loading\" id=\"catalog-loading\">Загрузка...</p>";
+        grid.innerHTML = "<p class=\"catalog-loading\" id=\"catalog-loading\" data-i18n=\"catalog.loading\">Загрузка...</p>";
         var loadingEl = document.getElementById("catalog-loading");
-        if (loadingEl) loadingEl.textContent = "Загрузка...";
+        if (loadingEl) loadingEl.textContent = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.loading") : "Загрузка...";
         api.get("/api/cars" + getQueryParams(pageNum))
             .then(function (data) {
                 var list = (data && data.items) ? data.items : (Array.isArray(data) ? data : []);
@@ -194,8 +220,9 @@
                 renderCars(list, total, pageNum);
             })
             .catch(function (err) {
-                if (grid) grid.innerHTML = "<p class=\"catalog-error\">Ошибка загрузки. Проверьте подключение к API.</p>";
+                if (grid) grid.innerHTML = "<p class=\"catalog-error\" data-i18n=\"catalog.loadError\">Ошибка загрузки. Проверьте подключение к API.</p>";
                 document.getElementById("catalog-pagination").innerHTML = "";
+                if (window.i18n && window.i18n.apply) window.i18n.apply();
             });
     }
 
@@ -203,18 +230,19 @@
         api.get("/api/brands").then(function (brands) {
             var sel = document.getElementById("brand");
             if (!sel) return;
-            sel.innerHTML = "<option value=\"\">Выберите марку</option>";
+            sel.innerHTML = "<option value=\"\" data-i18n=\"catalog.selectBrand\">Выберите марку</option>";
             (brands || []).forEach(function (b) {
                 var opt = document.createElement("option");
                 opt.value = b.id;
                 opt.textContent = b.name;
                 sel.appendChild(opt);
             });
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
         });
         api.get("/api/models").then(function (models) {
             var sel = document.getElementById("model");
             if (!sel) return;
-            sel.innerHTML = "<option value=\"\">Выберите модель</option>";
+            sel.innerHTML = "<option value=\"\" data-i18n=\"catalog.selectModel\">Выберите модель</option>";
             (models || []).forEach(function (m) {
                 var opt = document.createElement("option");
                 opt.value = m.id;
@@ -222,6 +250,7 @@
                 opt.dataset.brandId = String(m.brandId);
                 sel.appendChild(opt);
             });
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
         });
     }
 

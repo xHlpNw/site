@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoSeller - О проекте</title>
+    <title data-i18n="pageTitle.about">AutoSeller - О проекте</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/variables.css">
@@ -12,155 +12,164 @@
 <body>
 <header>
     <a href="index.html" class="logo">
-        <img src="images/logo.png" alt="Логотип AutoSeller">
+        <img src="images/logo.png" alt="Логотип AutoSeller" data-i18n-alt="header.logoAlt">
     </a>
     <nav>
         <ul class="menu">
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="catalog.html">Каталог</a></li>
-            <li><a href="newpost.html">Создать объявление</a></li>
-            <li><a href="aboutUs.html">О проекте</a></li>
-            <li><a href="comparison.html" class="menu-compare">Сравнение <span class="compare-count">(0)</span></a></li>
+            <li><a href="index.html" data-i18n="header.home">Главная</a></li>
+            <li><a href="catalog.html" data-i18n="header.catalog">Каталог</a></li>
+            <li><a href="newpost.html" data-i18n="header.newPost">Создать объявление</a></li>
+            <li><a href="aboutUs.html" data-i18n="header.about">О проекте</a></li>
+            <li>
+                <a href="comparison.html" class="menu-compare">
+                    <span data-i18n="header.comparison">Сравнение</span>
+                    <span class="compare-count">(0)</span>
+                </a>
+            </li>
         </ul>
     </nav>
     <div class="header-right">
         <div class="theme-toggle" aria-label="Переключить тему">
-            <button type="button" class="theme-toggle-btn" title="Светлая / Тёмная тема" aria-pressed="false">
+            <button type="button" class="theme-toggle-btn" data-i18n-title="header.themeTitle" title="Светлая / Тёмная тема" aria-pressed="false">
                 <span class="icon-light" aria-hidden="true">☀</span>
                 <span class="icon-dark" aria-hidden="true">🌙</span>
             </button>
         </div>
+        <div class="lang-switcher" aria-label="Language">
+            <button type="button" class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        </div>
         <div class="auth-buttons">
-            <a href="login.html">Войти</a>
-            <a href="registration.html" class="btn-register">Регистрация</a>
+            <a href="login.html" data-i18n="header.login">Войти</a>
+            <a href="registration.html" class="btn-register" data-i18n="header.register">Регистрация</a>
         </div>
     </div>
 </header>
 <main>
     <section class="hero">
-        <span class="badge">Учебный проект</span>
-        <h1>AutoMarket — каталог подержанных автомобилей</h1>
+        <span class="badge" data-i18n="about.badge">Учебный проект</span>
+        <h1 data-i18n="about.heroTitle">AutoMarket — каталог подержанных автомобилей</h1>
         <p class="subtitle">
-            Веб-приложение, созданное с использованием HTML, CSS и JavaScript.<br>
-            Разработано для демонстрации навыков адаптивной вёрстки и интерактивного интерфейса.
+            <span data-i18n="about.heroSubtitle1">Веб-приложение, созданное с использованием HTML, CSS и JavaScript.</span><br>
+            <span data-i18n="about.heroSubtitle2">Разработано для демонстрации навыков адаптивной вёрстки и интерактивного интерфейса.</span>
         </p>
     </section>
 
     <section class="cards">
         <div class="card">
-            <p class="card-title blue">Цели проекта</p>
+            <p class="card-title blue" data-i18n="about.goalsTitle">Цели проекта</p>
             <p>
-                Проект создан для практического применения базовых технологий веб-разработки — HTML, CSS и JavaScript.
-                Основная цель — создание адаптивного и современного интерфейса каталога автомобилей без использования фреймворков.
+                <span data-i18n="about.goalsText1">Проект создан для практического применения базовых технологий веб-разработки — HTML, CSS и JavaScript.</span> <span data-i18n="about.goalsText2">Основная цель — создание адаптивного и современного интерфейса каталога автомобилей без использования фреймворков.</span>
             </p>
-            <p class="highlight green">Освоение классического подхода к фронтенд-разработке</p>
+            <p class="highlight green" data-i18n="about.goalsHighlight">Освоение классического подхода к фронтенд-разработке</p>
         </div>
 
         <div class="card">
-            <p class="card-title purple">Технологии</p>
-            <p>
+            <p class="card-title purple" data-i18n="about.techTitle">Технологии</p>
+            <p data-i18n="about.techText">
                 Проект построен на базе стандартного стека фронтенд-разработки с применением новейших возможностей языков:
                 структура выполнена на HTML5, оформление — на CSS3, логика и интерактивность реализованы с помощью JavaScript (ES6+).
                 Для организации кода использованы семантические теги, кастомные CSS-переменные и модульный JS.
             </p>
             <div class="tags">
-                <span class="tag">HTML5</span>
-                <span class="tag">CSS3</span>
-                <span class="tag">JavaScript (ES6+)</span>
+                <span class="tag" data-i18n="about.tagHtml">HTML5</span>
+                <span class="tag" data-i18n="about.tagCss">CSS3</span>
+                <span class="tag" data-i18n="about.tagJs">JavaScript (ES6+)</span>
             </div>
         </div>
     </section>
 
     <section class="features">
-        <h2>Особенности проекта</h2>
-        <p class="features-subtitle">
+        <h2 data-i18n="about.featuresTitle">Особенности проекта</h2>
+        <p class="features-subtitle" data-i18n="about.featuresSubtitle">
             Ключевые технические решения, реализованные с использованием базовых технологий фронтенда.
         </p>
 
         <div class="features-grid">
             <div class="feature-card">
                 <img class="icon blue" src="images/shield-icon.png" alt="">
-                <p class="subtitle">Безопасный код</p>
-                <p>Используются встроенные возможности HTML5 для валидации форм и защиты данных.</p>
+                <p class="subtitle" data-i18n="about.feature1Title">Безопасный код</p>
+                <p data-i18n="about.feature1Text">Используются встроенные возможности HTML5 для валидации форм и защиты данных.</p>
             </div>
 
             <div class="feature-card">
                 <img class="icon blue" src="images/peoples-icon.png" alt="">
-                <p class="subtitle">Удобный интерфейс</p>
-                <p>Современная адаптивная вёрстка с использованием CSS Flexbox и Grid.</p>
+                <p class="subtitle" data-i18n="about.feature2Title">Удобный интерфейс</p>
+                <p data-i18n="about.feature2Text">Современная адаптивная вёрстка с использованием CSS Flexbox и Grid.</p>
             </div>
 
             <div class="feature-card">
                 <img class="icon blue" src="images/time-icon.png" alt="">
-                <p class="subtitle">Быстрая загрузка</p>
-                <p>Минимум внешних зависимостей и оптимизация кода обеспечивают быструю загрузку страниц.</p>
+                <p class="subtitle" data-i18n="about.feature3Title">Быстрая загрузка</p>
+                <p data-i18n="about.feature3Text">Минимум внешних зависимостей и оптимизация кода обеспечивают быструю загрузку страниц.</p>
             </div>
         </div>
     </section>
 
     <section class="workflow">
-        <h2>Принцип работы</h2>
-        <p class="workflow-subtitle">
+        <h2 data-i18n="about.workflowTitle">Принцип работы</h2>
+        <p class="workflow-subtitle" data-i18n="about.workflowSubtitle">
             Демонстрация основного пользовательского сценария в приложении
         </p>
 
         <div class="workflow-steps">
             <div class="step">
                 <div class="step-number">01</div>
-                <p class="subtitle">Поиск</p>
-                <p>Пользователь выбирает параметры для поиска нужного автомобиля.</p>
+                <p class="subtitle" data-i18n="about.step1Title">Поиск</p>
+                <p data-i18n="about.step1Text">Пользователь выбирает параметры для поиска нужного автомобиля.</p>
             </div>
 
             <div class="step">
                 <div class="step-number">02</div>
-                <p class="subtitle">Выбор</p>
-                <p>Просмотр детальной информации и фотографий выбранного авто.</p>
+                <p class="subtitle" data-i18n="about.step2Title">Выбор</p>
+                <p data-i18n="about.step2Text">Просмотр детальной информации и фотографий выбранного авто.</p>
             </div>
 
             <div class="step">
                 <div class="step-number">03</div>
-                <p class="subtitle">Покупка</p>
-                <p>Получение контактов и оформление сделки напрямую.</p>
+                <p class="subtitle" data-i18n="about.step3Title">Покупка</p>
+                <p data-i18n="about.step3Text">Получение контактов и оформление сделки напрямую.</p>
             </div>
         </div>
     </section>
 
     <section class="demo">
-        <h2>Демонстрация проекта</h2>
-        <p class="demo-subtitle">
+        <h2 data-i18n="about.demoTitle">Демонстрация проекта</h2>
+        <p class="demo-subtitle" data-i18n="about.demoSubtitle">
             Это учебный проект, созданный для демонстрации навыков веб-разработки
         </p>
 
         <div class="demo-buttons">
-            <a href="index.html" class="btn primary" role="button">Посмотреть главную</a>
-            <a href="registration.html" class="btn outline" role="button">Попробовать регистрацию</a>
+            <a href="index.html" class="btn primary" role="button" data-i18n="about.demoBtnMain">Посмотреть главную</a>
+            <a href="registration.html" class="btn outline" role="button" data-i18n="about.demoBtnReg">Попробовать регистрацию</a>
         </div>
     </section>
 </main>
 <footer>
     <div class="footer-top">
         <div class="footer-left">
-            <img src="images/logo.png" alt="AutoSeller логотип" class="footer-logo">
-            <p>AutoSeller – каталог подержанных автомобилей.</p>
+            <img src="images/logo.png" alt="AutoSeller логотип" class="footer-logo" data-i18n-alt="header.logoAlt">
+            <p data-i18n="footer.tagline">AutoSeller – каталог подержанных автомобилей.</p>
         </div>
         <div class="footer-right">
             <p><a href="tel:+78001234567">+7 (800) 123-45-67</a></p>
             <p><a href="mailto:info@autoseller.ru">info@autoseller.ru</a></p>
-            <p>Москва, ул. Примерная, д. 123</p>
+            <p data-i18n="footer.address">Москва, ул. Примерная, д. 123</p>
         </div>
     </div>
     <hr>
     <div class="footer-bottom">
-        <p>© 2025 Автосэллер. Все права защищены.</p>
+        <p data-i18n="footer.copyright">© 2025 Автосэллер. Все права защищены.</p>
         <div class="footer-nav">
-            <a href="privacy.html">Политика конфиденциальности</a>
-            <a href="terms.html">Пользовательское соглашение</a>
+            <a href="privacy.html" data-i18n="footer.privacy">Политика конфиденциальности</a>
+            <a href="terms.html" data-i18n="footer.terms">Пользовательское соглашение</a>
         </div>
     </div>
 </footer>
 <script src="js/api.js" defer></script>
 <script src="js/auth-header.js" defer></script>
 <script src="js/theme.js" defer></script>
+<script src="js/i18n.js" defer></script>
 <script src="js/comparison.js" defer></script>
 <script src="js/aboutUs.js" defer></script>
 </body>

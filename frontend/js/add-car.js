@@ -27,18 +27,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const description = document.getElementById("description");
         const photos = document.getElementById("photos");
 
-        if (!brand || !brand.value) markError(brand, "Выберите марку автомобиля");
-        if (!model || !model.value) markError(model, "Выберите модель");
+        var t = window.i18n && window.i18n.t;
+        if (!brand || !brand.value) markError(brand, t ? t("newpost.errSelectBrand") : "Выберите марку автомобиля");
+        if (!model || !model.value) markError(model, t ? t("newpost.errSelectModel") : "Выберите модель");
         if (year && (Number(year.value) < 1950 || Number(year.value) > new Date().getFullYear()))
-            markError(year, "Год выпуска от 1950 до " + new Date().getFullYear());
-        if (mileage && Number(mileage.value) <= 0) markError(mileage, "Введите корректный пробег");
-        if (!gearbox || !gearbox.value) markError(gearbox, "Выберите тип коробки передач");
-        if (engine && engine.value.trim().length < 2) markError(engine, "Введите обозначение двигателя (минимум 2 символа)");
-        if (!drive || !drive.value) markError(drive, "Выберите тип привода");
-        if (!body || !body.value) markError(body, "Выберите тип кузова");
-        if (price && Number(price.value) <= 0) markError(price, "Введите корректную цену");
-        if (description && description.value.trim().length < 10) markError(description, "Введите описание (минимум 10 символов)");
-        if (!photos || photos.files.length === 0) markError(photos, "Загрузите хотя бы одну фотографию");
+            markError(year, (t ? t("newpost.errYear") : "Год выпуска от 1950 до ") + new Date().getFullYear());
+        if (mileage && Number(mileage.value) <= 0) markError(mileage, t ? t("newpost.errMileage") : "Введите корректный пробег");
+        if (!gearbox || !gearbox.value) markError(gearbox, t ? t("newpost.errGearbox") : "Выберите тип коробки передач");
+        if (engine && engine.value.trim().length < 2) markError(engine, t ? t("newpost.errEngine") : "Введите обозначение двигателя (минимум 2 символа)");
+        if (!drive || !drive.value) markError(drive, t ? t("newpost.errDrive") : "Выберите тип привода");
+        if (!body || !body.value) markError(body, t ? t("newpost.errBody") : "Выберите тип кузова");
+        if (price && Number(price.value) <= 0) markError(price, t ? t("newpost.errPrice") : "Введите корректную цену");
+        if (description && description.value.trim().length < 10) markError(description, t ? t("newpost.errDescription") : "Введите описание (минимум 10 символов)");
+        if (!photos || photos.files.length === 0) markError(photos, t ? t("newpost.errPhotos") : "Загрузите хотя бы одну фотографию");
 
         const errors = document.querySelectorAll(".error");
         if (errors.length > 0) {
@@ -67,7 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
             };
             return api.post("/api/cars", payload);
         }).then((created) => {
-            alert("Объявление успешно опубликовано!");
+            var msg = (window.i18n && window.i18n.t) ? window.i18n.t("newpost.publishSuccess") : "Объявление успешно опубликовано!";
+            alert(msg);
             var id = created && (created.id !== undefined && created.id !== null ? created.id : (created.Id !== undefined && created.Id !== null ? created.Id : null));
             if (id != null && String(id).trim() !== "") {
                 window.location.href = "carpage.html#" + encodeURIComponent(String(id).trim());
@@ -75,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = "profile.html";
             }
         }).catch((err) => {
-            const msg = (err && err.message) ? err.message : "Ошибка публикации. Проверьте данные и попробуйте снова.";
+            const msg = (err && err.message) ? err.message : ((window.i18n && window.i18n.t) ? window.i18n.t("newpost.publishError") : "Ошибка публикации. Проверьте данные и попробуйте снова.");
             alert(msg);
         }).finally(() => {
             if (btn) btn.disabled = false;
@@ -86,25 +88,31 @@ document.addEventListener("DOMContentLoaded", () => {
         api.get("/api/brands").then((list) => {
             const sel = document.getElementById("brand");
             if (!sel) return;
-            sel.innerHTML = "<option value=\"\" selected disabled>Выберите марку</option>";
+            var selectBrandText = (window.i18n && window.i18n.t) ? window.i18n.t("newpost.selectBrand") : "Выберите марку";
+            sel.innerHTML = "<option value=\"\" selected disabled data-i18n=\"newpost.selectBrand\">" + selectBrandText + "</option>";
             (list || []).forEach((b) => {
                 const opt = document.createElement("option");
                 opt.value = b.id;
                 opt.textContent = b.name;
                 sel.appendChild(opt);
             });
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
         }).catch(() => {});
     }
 
     function loadModels() {
         const brandSel = document.getElementById("brand");
         const modelSel = document.getElementById("model");
+        var t = window.i18n && window.i18n.t;
         if (!brandSel || !modelSel || !brandSel.value) {
-            modelSel.innerHTML = "<option value=\"\" selected disabled>Сначала выберите марку</option>";
+            var firstText = t ? t("newpost.selectModelFirst") : "Сначала выберите марку";
+            modelSel.innerHTML = "<option value=\"\" selected disabled data-i18n=\"newpost.selectModelFirst\">" + firstText + "</option>";
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
             return;
         }
         api.get("/api/models?brandId=" + encodeURIComponent(brandSel.value)).then((list) => {
-            modelSel.innerHTML = "<option value=\"\" selected disabled>Выберите модель</option>";
+            var selectModelText = t ? t("newpost.selectModel") : "Выберите модель";
+            modelSel.innerHTML = "<option value=\"\" selected disabled data-i18n=\"newpost.selectModel\">" + selectModelText + "</option>";
             (list || []).forEach((m) => {
                 if (String(m.brandId) !== String(brandSel.value)) return;
                 const opt = document.createElement("option");
@@ -112,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 opt.textContent = m.name;
                 modelSel.appendChild(opt);
             });
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
         }).catch(() => {});
     }
 
@@ -266,10 +275,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const titleEl = modal ? modal.querySelector(".publish-rules-title") : null;
     const RULES_URL = "data/publish-rules.json";
 
+    function renderRulesFromI18n() {
+        var t = window.i18n && window.i18n.t;
+        if (!t || !titleEl || !bodyEl) return false;
+        var title = t("newpost.rulesTitle");
+        var s1h = t("newpost.rulesSection1Heading");
+        var s1t = t("newpost.rulesSection1Text");
+        if (!s1h || !s1t) return false;
+        if (titleEl) titleEl.textContent = title;
+        var html = "";
+        for (var i = 1; i <= 5; i++) {
+            var h = t("newpost.rulesSection" + i + "Heading");
+            var txt = t("newpost.rulesSection" + i + "Text");
+            if (h) html += "<h3>" + escapeHtml(h) + "</h3>";
+            if (txt) html += "<p>" + escapeHtml(txt) + "</p>";
+        }
+        bodyEl.innerHTML = html || ("<p>" + t("newpost.rulesNoData") + "</p>");
+        return true;
+    }
+
     function renderRules(data) {
+        var t = window.i18n && window.i18n.t;
         if (titleEl && data.title) titleEl.textContent = data.title;
         if (!data.sections || !data.sections.length) {
-            bodyEl.innerHTML = "<p>Нет данных.</p>";
+            bodyEl.innerHTML = "<p data-i18n=\"newpost.rulesNoData\">" + (t ? t("newpost.rulesNoData") : "Нет данных.") + "</p>";
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
             return;
         }
         var html = "";
@@ -280,11 +310,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function openModal() {
+        var t = window.i18n && window.i18n.t;
         if (!modal || !bodyEl) return;
         modal.classList.add("publish-rules-modal-open");
         modal.setAttribute("aria-hidden", "false");
-        bodyEl.innerHTML = "<p class=\"publish-rules-loading\">Загрузка…</p>";
-        if (titleEl) titleEl.textContent = "Правила публикации";
+        if (titleEl) titleEl.textContent = t ? t("newpost.rulesModalTitle") : "Правила публикации";
+        if (renderRulesFromI18n()) return;
+        bodyEl.innerHTML = "<p class=\"publish-rules-loading\" data-i18n=\"newpost.rulesLoading\">" + (t ? t("newpost.rulesLoading") : "Загрузка…") + "</p>";
         fetch(RULES_URL)
             .then(function (res) {
                 if (!res.ok) throw new Error("Не удалось загрузить правила");
@@ -292,15 +324,18 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(renderRules)
             .catch(function () {
+                var errText = (window.i18n && window.i18n.t) ? window.i18n.t("newpost.rulesLoadError") : "Не удалось загрузить правила. Попробуйте позже.";
                 var fallback = document.getElementById("publish-rules-fallback");
                 if (fallback && fallback.textContent) {
                     try {
                         renderRules(JSON.parse(fallback.textContent));
                     } catch (e) {
-                        bodyEl.innerHTML = "<p class=\"publish-rules-error\">Не удалось загрузить правила. Попробуйте позже.</p>";
+                        bodyEl.innerHTML = "<p class=\"publish-rules-error\" data-i18n=\"newpost.rulesLoadError\">" + errText + "</p>";
+                        if (window.i18n && window.i18n.apply) window.i18n.apply();
                     }
                 } else {
-                    bodyEl.innerHTML = "<p class=\"publish-rules-error\">Не удалось загрузить правила. Попробуйте позже.</p>";
+                    bodyEl.innerHTML = "<p class=\"publish-rules-error\" data-i18n=\"newpost.rulesLoadError\">" + errText + "</p>";
+                    if (window.i18n && window.i18n.apply) window.i18n.apply();
                 }
             });
     }

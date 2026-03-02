@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoSeller - Сравнение автомобилей</title>
+    <title data-i18n="pageTitle.comparison">AutoSeller - Сравнение автомобилей</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/variables.css">
@@ -12,67 +12,77 @@
 <body>
 <header>
     <a href="index.html" class="logo">
-        <img src="images/logo.png" alt="logo">
+        <img src="images/logo.png" alt="Логотип AutoSeller" data-i18n-alt="header.logoAlt">
     </a>
     <nav>
         <ul class="menu">
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="catalog.html">Каталог</a></li>
-            <li><a href="newpost.html">Создать объявление</a></li>
-            <li><a href="aboutUs.html">О проекте</a></li>
-            <li><a href="comparison.html" class="menu-compare">Сравнение <span class="compare-count">(0)</span></a></li>
+            <li><a href="index.html" data-i18n="header.home">Главная</a></li>
+            <li><a href="catalog.html" data-i18n="header.catalog">Каталог</a></li>
+            <li><a href="newpost.html" data-i18n="header.newPost">Создать объявление</a></li>
+            <li><a href="aboutUs.html" data-i18n="header.about">О проекте</a></li>
+            <li>
+                <a href="comparison.html" class="menu-compare">
+                    <span data-i18n="header.comparison">Сравнение</span>
+                    <span class="compare-count">(0)</span>
+                </a>
+            </li>
         </ul>
     </nav>
     <div class="header-right">
         <div class="theme-toggle" aria-label="Переключить тему">
-            <button type="button" class="theme-toggle-btn" title="Светлая / Тёмная тема" aria-pressed="false">
+            <button type="button" class="theme-toggle-btn" data-i18n-title="header.themeTitle" title="Светлая / Тёмная тема" aria-pressed="false">
                 <span class="icon-light" aria-hidden="true">☀</span>
                 <span class="icon-dark" aria-hidden="true">🌙</span>
             </button>
         </div>
+        <div class="lang-switcher" aria-label="Language">
+            <button type="button" class="lang-btn" data-lang="ru" aria-pressed="false">RU</button>
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        </div>
         <div class="auth-buttons">
-            <a href="login.html">Войти</a>
-            <a class="btn-register" href="registration.html">Регистрация</a>
+            <a href="login.html" data-i18n="header.login">Войти</a>
+            <a class="btn-register" href="registration.html" data-i18n="header.register">Регистрация</a>
         </div>
     </div>
 </header>
 <main>
-    <h1>Сравнение автомобилей</h1>
-    <p>Сравните характеристики выбранных автомобилей</p>
+    <h1 data-i18n="comparison.title">Сравнение автомобилей</h1>
+    <p data-i18n="comparison.subtitle">Сравните характеристики выбранных автомобилей</p>
 
     <div id="compare-root">
-        <p class="compare-loading">Загрузка...</p>
+        <p class="compare-loading" data-i18n="comparison.loading">Загрузка...</p>
     </div>
 
     <div class="compare-actions" id="compare-actions" style="display: none;">
-        <a href="catalog.html" class="add-btn">+ Добавить автомобили</a>
-        <button class="clear-btn" type="button">Очистить сравнение</button>
+        <a href="catalog.html" class="add-btn" data-i18n="comparison.addCars">+ Добавить автомобили</a>
+        <button class="clear-btn" type="button" data-i18n="comparison.clear">Очистить сравнение</button>
     </div>
 </main>
 <footer>
     <div class="footer-top">
         <div class="footer-left">
-            <img src="images/logo.png" alt="AutoSeller логотип" class="footer-logo">
-            <p>AutoSeller – каталог подержанных автомобилей.</p>
+            <img src="images/logo.png" alt="AutoSeller логотип" class="footer-logo" data-i18n-alt="header.logoAlt">
+            <p data-i18n="footer.tagline">AutoSeller – каталог подержанных автомобилей.</p>
         </div>
         <div class="footer-right">
             <p><a href="tel:+78001234567">+7 (800) 123-45-67</a></p>
             <p><a href="mailto:info@autoseller.ru">info@autoseller.ru</a></p>
-            <p>Москва, ул. Примерная, д. 123</p>
+            <p data-i18n="footer.address">Москва, ул. Примерная, д. 123</p>
         </div>
     </div>
     <hr>
     <div class="footer-bottom">
-        <p>© 2025 Автосэллер. Все права защищены.</p>
+        <p data-i18n="footer.copyright">© 2025 Автосэллер. Все права защищены.</p>
         <div class="footer-nav">
-            <a href="privacy.html">Политика конфиденциальности</a>
-            <a href="terms.html">Пользовательское соглашение</a>
+            <a href="privacy.html" data-i18n="footer.privacy">Политика конфиденциальности</a>
+            <a href="terms.html" data-i18n="footer.terms">Пользовательское соглашение</a>
         </div>
     </div>
 </footer>
 <script src="js/api.js" defer></script>
 <script src="js/auth-header.js" defer></script>
 <script src="js/theme.js" defer></script>
+<script src="js/i18n.js" defer></script>
 <script src="js/comparison.js" defer></script>
 <script src="js/compare-page.js" defer></script>
 </body>

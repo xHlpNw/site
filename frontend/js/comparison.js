@@ -26,9 +26,12 @@
     }
 
     function setButtonState(btn, inList) {
+        var t = window.i18n && window.i18n.t ? window.i18n.t : function () { return null; };
         btn.classList.toggle("in-compare", inList);
-        btn.title = inList ? "Убрать из сравнения" : "В сравнение";
-        btn.setAttribute("aria-label", inList ? "Убрать из сравнения" : "Добавить в сравнение");
+        var removeLabel = t("comparison.removeFromCompare") || "Убрать из сравнения";
+        var addLabel = t("comparison.addToCompare") || "Добавить в сравнение";
+        btn.title = inList ? removeLabel : addLabel;
+        btn.setAttribute("aria-label", inList ? removeLabel : addLabel);
     }
 
     function initCardButtons() {
@@ -50,7 +53,7 @@
                             setButtonState(btn, !inList);
                             api.updateCompareCount();
                         }).catch(function (err) {
-                            var msg = (err && err.message) ? err.message : "Ошибка";
+                            var msg = (err && err.message) ? err.message : (window.i18n && window.i18n.t ? window.i18n.t("carpage.errorGeneric") : null) || "Ошибка";
                             alert(msg);
                         });
                     };

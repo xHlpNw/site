@@ -12,11 +12,11 @@
 <body>
 <header class="login-header">
     <a href="index.html" class="logo">
-        <img src="images/logo.png" alt="Логотип AutoSeller">
+        <img src="images/logo.png" alt="Логотип AutoSeller" data-i18n-alt="header.logoAlt">
     </a>
     <div class="header-right">
         <div class="theme-toggle" aria-label="Переключить тему">
-            <button type="button" class="theme-toggle-btn" title="Светлая / Тёмная тема" aria-pressed="false">
+            <button type="button" class="theme-toggle-btn" data-i18n-title="header.themeTitle" title="Светлая / Тёмная тема" aria-pressed="false">
                 <span class="icon-light" aria-hidden="true">☀</span>
                 <span class="icon-dark" aria-hidden="true">🌙</span>
             </button>
@@ -53,26 +53,27 @@
 <footer class="login-footer">
     <div class="footer-top">
         <div class="footer-left">
-            <img src="images/logo.png" alt="Autoseller логотип" class="footer-logo">
-            <p>Autoseller – каталог подержанных автомобилей.</p>
+            <img src="images/logo.png" alt="Autoseller логотип" class="footer-logo" data-i18n-alt="header.logoAlt">
+            <p data-i18n="footer.tagline">Autoseller – каталог подержанных автомобилей.</p>
         </div>
         <div class="footer-right">
             <p><a href="tel:+78001234567">+7 (800) 123-45-67</a></p>
             <p><a href="mailto:info@autoseller.ru">info@autoseller.ru</a></p>
-            <p>Москва, ул. Примерная, д. 123</p>
+            <p data-i18n="footer.address">Москва, ул. Примерная, д. 123</p>
         </div>
     </div>
     <hr>
     <div class="footer-bottom">
-        <p>© 2025 Автосэллер. Все права защищены.</p>
+        <p data-i18n="footer.copyright">© 2025 Автосэллер. Все права защищены.</p>
         <div class="footer-nav">
-            <a href="privacy.html">Политика конфиденциальности</a>
-            <a href="terms.html">Пользовательское соглашение</a>
+            <a href="privacy.html" data-i18n="footer.privacy">Политика конфиденциальности</a>
+            <a href="terms.html" data-i18n="footer.terms">Пользовательское соглашение</a>
         </div>
     </div>
 </footer>
 <script src="js/api.js" defer></script>
 <script src="js/theme.js" defer></script>
+<script src="js/i18n.js" defer></script>
 <script src="js/login.js" defer></script>
 </body>
 </html>

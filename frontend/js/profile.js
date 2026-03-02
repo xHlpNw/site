@@ -29,8 +29,8 @@
             "</ul>" +
             "</div>" +
             "<div class=\"ad-actions\">" +
-            "<a href=\"" + link + "\" class=\"btn-details-inline\">Подробнее</a>" +
-            "<button type=\"button\" class=\"btn-delete-my-ad\" data-id=\"" + carId + "\">Удалить</button>" +
+            "<a href=\"" + link + "\" class=\"btn-details-inline\" data-i18n=\"profile.details\">Подробнее</a>" +
+            "<button type=\"button\" class=\"btn-delete-my-ad\" data-id=\"" + carId + "\" data-i18n=\"profile.delete\">Удалить</button>" +
             "</div>";
         return card;
     }
@@ -42,7 +42,7 @@
         if (user) {
             api.setUser(user);
             var authContainer = document.querySelector(".auth-buttons");
-            if (authContainer) authContainer.innerHTML = "<a href=\"profile.html\" class=\"btn-profile\">Профиль</a>";
+            if (authContainer) authContainer.innerHTML = "<a href=\"profile.html\" class=\"btn-profile\"><span data-i18n=\"header.profile\">Профиль</span></a>";
         }
 
         var fullName = (user && user.fullName) ? user.fullName : "Пользователь";
@@ -55,25 +55,26 @@
         }
         var favCount = favouritesCount !== undefined ? favouritesCount : 0;
 
+        var welcomePrefix = (window.i18n && window.i18n.t) ? window.i18n.t("profile.welcome") : "Добро пожаловать, ";
         root.innerHTML =
             "<section class=\"welcome\">" +
             "<div class=\"welcome-left\">" +
             "<div class=\"welcome-text-block\">" +
-            "<p class=\"welcome-text\">Добро пожаловать, " + escapeHtml(fullName) + "!</p>" +
+            "<p class=\"welcome-text\">" + welcomePrefix + escapeHtml(fullName) + "!</p>" +
             "</div>" +
             "</div>" +
-            "<button class=\"logout\" type=\"button\">Выйти</button>" +
+            "<button class=\"logout\" type=\"button\" data-i18n=\"profile.logout\">Выйти</button>" +
             "</section>" +
 
             "<section class=\"profile-data\">" +
-            "<h2>Мои данные</h2>" +
+            "<h2 data-i18n=\"profile.myData\">Мои данные</h2>" +
             "<div class=\"profile-data-grid\">" +
-            "<div class=\"profile-data-item\"><span class=\"profile-data-label\">Email</span><span class=\"profile-data-value\">" + (email ? escapeHtml(email) : "—") + "</span></div>" +
+            "<div class=\"profile-data-item\"><span class=\"profile-data-label\" data-i18n=\"profile.email\">Email</span><span class=\"profile-data-value\">" + (email ? escapeHtml(email) : "—") + "</span></div>" +
             "<div class=\"profile-data-item profile-data-phone\">" +
-            "<span class=\"profile-data-label\">Телефон</span>" +
+            "<span class=\"profile-data-label\" data-i18n=\"profile.phone\">Телефон</span>" +
             "<div class=\"profile-phone-row\">" +
             "<input type=\"tel\" class=\"profile-phone-input\" id=\"profile-phone-input\" placeholder=\"+7 (999) 123-45-67\" value=\"" + (phone ? escapeHtml(phone) : "") + "\" maxlength=\"20\">" +
-            "<button type=\"button\" class=\"profile-phone-save\" id=\"profile-phone-save\">Сохранить</button>" +
+            "<button type=\"button\" class=\"profile-phone-save\" id=\"profile-phone-save\" data-i18n=\"profile.save\">Сохранить</button>" +
             "</div>" +
             "<span class=\"profile-phone-message\" id=\"profile-phone-message\" aria-live=\"polite\"></span>" +
             "</div>" +
@@ -81,26 +82,26 @@
             "</section>" +
 
             "<section class=\"stats\">" +
-            "<div class=\"stat-card\"><img src=\"images/listings-icon.png\" class=\"stat-icon\" alt=\"Объявления\"><div class=\"stat-text\"><p class=\"data\">" + totalAds + "</p><p>Всего объявлений</p></div></div>" +
-            "<div class=\"stat-card\"><img src=\"images/active-listings-icon.png\" class=\"stat-icon\" alt=\"Активные\"><div class=\"stat-text\"><p class=\"data\">" + activeAds + "</p><p>Активных</p></div></div>" +
-            "<a href=\"favourites.html\" class=\"stat-card stat-card-link\"><img src=\"images/favourite-listings-icon.png\" class=\"stat-icon\" alt=\"Избранные\"><div class=\"stat-text\"><p class=\"data\">" + favCount + "</p><p>В избранном</p></div></a>" +
+            "<div class=\"stat-card\"><img src=\"images/listings-icon.png\" class=\"stat-icon\" alt=\"Объявления\"><div class=\"stat-text\"><p class=\"data\">" + totalAds + "</p><p data-i18n=\"profile.totalAds\">Всего объявлений</p></div></div>" +
+            "<div class=\"stat-card\"><img src=\"images/active-listings-icon.png\" class=\"stat-icon\" alt=\"Активные\"><div class=\"stat-text\"><p class=\"data\">" + activeAds + "</p><p data-i18n=\"profile.activeAds\">Активных</p></div></div>" +
+            "<a href=\"favourites.html\" class=\"stat-card stat-card-link\"><img src=\"images/favourite-listings-icon.png\" class=\"stat-icon\" alt=\"Избранные\"><div class=\"stat-text\"><p class=\"data\">" + favCount + "</p><p data-i18n=\"profile.inFavourites\">В избранном</p></div></a>" +
             "</section>" +
 
             "<section class=\"quick-actions\">" +
-            "<a href=\"favourites.html\" class=\"action-card\"><img src=\"images/favourite-listings-icon.png\" alt=\"Избранное\"><p class=\"bold-text\">Избранное</p><p class=\"gray-text\">Ваши избранные авто</p></a>" +
-            "<a href=\"comparison.html\" class=\"action-card\"><img src=\"images/favourite-listings-icon.png\" alt=\"Сравнение\"><p class=\"bold-text\">Сравнение</p><p class=\"gray-text\">Сравнить авто</p></a>" +
-            "<a href=\"newpost.html\" class=\"action-card\"><img src=\"images/profile-settings-icon.png\" alt=\"Добавить\"><p class=\"bold-text\">Создать объявление</p><p class=\"gray-text\">Добавить авто</p></a>" +
+            "<a href=\"favourites.html\" class=\"action-card\"><img src=\"images/favourite-listings-icon.png\" alt=\"Избранное\"><p class=\"bold-text\" data-i18n=\"profile.favourites\">Избранное</p><p class=\"gray-text\" data-i18n=\"profile.favouritesSub\">Ваши избранные авто</p></a>" +
+            "<a href=\"comparison.html\" class=\"action-card\"><img src=\"images/favourite-listings-icon.png\" alt=\"Сравнение\"><p class=\"bold-text\" data-i18n=\"header.comparison\">Сравнение</p><p class=\"gray-text\" data-i18n=\"profile.comparisonSub\">Сравнить авто</p></a>" +
+            "<a href=\"newpost.html\" class=\"action-card\"><img src=\"images/profile-settings-icon.png\" alt=\"Добавить\"><p class=\"bold-text\" data-i18n=\"profile.createAd\">Создать объявление</p><p class=\"gray-text\" data-i18n=\"profile.addCar\">Добавить авто</p></a>" +
             "</section>" +
 
             "<section class=\"ads\">" +
-            "<p class=\"ads-label\"><img src=\"images/car-icon.png\" alt=\"\">Мои объявления</p>" +
+            "<p class=\"ads-label\"><img src=\"images/car-icon.png\" alt=\"\"><span data-i18n=\"profile.myAds\">Мои объявления</span></p>" +
             "<div id=\"profile-ads-list\"></div>" +
             "</section>";
 
         var listEl = document.getElementById("profile-ads-list");
         if (listEl) {
             if (!myCars || myCars.length === 0) {
-                listEl.innerHTML = "<p class=\"profile-empty-ads\">У вас пока нет объявлений. <a href=\"newpost.html\">Создать объявление</a></p>";
+                listEl.innerHTML = "<p class=\"profile-empty-ads\"><span data-i18n=\"profile.noAds\">У вас пока нет объявлений. </span><a href=\"newpost.html\" data-i18n=\"profile.createAdLink\">Создать объявление</a></p>";
             } else {
                 myCars.forEach(function (car) {
                     var card = buildAdCard(car);
@@ -111,7 +112,8 @@
                         if (carId != null) {
                             deleteBtn.addEventListener("click", function (e) {
                                 e.preventDefault();
-                                if (!confirm("Удалить объявление? Это действие нельзя отменить.")) return;
+                                var confirmMsg = (window.i18n && window.i18n.t) ? window.i18n.t("profile.deleteConfirm") : "Удалить объявление? Это действие нельзя отменить.";
+                                if (!confirm(confirmMsg)) return;
                                 deleteBtn.disabled = true;
                                 api.delete("/api/cars/" + carId)
                                     .then(function () {
@@ -128,12 +130,13 @@
                                             if (!isNaN(an) && an > 0) activeEl.textContent = an - 1;
                                         }
                                         if (listEl.children.length === 0) {
-                                            listEl.innerHTML = "<p class=\"profile-empty-ads\">У вас пока нет объявлений. <a href=\"newpost.html\">Создать объявление</a></p>";
+                                            listEl.innerHTML = "<p class=\"profile-empty-ads\"><span data-i18n=\"profile.noAds\">У вас пока нет объявлений. </span><a href=\"newpost.html\" data-i18n=\"profile.createAdLink\">Создать объявление</a></p>";
+                                            if (window.i18n && window.i18n.apply) window.i18n.apply();
                                         }
                                     })
                                     .catch(function (err) {
                                         deleteBtn.disabled = false;
-                                        alert((err && err.message) || "Не удалось удалить объявление");
+                                        alert((err && err.message) || ((window.i18n && window.i18n.t) ? window.i18n.t("profile.deleteError") : "Не удалось удалить объявление"));
                                     });
                             });
                         }
@@ -163,16 +166,16 @@
                     .then(function (updatedUser) {
                         if (updatedUser) {
                             api.setUser(updatedUser);
-                            if (authContainer) authContainer.innerHTML = "<a href=\"profile.html\" class=\"btn-profile\">Профиль</a>";
+                            if (authContainer) authContainer.innerHTML = "<a href=\"profile.html\" class=\"btn-profile\"><span data-i18n=\"header.profile\">Профиль</span></a>";
                         }
                         if (phoneMessage) {
-                            phoneMessage.textContent = "Номер телефона сохранён";
+                            phoneMessage.textContent = (window.i18n && window.i18n.t) ? window.i18n.t("profile.phoneSaved") : "Номер телефона сохранён";
                             phoneMessage.className = "profile-phone-message profile-phone-message-ok";
                         }
                     })
                     .catch(function (err) {
                         if (phoneMessage) {
-                            phoneMessage.textContent = (err && err.message) ? err.message : "Ошибка сохранения";
+                            phoneMessage.textContent = (err && err.message) ? err.message : ((window.i18n && window.i18n.t) ? window.i18n.t("profile.saveError") : "Ошибка сохранения");
                             phoneMessage.className = "profile-phone-message profile-phone-message-err";
                         }
                     })
@@ -197,7 +200,8 @@
             return;
         }
 
-        root.innerHTML = "<p class=\"profile-loading\">Загрузка...</p>";
+        root.innerHTML = "<p class=\"profile-loading\" data-i18n=\"profile.loading\">Загрузка...</p>";
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
 
         Promise.all([
             api.get("/api/auth/me"),
@@ -208,6 +212,7 @@
             var myCars = results[1];
             var favouritesList = results[2] || [];
             renderProfile(user, myCars, favouritesList.length);
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
         }).catch(function (err) {
             if (err && (err.status === 401 || err.message === "Unauthorized")) {
                 api.setToken(null);
@@ -215,7 +220,8 @@
                 window.location.replace("login.html?return=profile.html");
                 return;
             }
-            root.innerHTML = "<p class=\"profile-error\">Не удалось загрузить данные. Проверьте подключение к API.</p>";
+            root.innerHTML = "<p class=\"profile-error\" data-i18n=\"profile.error\">Не удалось загрузить данные. Проверьте подключение к API.</p>";
+            if (window.i18n && window.i18n.apply) window.i18n.apply();
         });
     }
 

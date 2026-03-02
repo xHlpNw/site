@@ -1,12 +1,24 @@
 (function () {
     var base = function () { return window.api ? api.getBaseUrl() : ""; };
-    var gearboxLabel = function (v) { return v === "at" ? "АКПП" : v === "mt" ? "Механика" : v || "—"; };
+    var t = function (key) { return window.i18n && window.i18n.t ? window.i18n.t(key) : null; };
+    var gearboxLabel = function (v) {
+        if (v === "at") return t("catalog.gearboxAuto") || "Автомат";
+        if (v === "mt") return t("catalog.gearboxManual") || "Механика";
+        return v || "—";
+    };
     var driveLabel = function (v) {
-        var map = { fwd: "Передний", rwd: "Задний", awd: "Полный" };
+        var map = { fwd: t("newpost.driveFwd") || "Передний", rwd: t("newpost.driveRwd") || "Задний", awd: t("newpost.driveAwd") || "Полный" };
         return map[v] || v || "—";
     };
     var bodyLabel = function (v) {
-        var map = { sedan: "Седан", suv: "Кроссовер", coupe: "Купе" };
+        var map = {
+            sedan: t("catalog.bodySedan") || "Седан",
+            suv: t("catalog.bodySuv") || "Кроссовер",
+            coupe: t("catalog.bodyCoupe") || "Купе",
+            pickup: t("catalog.bodyPickup") || "Пикап",
+            cabrio: t("catalog.bodyCabrio") || "Кабриолет",
+            sport: t("catalog.bodySport") || "Спорткар"
+        };
         return map[v] || v || "—";
     };
     var formatPrice = function (n) { return new Intl.NumberFormat("ru-RU").format(n) + " ₽"; };
@@ -36,49 +48,55 @@
         var priceStr = formatPrice(car.price);
         var photoCount = car.photoCount || 0;
         var mainImg = photoCount > 0 ? b + "/api/cars/" + car.id + "/photos/0" : "";
+        var photoLabel = t("carpage.photo") || "Фото";
+        var noPhotoAlt = t("carpage.noPhoto") || "Нет фото";
+        var prevPhotoLabel = t("carpage.prevPhoto") || "Предыдущее фото";
+        var nextPhotoLabel = t("carpage.nextPhoto") || "Следующее фото";
         var thumbHtml = "";
         for (var i = 0; i < photoCount; i++) {
             var src = b + "/api/cars/" + car.id + "/photos/" + i;
-            thumbHtml += "<img src=\"" + src + "\" alt=\"Фото " + (i + 1) + "\" class=\"" + (i === 0 ? "active-thumb" : "") + "\">";
+            thumbHtml += "<img src=\"" + src + "\" alt=\"" + photoLabel + " " + (i + 1) + "\" class=\"" + (i === 0 ? "active-thumb" : "") + "\">";
         }
-        if (thumbHtml === "") thumbHtml = "<img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'/%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3C/svg%3E\" alt=\"Нет фото\" class=\"active-thumb\">";
+        if (thumbHtml === "") thumbHtml = "<img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'/%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3C/svg%3E\" alt=\"" + noPhotoAlt.replace(/"/g, "&quot;") + "\" class=\"active-thumb\">";
         var galleryArrowsHtml = photoCount > 1
-            ? "<button type=\"button\" class=\"gallery-prev\" aria-label=\"Предыдущее фото\">&lt;</button>" +
-              "<button type=\"button\" class=\"gallery-next\" aria-label=\"Следующее фото\">&gt;</button>" +
+            ? "<button type=\"button\" class=\"gallery-prev\" aria-label=\"" + prevPhotoLabel.replace(/"/g, "&quot;") + "\">&lt;</button>" +
+              "<button type=\"button\" class=\"gallery-next\" aria-label=\"" + nextPhotoLabel.replace(/"/g, "&quot;") + "\">&gt;</button>" +
               "<span class=\"gallery-count\">1/" + photoCount + "</span>"
             : "";
 
+        var noDesc = t("carpage.noDescription") || "Нет описания.";
+        var publishedPrefix = t("carpage.published") || "Опубликовано: ";
         var mainColumn =
             "<div class=\"main-column\">" +
-            "<h1>" + title + "</h1>" +
+            "<h1>" + title.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</h1>" +
             "<section class=\"gallery\">" +
             "<figure class=\"gallery-figure\">" +
-            "<img src=\"" + (mainImg || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'/%3E%3Crect fill='%23eee' width='600' height='400'/%3E%3C/svg%3E") + "\" alt=\"" + title + "\">" +
+            "<img src=\"" + (mainImg || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'/%3E%3Crect fill='%23eee' width='600' height='400'/%3E%3C/svg%3E") + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\">" +
             galleryArrowsHtml +
             "</figure>" +
             "<div class=\"thumbnails\">" + thumbHtml + "</div>" +
             "</section>" +
             "<section class=\"characteristics\">" +
-            "<h2>Характеристики</h2>" +
+            "<h2 data-i18n=\"carpage.characteristics\">Характеристики</h2>" +
             "<div class=\"char-grid\">" +
-            "<div class=\"char-item\"><img src=\"images/calendar-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\">Год выпуска</p><p class=\"value\">" + car.year + "</p></div></div>" +
-            "<div class=\"char-item\"><img src=\"images/speedometer-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\">Пробег</p><p class=\"value\">" + new Intl.NumberFormat("ru-RU").format(car.mileage) + " км</p></div></div>" +
-            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\">Двигатель</p><p class=\"value\">" + (car.engine || "—") + "</p></div></div>" +
-            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\">Коробка</p><p class=\"value\">" + gearboxLabel(car.gearbox) + "</p></div></div>" +
-            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\">Привод</p><p class=\"value\">" + driveLabel(car.driveType) + "</p></div></div>" +
-            "<div class=\"char-item\"><img src=\"images/oil-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\">Тип кузова</p><p class=\"value\">" + bodyLabel(car.bodyType) + "</p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/calendar-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.year\">Год выпуска</p><p class=\"value\">" + car.year + "</p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/speedometer-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.mileage\">Пробег</p><p class=\"value\">" + new Intl.NumberFormat("ru-RU").format(car.mileage) + " км</p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.engine\">Двигатель</p><p class=\"value\">" + (car.engine ? car.engine.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "—") + "</p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.gearbox\">Коробка</p><p class=\"value\">" + gearboxLabel(car.gearbox) + "</p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.drive\">Привод</p><p class=\"value\">" + driveLabel(car.driveType) + "</p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/oil-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.bodyType\">Тип кузова</p><p class=\"value\">" + bodyLabel(car.bodyType) + "</p></div></div>" +
             "</div></section>" +
             "<section class=\"description\">" +
-            "<h2>Описание</h2>" +
-            "<p>" + (car.description || "Нет описания.") + "</p>" +
-            "<small class=\"published\">Опубликовано: " + formatDate(car.createdAt) + "</small>" +
+            "<h2 data-i18n=\"carpage.description\">Описание</h2>" +
+            "<p>" + (car.description ? car.description.replace(/</g, "&lt;").replace(/>/g, "&gt;") : noDesc) + "</p>" +
+            "<small class=\"published\"><span data-i18n=\"carpage.published\">Опубликовано: </span>" + formatDate(car.createdAt) + "</small>" +
             "</section></div>";
 
         var seller = car.seller || {};
         var contacts = "";
         if (seller.phoneNumber) contacts += "<li><a href=\"tel:" + seller.phoneNumber + "\">" + seller.phoneNumber + "</a></li>";
         if (seller.email) contacts += "<li><a href=\"mailto:" + seller.email + "\">" + seller.email + "</a></li>";
-        if (!contacts) contacts = "<li>Контакты не указаны</li>";
+        if (!contacts) contacts = "<li data-i18n=\"carpage.contactsNotSpecified\">Контакты не указаны</li>";
 
         var token = window.api ? api.getToken() : null;
         var user = window.api ? api.getUser() : null;
@@ -86,24 +104,30 @@
         var userId = user != null && (user.id !== undefined && user.id !== null ? user.id : user.Id);
         var isOwner = !!(token && user && sellerId != null && userId != null && String(sellerId) === String(userId));
 
-        var deleteBtnHtml = isOwner ? "<button type=\"button\" class=\"btn-delete-ad\" data-id=\"" + car.id + "\">Удалить объявление</button>" : "";
+        var deleteBtnText = t("carpage.deleteAd") || "Удалить объявление";
+        var deleteBtnHtml = isOwner ? "<button type=\"button\" class=\"btn-delete-ad\" data-id=\"" + car.id + "\" data-i18n=\"carpage.deleteAd\">" + deleteBtnText + "</button>" : "";
 
+        var toFavText = t("carpage.toFavourites") || "В избранное";
+        var addCompareText = t("carpage.addToCompare") || "Добавить в сравнение";
+        var sellerTitle = t("carpage.seller") || "Продавец";
+        var sellerDefaultName = t("carpage.sellerDefault") || "Продавец";
         var sidebar =
             "<aside class=\"sidebar\">" +
             "<section class=\"offer\">" +
             "<p class=\"price\">" + priceStr + "</p>" +
-            "<p class=\"car-title\">" + title + "</p>" +
-            "<button type=\"button\" class=\"btn-favourite\" data-id=\"" + car.id + "\">В избранное</button>" +
-            "<button type=\"button\" class=\"btn-compare\" data-id=\"" + car.id + "\">Добавить в сравнение</button>" +
+            "<p class=\"car-title\">" + title.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</p>" +
+            "<button type=\"button\" class=\"btn-favourite\" data-id=\"" + car.id + "\" data-i18n=\"carpage.toFavourites\">" + toFavText + "</button>" +
+            "<button type=\"button\" class=\"btn-compare\" data-id=\"" + car.id + "\" data-i18n=\"carpage.addToCompare\">" + addCompareText + "</button>" +
             deleteBtnHtml +
             "</section>" +
             "<section class=\"seller\">" +
-            "<h2>Продавец</h2>" +
-            "<article><div class=\"seller-header\"><div class=\"seller-info\"><h3>" + (seller.fullName || "Продавец") + "</h3></div></div><hr><ul class=\"contacts\">" + contacts + "</ul></article>" +
+            "<h2 data-i18n=\"carpage.seller\">Продавец</h2>" +
+            "<article><div class=\"seller-header\"><div class=\"seller-info\"><h3>" + (seller.fullName ? seller.fullName.replace(/</g, "&lt;").replace(/>/g, "&gt;") : sellerDefaultName) + "</h3></div></div><hr><ul class=\"contacts\">" + contacts + "</ul></article>" +
             "</section></aside>";
 
         root.innerHTML = mainColumn + sidebar;
         document.title = title + " — AutoSeller";
+        if (window.i18n && window.i18n.apply) window.i18n.apply();
 
         initGallery(root);
         initFavouriteButton(root, car.id, car.seller);
@@ -164,7 +188,8 @@
             return;
         }
         function setState(inFavourites) {
-            btn.textContent = inFavourites ? "В избранном" : "В избранное";
+            var t = window.i18n && window.i18n.t ? window.i18n.t : function () { return null; };
+            btn.textContent = inFavourites ? (t("carpage.inFavourites") || "В избранном") : (t("carpage.toFavourites") || "В избранное");
             btn.classList.toggle("in-favourites", inFavourites);
         }
         api.get("/api/favourites").then(function (list) {
@@ -177,11 +202,11 @@
             if (inFavourites) {
                 api.delete("/api/favourites/" + carId).then(function () {
                     setState(false);
-                }).catch(function (err) { alert((err && err.message) || "Ошибка"); });
+                }).catch(function (err) { alert((err && err.message) || (window.i18n && window.i18n.t ? window.i18n.t("carpage.errorGeneric") : null) || "Ошибка"); });
             } else {
                 api.post("/api/favourites", { carId: carId }).then(function () {
                     setState(true);
-                }).catch(function (err) { alert((err && err.message) || "Ошибка"); });
+                }).catch(function (err) { alert((err && err.message) || (window.i18n && window.i18n.t ? window.i18n.t("carpage.errorGeneric") : null) || "Ошибка"); });
             }
         });
     }
@@ -191,7 +216,8 @@
         if (!btn || !window.api) return;
         var token = api.getToken();
         function setState(inList) {
-            btn.textContent = inList ? "В сравнении" : "Добавить в сравнение";
+            var t = window.i18n && window.i18n.t ? window.i18n.t : function () { return null; };
+            btn.textContent = inList ? (t("carpage.inComparison") || "В сравнении") : (t("carpage.addToCompare") || "Добавить в сравнение");
             btn.disabled = inList;
         }
         if (token) {
@@ -209,7 +235,7 @@
                 api.post("/api/comparison", { carId: carId }).then(function () {
                     setState(true);
                     api.updateCompareCount();
-                }).catch(function (err) { alert((err && err.message) || "Ошибка"); });
+                }).catch(function (err) { alert((err && err.message) || (window.i18n && window.i18n.t ? window.i18n.t("carpage.errorGeneric") : null) || "Ошибка"); });
             } else {
                 var ids = api.getCompareIds();
                 var s = String(carId);
@@ -225,7 +251,8 @@
         var btn = root.querySelector(".btn-delete-ad");
         if (!btn || !window.api) return;
         btn.addEventListener("click", function () {
-            if (!confirm("Удалить объявление? Это действие нельзя отменить.")) return;
+            var msg = (window.i18n && window.i18n.t ? window.i18n.t("carpage.deleteConfirm") : null) || "Удалить объявление? Это действие нельзя отменить.";
+            if (!confirm(msg)) return;
             btn.disabled = true;
             api.delete("/api/cars/" + carId)
                 .then(function () {
@@ -233,7 +260,7 @@
                 })
                 .catch(function (err) {
                     btn.disabled = false;
-                    alert((err && err.message) || "Не удалось удалить объявление");
+                    alert((err && err.message) || (window.i18n && window.i18n.t ? window.i18n.t("carpage.deleteError") : null) || "Не удалось удалить объявление");
                 });
         });
     }
@@ -242,13 +269,17 @@
         var id = getCarId();
         var root = document.getElementById("carpage-root");
         if (!id || !root) {
-            if (root) root.innerHTML = "<p class=\"carpage-error\">Не указан id автомобиля. <a href=\"catalog.html\">В каталог</a></p>";
+            if (root) {
+                root.innerHTML = "<p class=\"carpage-error\"><span data-i18n=\"carpage.errorNoId\">Не указан id автомобиля.</span> <a href=\"catalog.html\" data-i18n=\"carpage.toCatalog\">В каталог</a></p>";
+                if (window.i18n && window.i18n.apply) window.i18n.apply();
+            }
             return;
         }
         api.get("/api/cars/" + id)
             .then(function (car) { render(car); })
             .catch(function () {
-                root.innerHTML = "<p class=\"carpage-error\">Объявление не найдено. <a href=\"catalog.html\">В каталог</a></p>";
+                root.innerHTML = "<p class=\"carpage-error\"><span data-i18n=\"carpage.errorNotFound\">Объявление не найдено.</span> <a href=\"catalog.html\" data-i18n=\"carpage.toCatalog\">В каталог</a></p>";
+                if (window.i18n && window.i18n.apply) window.i18n.apply();
             });
     }
 
