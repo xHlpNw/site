@@ -47,15 +47,17 @@
         var title = car.brandName + " " + car.modelName + " " + car.year;
         var priceStr = formatPrice(car.price);
         var photoCount = car.photoCount || 0;
-        var mainImg = photoCount > 0 ? b + "/api/cars/" + car.id + "/photos/0" : "";
+        var firstPhotoUrl = photoCount > 0 ? b + "/api/cars/" + car.id + "/photos/0" : "";
         var photoLabel = t("carpage.photo") || "Фото";
         var noPhotoAlt = t("carpage.noPhoto") || "Нет фото";
         var prevPhotoLabel = t("carpage.prevPhoto") || "Предыдущее фото";
         var nextPhotoLabel = t("carpage.nextPhoto") || "Следующее фото";
+        var thumbPlaceholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='75'/%3E%3Crect fill='%23ddd' width='100' height='75'/%3E%3C/svg%3E";
         var thumbHtml = "";
         for (var i = 0; i < photoCount; i++) {
-            var src = b + "/api/cars/" + car.id + "/photos/" + i;
-            thumbHtml += "<img src=\"" + src + "\" alt=\"" + photoLabel + " " + (i + 1) + "\" class=\"" + (i === 0 ? "active-thumb" : "") + "\">";
+            var src = i === 0 ? firstPhotoUrl : thumbPlaceholder;
+            var dataIndex = i === 0 ? "" : " data-index=\"" + i + "\"";
+            thumbHtml += "<img src=\"" + src + "\" alt=\"" + photoLabel + " " + (i + 1) + "\" class=\"" + (i === 0 ? "active-thumb" : "") + "\"" + dataIndex + ">";
         }
         if (thumbHtml === "") thumbHtml = "<img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'/%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3C/svg%3E\" alt=\"" + noPhotoAlt.replace(/"/g, "&quot;") + "\" class=\"active-thumb\">";
         var galleryArrowsHtml = photoCount > 1
@@ -69,9 +71,9 @@
         var mainColumn =
             "<div class=\"main-column\">" +
             "<h1>" + title.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</h1>" +
-            "<section class=\"gallery\">" +
+            "<section class=\"gallery\" data-car-id=\"" + String(car.id).replace(/"/g, "&quot;") + "\" data-photo-count=\"" + photoCount + "\">" +
             "<figure class=\"gallery-figure\">" +
-            "<img src=\"" + (mainImg || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'/%3E%3Crect fill='%23eee' width='600' height='400'/%3E%3C/svg%3E") + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\">" +
+            "<img src=\"" + (firstPhotoUrl || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'/%3E%3Crect fill='%23eee' width='600' height='400'/%3E%3C/svg%3E") + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\">" +
             galleryArrowsHtml +
             "</figure>" +
             "<div class=\"thumbnails\">" + thumbHtml + "</div>" +
@@ -136,22 +138,84 @@
     }
 
     function initGallery(root) {
+        var gallery = root.querySelector(".gallery");
         var figure = root.querySelector(".gallery figure");
         var mainImg = root.querySelector(".gallery figure img");
         var thumbs = root.querySelectorAll(".thumbnails img");
         var prevBtn = root.querySelector(".gallery-prev");
         var nextBtn = root.querySelector(".gallery-next");
         var countEl = root.querySelector(".gallery-count");
-        if (!mainImg || thumbs.length === 0) return;
+        if (!mainImg || !gallery || thumbs.length === 0) return;
 
+        var carId = gallery.getAttribute("data-car-id");
         var total = thumbs.length;
         var cur = 0;
+        var photoCache = {};
+        var loading = false;
+        var firstPhotoUrl = thumbs[0].src;
 
-        function updateMain(index) {
+        function setMainImageFromUrl(url) {
+            mainImg.src = url;
+            mainImg.classList.remove("gallery-loading");
+        }
+
+        function setLoading(show) {
+            loading = show;
+            mainImg.classList.toggle("gallery-loading", show);
+        }
+
+        function updateUi(index) {
             cur = (index + total) % total;
-            mainImg.src = thumbs[cur].src;
             thumbs.forEach(function (t, i) { t.classList.toggle("active-thumb", i === cur); });
             if (countEl) countEl.textContent = (cur + 1) + "/" + total;
+        }
+
+        function loadPhotoByIndex(index, done) {
+            if (index === 0) {
+                setMainImageFromUrl(firstPhotoUrl);
+                if (thumbs[0]) thumbs[0].src = firstPhotoUrl;
+                updateUi(0);
+                if (done) done();
+                return;
+            }
+            if (photoCache[index]) {
+                setMainImageFromUrl(photoCache[index]);
+                if (thumbs[index]) thumbs[index].src = photoCache[index];
+                updateUi(index);
+                if (done) done();
+                return;
+            }
+            var url = base() + "/api/cars/" + carId + "/photos/" + index;
+            setLoading(true);
+            if (typeof console !== "undefined" && console.log) console.log("[AutoSeller] Запрос фото:", url);
+            var opts = { method: "GET" };
+            if (window.api && window.api.getAuthHeaders) {
+                opts.headers = window.api.getAuthHeaders();
+            }
+            fetch(url, opts)
+                .then(function (res) {
+                    if (!res.ok) throw new Error("Photo load failed");
+                    return res.blob();
+                })
+                .then(function (blob) {
+                    var objectUrl = URL.createObjectURL(blob);
+                    photoCache[index] = objectUrl;
+                    setMainImageFromUrl(objectUrl);
+                    if (thumbs[index]) thumbs[index].src = objectUrl;
+                    updateUi(index);
+                    setLoading(false);
+                    if (done) done();
+                })
+                .catch(function () {
+                    setLoading(false);
+                    if (done) done();
+                });
+        }
+
+        function updateMain(index) {
+            if (loading) return;
+            var next = (index + total) % total;
+            loadPhotoByIndex(next, null);
         }
 
         thumbs.forEach(function (thumb, i) {

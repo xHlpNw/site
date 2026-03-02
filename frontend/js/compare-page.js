@@ -68,34 +68,53 @@
 
     function initCompareCardCarousels(root) {
         if (!root) return;
+        var b = base();
         root.querySelectorAll(".compare-card:not(.add-card)").forEach(function (card) {
-            var imagesJson = card.dataset.images;
-            var images = [];
-            try {
-                if (imagesJson) images = JSON.parse(decodeURIComponent(imagesJson));
-            } catch (e) {}
-            if (images.length <= 1) return;
+            var carId = card.dataset.carId || card.dataset.id || "";
+            var photoCount = parseInt(card.dataset.photoCount, 10) || 0;
+            if (photoCount <= 1) return;
             var img = card.querySelector(".car-image img");
             var prevBtn = card.querySelector(".compare-carousel-prev");
             var nextBtn = card.querySelector(".compare-carousel-next");
             var countEl = card.querySelector(".compare-carousel-count");
             if (!img || !prevBtn || !nextBtn) return;
+            var firstPhotoUrl = img.src;
+            var cache = {};
             var cur = 0;
-            function update() {
-                img.src = images[cur];
-                if (countEl) countEl.textContent = (cur + 1) + "/" + images.length;
+            function setCount() {
+                if (countEl) countEl.textContent = (cur + 1) + "/" + photoCount;
+            }
+            function showIndex(index) {
+                cur = (index + photoCount) % photoCount;
+                if (cur === 0) {
+                    img.src = firstPhotoUrl;
+                    setCount();
+                    return;
+                }
+                if (cache[cur]) {
+                    img.src = cache[cur];
+                    setCount();
+                    return;
+                }
+                var url = b + "/api/cars/" + carId + "/photos/" + cur;
+                fetch(url, { method: "GET", headers: window.api && window.api.getAuthHeaders ? window.api.getAuthHeaders() : {} })
+                    .then(function (r) { return r.ok ? r.blob() : Promise.reject(); })
+                    .then(function (blob) {
+                        cache[cur] = URL.createObjectURL(blob);
+                        img.src = cache[cur];
+                        setCount();
+                    })
+                    .catch(function () { setCount(); });
             }
             prevBtn.addEventListener("click", function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                cur = (cur - 1 + images.length) % images.length;
-                update();
+                showIndex(cur - 1);
             });
             nextBtn.addEventListener("click", function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-                cur = (cur + 1) % images.length;
-                update();
+                showIndex(cur + 1);
             });
         });
     }
@@ -113,24 +132,20 @@
         var gridHtml = "";
         list.forEach(function (car) {
             var photoCount = car.photoCount != null ? car.photoCount : (car.hasPhoto ? 1 : 0);
-            var images = [];
-            if (car.hasPhoto && b && photoCount > 0) {
-                for (var i = 0; i < photoCount; i++) images.push(b + "/api/cars/" + car.id + "/photos/" + i);
-            }
-            var imgSrc = images.length > 0 ? images[0] : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'/%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3C/svg%3E";
+            var firstPhotoUrl = (car.hasPhoto && b && photoCount > 0) ? b + "/api/cars/" + car.id + "/photos/0" : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'/%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3C/svg%3E";
             var title = car.brandName + " " + car.modelName;
-            var countText = images.length > 1 ? "1/" + images.length : "";
+            var countText = photoCount > 1 ? "1/" + photoCount : "";
             var removeLabel = (t("comparison.removeFromCompare") || "Убрать из сравнения").replace(/"/g, "&quot;");
             var prevPhotoLabel = (t("catalog.prevPhoto") || "Предыдущее фото").replace(/"/g, "&quot;");
             var nextPhotoLabel = (t("catalog.nextPhoto") || "Следующее фото").replace(/"/g, "&quot;");
-            gridHtml += "<div class=\"compare-card\" data-id=\"" + car.id + "\" data-images=\"" + (encodeURIComponent(JSON.stringify(images)) || "") + "\">" +
+            gridHtml += "<div class=\"compare-card\" data-id=\"" + car.id + "\" data-car-id=\"" + car.id + "\" data-photo-count=\"" + photoCount + "\">" +
                 "<button type=\"button\" class=\"remove-btn\" aria-label=\"" + removeLabel + "\">✕</button>" +
                 "<div class=\"car-image compare-carousel\">" +
-                "<a href=\"carpage.html?id=" + car.id + "\"><img src=\"" + imgSrc + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\"></a>" +
-                (images.length > 1
+                "<a href=\"carpage.html?id=" + car.id + "\"><img src=\"" + firstPhotoUrl + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\"></a>" +
+                (photoCount > 1
                     ? "<button type=\"button\" class=\"compare-carousel-prev\" aria-label=\"" + prevPhotoLabel + "\">&lt;</button>" +
                       "<button type=\"button\" class=\"compare-carousel-next\" aria-label=\"" + nextPhotoLabel + "\">&gt;</button>" +
-                      "<span class=\"compare-carousel-count\">1/" + images.length + "</span>"
+                      "<span class=\"compare-carousel-count\">1/" + photoCount + "</span>"
                     : "") +
                 "</div>" +
                 "<div class=\"car-info\">" +

@@ -104,6 +104,11 @@ main {
     display: block;
 }
 
+.gallery figure img.gallery-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
 .thumbnails {
     display: flex;
     gap: 1rem;

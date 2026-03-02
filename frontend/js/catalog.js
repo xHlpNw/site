@@ -31,22 +31,20 @@
         if (carId == null) carId = "";
         var base = api.getBaseUrl();
         var photoCount = car.photoCount != null ? car.photoCount : (car.hasPhoto ? 1 : 0);
-        var images = [];
-        if (car.hasPhoto && carId !== "" && photoCount > 0) {
-            for (var i = 0; i < photoCount; i++) images.push(base + "/api/cars/" + carId + "/photos/" + i);
-        }
-        var imgSrc = images.length > 0 ? images[0] : PLACEHOLDER_IMG;
+        var firstPhotoUrl = (car.hasPhoto && carId !== "" && photoCount > 0) ? base + "/api/cars/" + carId + "/photos/0" : PLACEHOLDER_IMG;
+        var imgSrc = firstPhotoUrl;
         var title = car.brandName + " " + car.modelName;
         var price = formatPrice(car.price);
         var badge = bodyLabel(car.bodyType);
         var gearbox = gearboxLabel(car.gearbox);
         var link = carId !== "" ? ("carpage.html#" + encodeURIComponent(String(carId))) : "catalog.html";
-        var countText = images.length > 1 ? "1/" + images.length : "1/1";
+        var countText = photoCount > 1 ? "1/" + photoCount : "1/1";
 
         var card = document.createElement("div");
         card.className = "card";
         card.dataset.id = String(carId);
-        card.dataset.images = JSON.stringify(images);
+        card.dataset.carId = String(carId);
+        card.dataset.photoCount = String(photoCount);
         var addToCompareLabel = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.addToCompare") : "Добавить в сравнение";
         var prevPhotoLabel = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.prevPhoto") : "Предыдущее фото";
         var nextPhotoLabel = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.nextPhoto") : "Следующее фото";
@@ -269,26 +267,50 @@
     function initCardSliders(container) {
         if (!container) container = document.querySelector(".cars-grid");
         if (!container) return;
+        var base = api.getBaseUrl();
         container.querySelectorAll(".card").forEach(function (card) {
             var img = card.querySelector(".card-image img");
             var prev = card.querySelector(".prev");
             var next = card.querySelector(".next");
             var count = card.querySelector(".count");
-            var images = [];
-            try { images = JSON.parse(card.dataset.images || "[]"); } catch (e) {}
-            if (images.length <= 1) {
+            var carId = card.dataset.carId || card.dataset.id || "";
+            var photoCount = parseInt(card.dataset.photoCount, 10) || 0;
+            if (photoCount <= 1) {
                 if (prev) prev.style.display = "none";
                 if (next) next.style.display = "none";
                 if (count) count.textContent = "1/1";
                 return;
             }
+            var firstPhotoUrl = img.src;
+            var cache = {};
             var cur = 0;
-            function update() {
-                img.src = images[cur];
-                count.textContent = (cur + 1) + "/" + images.length;
+            function setCount() {
+                if (count) count.textContent = (cur + 1) + "/" + photoCount;
             }
-            prev.addEventListener("click", function (e) { e.stopPropagation(); cur = (cur - 1 + images.length) % images.length; update(); });
-            next.addEventListener("click", function (e) { e.stopPropagation(); cur = (cur + 1) % images.length; update(); });
+            function showIndex(index) {
+                cur = (index + photoCount) % photoCount;
+                if (cur === 0) {
+                    img.src = firstPhotoUrl;
+                    setCount();
+                    return;
+                }
+                if (cache[cur]) {
+                    img.src = cache[cur];
+                    setCount();
+                    return;
+                }
+                var url = base + "/api/cars/" + carId + "/photos/" + cur;
+                fetch(url, { method: "GET", headers: window.api && window.api.getAuthHeaders ? window.api.getAuthHeaders() : {} })
+                    .then(function (r) { return r.ok ? r.blob() : Promise.reject(); })
+                    .then(function (blob) {
+                        cache[cur] = URL.createObjectURL(blob);
+                        img.src = cache[cur];
+                        setCount();
+                    })
+                    .catch(function () { setCount(); });
+            }
+            prev.addEventListener("click", function (e) { e.stopPropagation(); showIndex(cur - 1); });
+            next.addEventListener("click", function (e) { e.stopPropagation(); showIndex(cur + 1); });
         });
     }
 
