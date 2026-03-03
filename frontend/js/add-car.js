@@ -8,6 +8,69 @@ document.addEventListener("DOMContentLoaded", () => {
     const brandSel = document.getElementById("brand");
     if (brandSel) brandSel.addEventListener("change", loadModels);
 
+    (function initPublishRulesModal() {
+        var rulesBtn = document.getElementById("btn-publish-rules");
+        var rulesModal = document.getElementById("publish-rules-modal");
+        var rulesOverlay = rulesModal ? rulesModal.querySelector(".publish-rules-overlay") : null;
+        var rulesCloseBtn = rulesModal ? rulesModal.querySelector(".publish-rules-close") : null;
+        var rulesBody = rulesModal ? rulesModal.querySelector(".publish-rules-body") : null;
+        var rulesTitleEl = rulesModal ? rulesModal.querySelector(".publish-rules-title") : null;
+
+        function escapeHtml(str) {
+            var div = document.createElement("div");
+            div.textContent = str == null ? "" : str;
+            return div.innerHTML;
+        }
+
+        function renderRules(data) {
+            var title = data && (data.title || data.Title);
+            var sections = data && (data.sections || data.Sections);
+            if (rulesTitleEl && title) rulesTitleEl.textContent = title;
+            if (!sections || !sections.length) {
+                if (rulesBody) rulesBody.innerHTML = "<p data-i18n=\"newpost.rulesNoData\">Нет данных.</p>";
+                return;
+            }
+            var html = "";
+            sections.forEach(function (s) {
+                html += "<h3>" + escapeHtml(s.heading || s.Heading || "") + "</h3><p>" + escapeHtml(s.text || s.Text || "") + "</p>";
+            });
+            if (rulesBody) rulesBody.innerHTML = html;
+        }
+
+        function openRulesModal() {
+            if (!rulesModal || !rulesBody) return;
+            var base = (window.api && window.api.getBaseUrl) ? window.api.getBaseUrl() : "";
+            if (!base) base = window.location.protocol + "//" + window.location.hostname + ":5112";
+            var rulesUrl = base + "/api/publish-rules";
+            rulesModal.classList.add("publish-rules-modal-open");
+            rulesModal.setAttribute("aria-hidden", "false");
+            if (rulesTitleEl) rulesTitleEl.textContent = "Правила публикации";
+            rulesBody.innerHTML = "<p class=\"publish-rules-loading\">Загрузка…</p>";
+            fetch(rulesUrl, { method: "GET", headers: (window.api && window.api.getAuthHeaders) ? window.api.getAuthHeaders() : {} })
+                .then(function (res) {
+                    if (!res.ok) throw new Error("HTTP " + res.status);
+                    return res.json();
+                })
+                .then(renderRules)
+                .catch(function () {
+                    if (rulesBody) rulesBody.innerHTML = "<p class=\"publish-rules-error\">Не удалось загрузить правила с сервера. Проверьте подключение и повторите попытку.</p>";
+                });
+        }
+
+        function closeRulesModal() {
+            if (rulesModal) {
+                rulesModal.classList.remove("publish-rules-modal-open");
+                rulesModal.setAttribute("aria-hidden", "true");
+            }
+        }
+
+        window.openPublishRules = openRulesModal;
+        if (rulesBtn) rulesBtn.addEventListener("click", function (e) { e.preventDefault(); openRulesModal(); });
+        if (rulesCloseBtn) rulesCloseBtn.addEventListener("click", closeRulesModal);
+        if (rulesOverlay) rulesOverlay.addEventListener("click", closeRulesModal);
+        if (rulesModal) rulesModal.addEventListener("keydown", function (e) { if (e.key === "Escape") closeRulesModal(); });
+    })();
+
     const form = document.querySelector(".form");
     if (!form) return;
 
@@ -263,101 +326,5 @@ document.addEventListener("DOMContentLoaded", () => {
             if (count >= digitIndex + 1) return i + 1;
         }
         return formatted.length;
-    }
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    const btn = document.getElementById("btn-publish-rules");
-    const modal = document.getElementById("publish-rules-modal");
-    const overlay = modal ? modal.querySelector(".publish-rules-overlay") : null;
-    const closeBtn = modal ? modal.querySelector(".publish-rules-close") : null;
-    const bodyEl = modal ? modal.querySelector(".publish-rules-body") : null;
-    const titleEl = modal ? modal.querySelector(".publish-rules-title") : null;
-    const RULES_URL = "data/publish-rules.json";
-
-    function renderRulesFromI18n() {
-        var t = window.i18n && window.i18n.t;
-        if (!t || !titleEl || !bodyEl) return false;
-        var title = t("newpost.rulesTitle");
-        var s1h = t("newpost.rulesSection1Heading");
-        var s1t = t("newpost.rulesSection1Text");
-        if (!s1h || !s1t) return false;
-        if (titleEl) titleEl.textContent = title;
-        var html = "";
-        for (var i = 1; i <= 5; i++) {
-            var h = t("newpost.rulesSection" + i + "Heading");
-            var txt = t("newpost.rulesSection" + i + "Text");
-            if (h) html += "<h3>" + escapeHtml(h) + "</h3>";
-            if (txt) html += "<p>" + escapeHtml(txt) + "</p>";
-        }
-        bodyEl.innerHTML = html || ("<p>" + t("newpost.rulesNoData") + "</p>");
-        return true;
-    }
-
-    function renderRules(data) {
-        var t = window.i18n && window.i18n.t;
-        if (titleEl && data.title) titleEl.textContent = data.title;
-        if (!data.sections || !data.sections.length) {
-            bodyEl.innerHTML = "<p data-i18n=\"newpost.rulesNoData\">" + (t ? t("newpost.rulesNoData") : "Нет данных.") + "</p>";
-            if (window.i18n && window.i18n.apply) window.i18n.apply();
-            return;
-        }
-        var html = "";
-        data.sections.forEach(function (s) {
-            html += "<h3>" + escapeHtml(s.heading || "") + "</h3><p>" + escapeHtml(s.text || "") + "</p>";
-        });
-        bodyEl.innerHTML = html;
-    }
-
-    function openModal() {
-        var t = window.i18n && window.i18n.t;
-        if (!modal || !bodyEl) return;
-        modal.classList.add("publish-rules-modal-open");
-        modal.setAttribute("aria-hidden", "false");
-        if (titleEl) titleEl.textContent = t ? t("newpost.rulesModalTitle") : "Правила публикации";
-        if (renderRulesFromI18n()) return;
-        bodyEl.innerHTML = "<p class=\"publish-rules-loading\" data-i18n=\"newpost.rulesLoading\">" + (t ? t("newpost.rulesLoading") : "Загрузка…") + "</p>";
-        fetch(RULES_URL)
-            .then(function (res) {
-                if (!res.ok) throw new Error("Не удалось загрузить правила");
-                return res.json();
-            })
-            .then(renderRules)
-            .catch(function () {
-                var errText = (window.i18n && window.i18n.t) ? window.i18n.t("newpost.rulesLoadError") : "Не удалось загрузить правила. Попробуйте позже.";
-                var fallback = document.getElementById("publish-rules-fallback");
-                if (fallback && fallback.textContent) {
-                    try {
-                        renderRules(JSON.parse(fallback.textContent));
-                    } catch (e) {
-                        bodyEl.innerHTML = "<p class=\"publish-rules-error\" data-i18n=\"newpost.rulesLoadError\">" + errText + "</p>";
-                        if (window.i18n && window.i18n.apply) window.i18n.apply();
-                    }
-                } else {
-                    bodyEl.innerHTML = "<p class=\"publish-rules-error\" data-i18n=\"newpost.rulesLoadError\">" + errText + "</p>";
-                    if (window.i18n && window.i18n.apply) window.i18n.apply();
-                }
-            });
-    }
-
-    function escapeHtml(str) {
-        var div = document.createElement("div");
-        div.textContent = str;
-        return div.innerHTML;
-    }
-
-    function closeModal() {
-        if (!modal) return;
-        modal.classList.remove("publish-rules-modal-open");
-        modal.setAttribute("aria-hidden", "true");
-    }
-
-    if (btn) btn.addEventListener("click", openModal);
-    if (closeBtn) closeBtn.addEventListener("click", closeModal);
-    if (overlay) overlay.addEventListener("click", closeModal);
-    if (modal) {
-        modal.addEventListener("keydown", function (e) {
-            if (e.key === "Escape") closeModal();
-        });
     }
 });
