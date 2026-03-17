@@ -49,7 +49,8 @@
     "listingsTitle": "Latest car listings",
     "listingsSubtitle": "Fresh offers from trusted sellers",
     "listingsLoading": "Loading...",
-    "listingsMore": "Show more listings"
+    "listingsMore": "Show more listings",
+    "km": "km"
   },
   "pageTitle": {
     "home": "AutoSeller - Home",
@@ -281,6 +282,23 @@
     "demoSubtitle": "This is an educational project created to demonstrate web development skills",
     "demoBtnMain": "View home page",
     "demoBtnReg": "Try registration"
+  },
+  "registration": {
+    "title": "Create an account",
+    "subtitle": "Sign up to post car listings",
+    "labelName": "Name",
+    "placeholderName": "Enter your name",
+    "labelEmail": "Email",
+    "labelPassword": "Password",
+    "placeholderPassword": "Enter password",
+    "labelConfirm": "Confirm password",
+    "placeholderConfirm": "Repeat password",
+    "termsText": "I agree to the ",
+    "termsLink": "service rules",
+    "submit": "Sign up",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Log in",
+    "backToHome": "← Back to home"
   },
   "comparison": {
     "title": "Car comparison",

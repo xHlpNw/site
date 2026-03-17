@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoSeller - Регистрация пользователя</title>
+    <title data-i18n="pageTitle.registration">AutoSeller - Регистрация пользователя</title>
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/variables.css">
@@ -22,31 +22,31 @@
             </button>
         </div>
         <a href="index.html">
-            <div class="return">← На главную</div>
+            <div class="return" data-i18n="registration.backToHome">← На главную</div>
         </a>
     </div>
 </header>
 <main>
     <div class="registration-card">
-        <h1>Регистрация аккаунта</h1>
-        <p class="subtitle">Создайте аккаунт для размещения объявлений</p>
+        <h1 data-i18n="registration.title">Регистрация аккаунта</h1>
+        <p class="subtitle" data-i18n="registration.subtitle">Создайте аккаунт для размещения объявлений</p>
 
         <form action="/register" method="post" novalidate>
             <div class="input-group">
-                <label for="name">Имя</label>
-                <input type="text" id="name" name="name" placeholder="Введите ваше имя" maxlength="50">
+                <label for="name" data-i18n="registration.labelName">Имя</label>
+                <input type="text" id="name" name="name" data-i18n-placeholder="registration.placeholderName" placeholder="Введите ваше имя" maxlength="50">
                 <div class="error-message"></div>
             </div>
 
             <div class="input-group">
-                <label for="email">Email</label>
+                <label for="email" data-i18n="registration.labelEmail">Email</label>
                 <input type="email" id="email" name="email" placeholder="your@email.com" maxlength="100">
                 <div class="error-message"></div>
             </div>
 
             <div class="input-group">
-                <label for="password">Пароль</label>
-                <input type="password" id="password" name="password" placeholder="Введите пароль" minlength="8">
+                <label for="password" data-i18n="registration.labelPassword">Пароль</label>
+                <input type="password" id="password" name="password" data-i18n-placeholder="registration.placeholderPassword" placeholder="Введите пароль" minlength="8">
                 <div class="password-strength" aria-live="polite" aria-atomic="true">
                     <div class="password-strength-bar" role="presentation">
                         <span class="strength-segment"></span>
@@ -59,21 +59,21 @@
             </div>
 
             <div class="input-group">
-                <label for="confirm-password">Подтвердите пароль</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Повторите пароль" minlength="8">
+                <label for="confirm-password" data-i18n="registration.labelConfirm">Подтвердите пароль</label>
+                <input type="password" id="confirm-password" name="confirm-password" data-i18n-placeholder="registration.placeholderConfirm" placeholder="Повторите пароль" minlength="8">
                 <div class="error-message"></div>
             </div>
 
             <div class="checkbox">
                 <input type="checkbox" id="terms" name="terms" required>
-                <label for="terms">Я согласен с <a href="privacy.html">правилами сервиса</a></label>
+                <label for="terms"><span data-i18n="registration.termsText">Я согласен с </span><a href="privacy.html" data-i18n="registration.termsLink">правилами сервиса</a></label>
             </div>
 
-            <button type="submit" class="btn">Зарегистрироваться</button>
+            <button type="submit" class="btn" data-i18n="registration.submit">Зарегистрироваться</button>
         </form>
 
         <p class="signin">
-            Уже есть аккаунт? <a href="login.html">Войти</a>
+            <span data-i18n="registration.hasAccount">Уже есть аккаунт?</span> <a href="login.html" data-i18n="registration.loginLink">Войти</a>
         </p>
     </div>
 </main>

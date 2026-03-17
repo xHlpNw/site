@@ -1,7 +1,29 @@
 (function () {
+    var SAFE_PAGES = [
+        "index.html", "catalog.html", "profile.html", "favourites.html",
+        "comparison.html", "newpost.html", "aboutUs.html", "carpage.html"
+    ];
+
+    function getReturnUrl() {
+        var params = new URLSearchParams(window.location.search);
+        var ret = params.get("return");
+        if (!ret) return "catalog.html";
+        var decoded = decodeURIComponent(ret);
+        var page = decoded.split("?")[0].split("#")[0];
+        return SAFE_PAGES.indexOf(page) !== -1 ? decoded : "catalog.html";
+    }
+
     function init() {
+        if (!window.api) return;
+
+        if (api.getToken()) {
+            window.location.replace(getReturnUrl());
+            return;
+        }
+
         var form = document.querySelector("form");
-        if (!form || !window.api) return;
+        if (!form) return;
+
         form.addEventListener("submit", function (e) {
             e.preventDefault();
             var email = (form.querySelector("[name=email]") || form.querySelector("#email")).value.trim();
@@ -24,7 +46,7 @@
                 .then(function (data) {
                     if (data.token) api.setToken(data.token);
                     if (data.user) api.setUser(data.user);
-                    window.location.href = "catalog.html";
+                    window.location.href = getReturnUrl();
                 })
                 .catch(function (err) {
                     msg.textContent = (err && err.message) ? err.message : "Ошибка входа. Проверьте данные.";
@@ -32,6 +54,7 @@
                 });
         });
     }
+
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", init);
     } else {

@@ -10,7 +10,7 @@
         "projectUniqueName": "/Users/aleksejaleksasin/Desktop/edu/site/backend/AutoSeller.Api.csproj",
         "projectName": "AutoSeller.Api",
         "projectPath": "/Users/aleksejaleksasin/Desktop/edu/site/backend/AutoSeller.Api.csproj",
-        "packagesPath": "/Users/aleksejaleksasin/.nuget/packages/",
+        "packagesPath": "/var/folders/y9/h2fhb80915db42x0sgw8w7q40000gn/T/cursor-sandbox-cache/fdacf573a262582b6adea8efaf436be3/nuget",
         "outputPath": "/Users/aleksejaleksasin/Desktop/edu/site/backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
@@ -57,6 +57,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.18, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
             }
           },
           "imports": [

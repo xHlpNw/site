@@ -49,7 +49,8 @@
     "listingsTitle": "Последние объявления о продаже автомобилей",
     "listingsSubtitle": "Свежие предложения от проверенных продавцов",
     "listingsLoading": "Загрузка...",
-    "listingsMore": "Показать больше объявлений"
+    "listingsMore": "Показать больше объявлений",
+    "km": "км"
   },
   "pageTitle": {
     "home": "AutoSeller - Главная страница",
@@ -281,6 +282,23 @@
     "demoSubtitle": "Это учебный проект, созданный для демонстрации навыков веб-разработки",
     "demoBtnMain": "Посмотреть главную",
     "demoBtnReg": "Попробовать регистрацию"
+  },
+  "registration": {
+    "title": "Регистрация аккаунта",
+    "subtitle": "Создайте аккаунт для размещения объявлений",
+    "labelName": "Имя",
+    "placeholderName": "Введите ваше имя",
+    "labelEmail": "Email",
+    "labelPassword": "Пароль",
+    "placeholderPassword": "Введите пароль",
+    "labelConfirm": "Подтвердите пароль",
+    "placeholderConfirm": "Повторите пароль",
+    "termsText": "Я согласен с ",
+    "termsLink": "правилами сервиса",
+    "submit": "Зарегистрироваться",
+    "hasAccount": "Уже есть аккаунт?",
+    "loginLink": "Войти",
+    "backToHome": "← На главную"
   },
   "comparison": {
     "title": "Сравнение автомобилей",

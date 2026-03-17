@@ -48,11 +48,27 @@
         return h;
     }
 
+    function handleUnauthorized() {
+        setToken(null);
+        setUser(null);
+        if (typeof window !== "undefined") {
+            var page = window.location.pathname.split("/").pop() || "index.html";
+            if (page !== "login.html" && page !== "registration.html") {
+                window.location.replace("login.html?return=" + encodeURIComponent(page));
+            }
+        }
+    }
+
     function request(method, path, body) {
         var url = getBaseUrl() + path;
+        var hadToken = !!getToken();
         var opts = { method: method, headers: getAuthHeaders() };
         if (body) opts.body = typeof body === "string" ? body : JSON.stringify(body);
         return fetch(url, opts).then(function (res) {
+            if (res.status === 401 && hadToken) {
+                handleUnauthorized();
+                throw { status: 401, message: "Unauthorized" };
+            }
             if (!res.ok) return res.json().then(function (data) { throw data; }, function () { throw { message: res.statusText }; });
             if (res.status === 204) return null;
             var ct = res.headers.get("Content-Type");

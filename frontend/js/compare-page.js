@@ -146,7 +146,7 @@
             gridHtml += "<div class=\"compare-card\" data-id=\"" + car.id + "\" data-car-id=\"" + car.id + "\" data-photo-count=\"" + photoCount + "\">" +
                 "<button type=\"button\" class=\"remove-btn\" aria-label=\"" + removeLabel + "\">✕</button>" +
                 "<div class=\"car-image compare-carousel\">" +
-                "<a href=\"carpage.html?id=" + car.id + "\"><img src=\"" + firstPhotoUrl + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\"></a>" +
+                "<a href=\"carpage.html#" + encodeURIComponent(String(car.id)) + "\"><img src=\"" + firstPhotoUrl + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\"></a>" +
                 (photoCount > 1
                     ? "<button type=\"button\" class=\"compare-carousel-prev\" aria-label=\"" + prevPhotoLabel + "\">&lt;</button>" +
                       "<button type=\"button\" class=\"compare-carousel-next\" aria-label=\"" + nextPhotoLabel + "\">&gt;</button>" +

@@ -77,6 +77,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (passwordInput.value.length < 8) {
             showError(passwordInput, "Пароль должен содержать не менее 8 символов");
             valid = false;
+        } else if (!/[A-Z]/.test(passwordInput.value)) {
+            showError(passwordInput, "Пароль должен содержать хотя бы одну заглавную букву");
+            valid = false;
+        } else if (!/\d/.test(passwordInput.value)) {
+            showError(passwordInput, "Пароль должен содержать хотя бы одну цифру");
+            valid = false;
         } else {
             clearError(passwordInput);
         }

@@ -2,7 +2,10 @@
     var PLACEHOLDER_IMG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect fill='%23ddd' width='300' height='200'/%3E%3Ctext fill='%23999' x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='14'%3ENет фото%3C/text%3E%3C/svg%3E";
 
     function gearboxLabel(v) {
-        return v === "at" ? "Автомат" : v === "mt" ? "Механика" : v || "—";
+        var t = window.i18n && window.i18n.t;
+        if (v === "at") return t ? t("catalog.gearboxAuto") : "Автомат";
+        if (v === "mt") return t ? t("catalog.gearboxManual") : "Механика";
+        return v || "—";
     }
 
     function formatPrice(n) {
@@ -26,23 +29,28 @@
         card.className = "listing-card";
         card.dataset.carId = String(carId);
         card.dataset.photoCount = String(photoCount);
+        var t = window.i18n && window.i18n.t;
+        var kmLabel = t ? t("home.km") : "км";
+        var prevPhotoLabel = t ? t("catalog.prevPhoto") : "Предыдущее фото";
+        var nextPhotoLabel = t ? t("catalog.nextPhoto") : "Следующее фото";
+        var detailsLabel = t ? t("profile.details") : "Подробнее";
+
         card.innerHTML =
-            "<div class=\"badge\">Новое</div>" +
             "<div class=\"listing-card-image\">" +
             "<a href=\"" + link + "\"><img src=\"" + imgSrc + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\" onerror=\"this.src='" + PLACEHOLDER_IMG.replace(/'/g, "\\'") + "'\"></a>" +
-            "<button class=\"carousel-prev\" type=\"button\" aria-label=\"Предыдущее фото\">&lt;</button>" +
-            "<button class=\"carousel-next\" type=\"button\" aria-label=\"Следующее фото\">&gt;</button>" +
+            "<button class=\"carousel-prev\" type=\"button\" aria-label=\"" + prevPhotoLabel.replace(/"/g, "&quot;") + "\">&lt;</button>" +
+            "<button class=\"carousel-next\" type=\"button\" aria-label=\"" + nextPhotoLabel.replace(/"/g, "&quot;") + "\">&gt;</button>" +
             "<span class=\"carousel-count\">" + countText + "</span>" +
             "</div>" +
             "<div class=\"info-container\">" +
             "<p class=\"car-title\">" + title.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</p>" +
             "<p class=\"price\">" + price + "</p>" +
             "<ul class=\"details\">" +
-            "<li><img src=\"images/calendar-icon.png\" alt=\"год\"> " + car.year + " год</li>" +
-            "<li><img src=\"images/speedometer-icon.png\" alt=\"пробег\"> " + new Intl.NumberFormat("ru-RU").format(car.mileage) + " км</li>" +
-            "<li><img src=\"images/oil-icon.png\" alt=\"КПП\"> " + gearbox + "</li>" +
+            "<li><img src=\"images/calendar-icon.png\" alt=\"\"> " + car.year + "</li>" +
+            "<li><img src=\"images/speedometer-icon.png\" alt=\"\"> " + new Intl.NumberFormat("ru-RU").format(car.mileage) + " " + kmLabel + "</li>" +
+            "<li><img src=\"images/oil-icon.png\" alt=\"\"> " + gearbox + "</li>" +
             "</ul>" +
-            "<a href=\"" + link + "\" class=\"btn\">Подробнее</a>" +
+            "<a href=\"" + link + "\" class=\"btn\">" + detailsLabel + "</a>" +
             "</div>";
         return card;
     }
