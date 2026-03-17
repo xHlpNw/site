@@ -2,7 +2,7 @@
   "name": "autoseller-frontend",
   "private": true,
   "scripts": {
-    "start": "serve . -l $PORT"
+    "start": "serve . -l $PORT --config ./serve.json"
   },
   "dependencies": {
     "serve": "^14.2.4"
