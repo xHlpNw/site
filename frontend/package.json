@@ -2,9 +2,10 @@
   "name": "autoseller-frontend",
   "private": true,
   "scripts": {
-    "start": "serve . -l $PORT --config ./serve.json"
+    "start": "node server.js"
   },
   "dependencies": {
+    "http-server": "^14.1.1",
     "serve": "^14.2.4"
   }
 }
