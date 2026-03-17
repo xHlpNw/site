@@ -4,21 +4,21 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
-    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/var/folders/y9/h2fhb80915db42x0sgw8w7q40000gn/T/cursor-sandbox-cache/fdacf573a262582b6adea8efaf436be3/nuget</NuGetPackageRoot>
-    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/var/folders/y9/h2fhb80915db42x0sgw8w7q40000gn/T/cursor-sandbox-cache/fdacf573a262582b6adea8efaf436be3/nuget</NuGetPackageFolders>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/aleksejaleksasin/.nuget/packages/</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/aleksejaleksasin/.nuget/packages/</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.6.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <SourceRoot Include="/var/folders/y9/h2fhb80915db42x0sgw8w7q40000gn/T/cursor-sandbox-cache/fdacf573a262582b6adea8efaf436be3/nuget/" />
+    <SourceRoot Include="/Users/aleksejaleksasin/.nuget/packages/" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)/microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props" Condition="Exists('$(NuGetPackageRoot)/microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props')" />
-    <Import Project="$(NuGetPackageRoot)/swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props" Condition="Exists('$(NuGetPackageRoot)/swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props')" />
-    <Import Project="$(NuGetPackageRoot)/microsoft.entityframeworkcore/7.0.20/buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)/microsoft.entityframeworkcore/7.0.20/buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props')" />
-    <Import Project="$(NuGetPackageRoot)/microsoft.entityframeworkcore.design/7.0.20/build/net6.0/Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)/microsoft.entityframeworkcore.design/7.0.20/build/net6.0/Microsoft.EntityFrameworkCore.Design.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server/6.0.5/build/Microsoft.Extensions.ApiDescription.Server.props')" />
+    <Import Project="$(NuGetPackageRoot)swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props" Condition="Exists('$(NuGetPackageRoot)swashbuckle.aspnetcore/6.5.0/build/Swashbuckle.AspNetCore.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore/7.0.20/buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore/7.0.20/buildTransitive/net6.0/Microsoft.EntityFrameworkCore.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore.design/7.0.20/build/net6.0/Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design/7.0.20/build/net6.0/Microsoft.EntityFrameworkCore.Design.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">/var/folders/y9/h2fhb80915db42x0sgw8w7q40000gn/T/cursor-sandbox-cache/fdacf573a262582b6adea8efaf436be3/nuget/microsoft.extensions.apidescription.server/6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
+    <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">/Users/aleksejaleksasin/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
   </PropertyGroup>
 </Project>

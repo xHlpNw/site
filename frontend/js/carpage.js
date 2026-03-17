@@ -26,6 +26,21 @@
         };
         return map[v] || v || "—";
     };
+    var gearboxI18nKey = function (v) {
+        if (v === "at") return "catalog.gearboxAuto";
+        if (v === "mt") return "catalog.gearboxManual";
+        return null;
+    };
+    var driveI18nKey = function (v) {
+        if (v === "fwd") return "newpost.driveFwd";
+        if (v === "rwd") return "newpost.driveRwd";
+        if (v === "awd") return "newpost.driveAwd";
+        return null;
+    };
+    var bodyI18nKey = function (v) {
+        if (!v) return null;
+        return "catalog.body" + v.charAt(0).toUpperCase() + v.slice(1);
+    };
     var formatPrice = function (n) { return new Intl.NumberFormat("ru-RU").format(n) + " ₽"; };
     var formatDate = function (d) {
         try {
@@ -56,13 +71,16 @@
         var prevPhotoLabel = t("carpage.prevPhoto") || "Предыдущее фото";
         var nextPhotoLabel = t("carpage.nextPhoto") || "Следующее фото";
         var galleryArrowsHtml = photoCount > 1
-            ? "<button type=\"button\" class=\"gallery-prev\" aria-label=\"" + prevPhotoLabel.replace(/"/g, "&quot;") + "\">&lt;</button>" +
-              "<button type=\"button\" class=\"gallery-next\" aria-label=\"" + nextPhotoLabel.replace(/"/g, "&quot;") + "\">&gt;</button>" +
+            ? "<button type=\"button\" class=\"gallery-prev\" aria-label=\"" + prevPhotoLabel.replace(/"/g, "&quot;") + "\" data-i18n-aria-label=\"carpage.prevPhoto\">&lt;</button>" +
+              "<button type=\"button\" class=\"gallery-next\" aria-label=\"" + nextPhotoLabel.replace(/"/g, "&quot;") + "\" data-i18n-aria-label=\"carpage.nextPhoto\">&gt;</button>" +
               "<span class=\"gallery-count\">1/" + photoCount + "</span>"
             : "";
 
         var noDesc = t("carpage.noDescription") || "Нет описания.";
-        var publishedPrefix = t("carpage.published") || "Опубликовано: ";
+        var kmLabel = t("home.km") || "км";
+        var gKey = gearboxI18nKey(car.gearbox);
+        var dKey = driveI18nKey(car.driveType);
+        var bKey = bodyI18nKey(car.bodyType);
         var mainColumn =
             "<div class=\"main-column\">" +
             "<h1>" + title.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</h1>" +
@@ -76,15 +94,17 @@
             "<h2 data-i18n=\"carpage.characteristics\">Характеристики</h2>" +
             "<div class=\"char-grid\">" +
             "<div class=\"char-item\"><img src=\"images/calendar-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.year\">Год выпуска</p><p class=\"value\">" + car.year + "</p></div></div>" +
-            "<div class=\"char-item\"><img src=\"images/speedometer-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.mileage\">Пробег</p><p class=\"value\">" + new Intl.NumberFormat("ru-RU").format(car.mileage) + " км</p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/speedometer-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.mileage\">Пробег</p><p class=\"value\">" + new Intl.NumberFormat("ru-RU").format(car.mileage) + " <span data-i18n=\"home.km\">" + kmLabel + "</span></p></div></div>" +
             "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.engine\">Двигатель</p><p class=\"value\">" + (car.engine ? car.engine.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "—") + "</p></div></div>" +
-            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.gearbox\">Коробка</p><p class=\"value\">" + gearboxLabel(car.gearbox) + "</p></div></div>" +
-            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.drive\">Привод</p><p class=\"value\">" + driveLabel(car.driveType) + "</p></div></div>" +
-            "<div class=\"char-item\"><img src=\"images/oil-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.bodyType\">Тип кузова</p><p class=\"value\">" + bodyLabel(car.bodyType) + "</p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.gearbox\">Коробка</p><p class=\"value\"><span" + (gKey ? " data-i18n=\"" + gKey + "\"" : "") + ">" + gearboxLabel(car.gearbox) + "</span></p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/settings.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.drive\">Привод</p><p class=\"value\"><span" + (dKey ? " data-i18n=\"" + dKey + "\"" : "") + ">" + driveLabel(car.driveType) + "</span></p></div></div>" +
+            "<div class=\"char-item\"><img src=\"images/oil-icon.png\" alt=\"\"><div class=\"char-text\"><p class=\"label\" data-i18n=\"carpage.bodyType\">Тип кузова</p><p class=\"value\"><span" + (bKey ? " data-i18n=\"" + bKey + "\"" : "") + ">" + bodyLabel(car.bodyType) + "</span></p></div></div>" +
             "</div></section>" +
             "<section class=\"description\">" +
             "<h2 data-i18n=\"carpage.description\">Описание</h2>" +
-            "<p>" + (car.description ? car.description.replace(/</g, "&lt;").replace(/>/g, "&gt;") : noDesc) + "</p>" +
+            (car.description
+                ? "<p>" + car.description.replace(/</g, "&lt;").replace(/>/g, "&gt;") + "</p>"
+                : "<p data-i18n=\"carpage.noDescription\">" + noDesc + "</p>") +
             "<small class=\"published\"><span data-i18n=\"carpage.published\">Опубликовано: </span>" + formatDate(car.createdAt) + "</small>" +
             "</section></div>";
 

@@ -9,6 +9,17 @@
         return t ? t("catalog.anyGearbox") : (v || "—");
     }
 
+    function gearboxI18nKey(v) {
+        if (v === "at") return "catalog.gearboxAuto";
+        if (v === "mt") return "catalog.gearboxManual";
+        return null;
+    }
+
+    function bodyI18nKey(v) {
+        if (!v) return null;
+        return "catalog.body" + v.charAt(0).toUpperCase() + v.slice(1);
+    }
+
     function bodyLabel(v) {
         var t = window.i18n && window.i18n.t;
         var map = {
@@ -53,12 +64,16 @@
         var addToCompareLabel = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.addToCompare") : "Добавить в сравнение";
         var prevPhotoLabel = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.prevPhoto") : "Предыдущее фото";
         var nextPhotoLabel = (window.i18n && window.i18n.t) ? window.i18n.t("catalog.nextPhoto") : "Следующее фото";
+        var detailsLabel = (window.i18n && window.i18n.t) ? window.i18n.t("profile.details") : "Подробнее";
+        var kmLabel = (window.i18n && window.i18n.t) ? window.i18n.t("home.km") : "км";
+        var gKey = gearboxI18nKey(car.gearbox);
+        var bKey = bodyI18nKey(car.bodyType);
         card.innerHTML =
             "<div class=\"card-image\">" +
-            "<span class=\"badge\">" + badge + "</span>" +
+            "<span class=\"badge\"" + (bKey ? " data-i18n=\"" + bKey + "\"" : "") + ">" + badge + "</span>" +
             "<img src=\"" + imgSrc + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\" onerror=\"this.src='" + PLACEHOLDER_IMG.replace(/'/g, "\\'") + "'\">" +
-            "<button class=\"prev\" type=\"button\" aria-label=\"" + prevPhotoLabel.replace(/"/g, "&quot;") + "\">&lt;</button>" +
-            "<button class=\"next\" type=\"button\" aria-label=\"" + nextPhotoLabel.replace(/"/g, "&quot;") + "\">&gt;</button>" +
+            "<button class=\"prev\" type=\"button\" aria-label=\"" + prevPhotoLabel.replace(/"/g, "&quot;") + "\" data-i18n-aria-label=\"catalog.prevPhoto\">&lt;</button>" +
+            "<button class=\"next\" type=\"button\" aria-label=\"" + nextPhotoLabel.replace(/"/g, "&quot;") + "\" data-i18n-aria-label=\"catalog.nextPhoto\">&gt;</button>" +
             "<span class=\"count\">" + countText + "</span>" +
             "</div>" +
             "<div class=\"card-content\">" +
@@ -66,13 +81,13 @@
             "<p class=\"car-price\">" + price + "</p>" +
             "<div class=\"car-info\">" +
             "<div><img src=\"images/calendar-icon.png\" alt=\"year\">" + car.year + "</div>" +
-            "<div><img src=\"images/speedometer-icon.png\" alt=\"km\">" + new Intl.NumberFormat("ru-RU").format(car.mileage) + " км</div>" +
-            "<div><img src=\"images/settings.png\" alt=\"kpp\">" + gearbox + "</div>" +
+            "<div><img src=\"images/speedometer-icon.png\" alt=\"km\">" + new Intl.NumberFormat("ru-RU").format(car.mileage) + " <span data-i18n=\"home.km\">" + kmLabel + "</span></div>" +
+            "<div><img src=\"images/settings.png\" alt=\"kpp\"><span" + (gKey ? " data-i18n=\"" + gKey + "\"" : "") + ">" + gearbox + "</span></div>" +
             "</div>" +
             "<div class=\"card-footer\">" +
             "<div class=\"card-actions\">" +
-            "<button type=\"button\" class=\"btn-compare-card\" data-id=\"" + String(carId).replace(/"/g, "&quot;") + "\" title=\"" + addToCompareLabel.replace(/"/g, "&quot;") + "\" aria-label=\"" + addToCompareLabel.replace(/"/g, "&quot;") + "\"><span class=\"compare-icon\" aria-hidden=\"true\">⇄</span></button>" +
-            "<a class=\"btn-details\" href=\"" + link.replace(/"/g, "&quot;") + "\" data-i18n=\"profile.details\">" + ((window.i18n && window.i18n.t) ? window.i18n.t("profile.details") : "Подробнее") + "</a>" +
+            "<button type=\"button\" class=\"btn-compare-card\" data-id=\"" + String(carId).replace(/"/g, "&quot;") + "\" title=\"" + addToCompareLabel.replace(/"/g, "&quot;") + "\" aria-label=\"" + addToCompareLabel.replace(/"/g, "&quot;") + "\" data-i18n-title=\"catalog.addToCompare\" data-i18n-aria-label=\"catalog.addToCompare\"><span class=\"compare-icon\" aria-hidden=\"true\">⇄</span></button>" +
+            "<a class=\"btn-details\" href=\"" + link.replace(/"/g, "&quot;") + "\" data-i18n=\"profile.details\">" + detailsLabel + "</a>" +
             "</div>" +
             "</div>" +
             "</div>";

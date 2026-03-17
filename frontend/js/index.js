@@ -34,12 +34,13 @@
         var prevPhotoLabel = t ? t("catalog.prevPhoto") : "Предыдущее фото";
         var nextPhotoLabel = t ? t("catalog.nextPhoto") : "Следующее фото";
         var detailsLabel = t ? t("profile.details") : "Подробнее";
+        var gearboxKey = car.gearbox === "at" ? "catalog.gearboxAuto" : car.gearbox === "mt" ? "catalog.gearboxManual" : null;
 
         card.innerHTML =
             "<div class=\"listing-card-image\">" +
             "<a href=\"" + link + "\"><img src=\"" + imgSrc + "\" alt=\"" + title.replace(/"/g, "&quot;") + "\" onerror=\"this.src='" + PLACEHOLDER_IMG.replace(/'/g, "\\'") + "'\"></a>" +
-            "<button class=\"carousel-prev\" type=\"button\" aria-label=\"" + prevPhotoLabel.replace(/"/g, "&quot;") + "\">&lt;</button>" +
-            "<button class=\"carousel-next\" type=\"button\" aria-label=\"" + nextPhotoLabel.replace(/"/g, "&quot;") + "\">&gt;</button>" +
+            "<button class=\"carousel-prev\" type=\"button\" aria-label=\"" + prevPhotoLabel.replace(/"/g, "&quot;") + "\" data-i18n-aria-label=\"catalog.prevPhoto\">&lt;</button>" +
+            "<button class=\"carousel-next\" type=\"button\" aria-label=\"" + nextPhotoLabel.replace(/"/g, "&quot;") + "\" data-i18n-aria-label=\"catalog.nextPhoto\">&gt;</button>" +
             "<span class=\"carousel-count\">" + countText + "</span>" +
             "</div>" +
             "<div class=\"info-container\">" +
@@ -47,10 +48,10 @@
             "<p class=\"price\">" + price + "</p>" +
             "<ul class=\"details\">" +
             "<li><img src=\"images/calendar-icon.png\" alt=\"\"> " + car.year + "</li>" +
-            "<li><img src=\"images/speedometer-icon.png\" alt=\"\"> " + new Intl.NumberFormat("ru-RU").format(car.mileage) + " " + kmLabel + "</li>" +
-            "<li><img src=\"images/oil-icon.png\" alt=\"\"> " + gearbox + "</li>" +
+            "<li><img src=\"images/speedometer-icon.png\" alt=\"\"> " + new Intl.NumberFormat("ru-RU").format(car.mileage) + " <span data-i18n=\"home.km\">" + kmLabel + "</span></li>" +
+            "<li><img src=\"images/oil-icon.png\" alt=\"\"> <span" + (gearboxKey ? " data-i18n=\"" + gearboxKey + "\"" : "") + ">" + gearbox + "</span></li>" +
             "</ul>" +
-            "<a href=\"" + link + "\" class=\"btn\">" + detailsLabel + "</a>" +
+            "<a href=\"" + link + "\" class=\"btn\" data-i18n=\"profile.details\">" + detailsLabel + "</a>" +
             "</div>";
         return card;
     }

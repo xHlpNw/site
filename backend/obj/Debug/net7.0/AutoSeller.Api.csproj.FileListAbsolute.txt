@@ -100,3 +100,8 @@
 /Users/aleksejaleksasin/Desktop/edu/site/backend/obj/Debug/net7.0/AutoSeller.Api.pdb
 /Users/aleksejaleksasin/Desktop/edu/site/backend/obj/Debug/net7.0/AutoSeller.Api.genruntimeconfig.cache
 /Users/aleksejaleksasin/Desktop/edu/site/backend/obj/Debug/net7.0/ref/AutoSeller.Api.dll
+/Users/aleksejaleksasin/Desktop/edu/site/backend/bin/Debug/net7.0/Microsoft.OpenApi.dll
+/Users/aleksejaleksasin/Desktop/edu/site/backend/bin/Debug/net7.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/aleksejaleksasin/Desktop/edu/site/backend/bin/Debug/net7.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/aleksejaleksasin/Desktop/edu/site/backend/bin/Debug/net7.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/aleksejaleksasin/Desktop/edu/site/backend/obj/Debug/net7.0/AutoSeller.Api.MvcApplicationPartsAssemblyInfo.cs

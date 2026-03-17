@@ -2292,7 +2292,7 @@
     ]
   },
   "packageFolders": {
-    "/var/folders/y9/h2fhb80915db42x0sgw8w7q40000gn/T/cursor-sandbox-cache/fdacf573a262582b6adea8efaf436be3/nuget": {}
+    "/Users/aleksejaleksasin/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
@@ -2300,7 +2300,7 @@
       "projectUniqueName": "/Users/aleksejaleksasin/Desktop/edu/site/backend/AutoSeller.Api.csproj",
       "projectName": "AutoSeller.Api",
       "projectPath": "/Users/aleksejaleksasin/Desktop/edu/site/backend/AutoSeller.Api.csproj",
-      "packagesPath": "/var/folders/y9/h2fhb80915db42x0sgw8w7q40000gn/T/cursor-sandbox-cache/fdacf573a262582b6adea8efaf436be3/nuget",
+      "packagesPath": "/Users/aleksejaleksasin/.nuget/packages/",
       "outputPath": "/Users/aleksejaleksasin/Desktop/edu/site/backend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
